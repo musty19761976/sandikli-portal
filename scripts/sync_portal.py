@@ -274,12 +274,9 @@ def eczane_table_html(rows: list[tuple[str, str, str, str]], today: str) -> str:
     return "".join(trs)
 
 
-def main() -> None:
-    now = datetime.now(TZ)
-    today_str = now.strftime("%d.%m.%Y")
-    stamp = now.strftime("%Y-%m-%d")
-    print(f"sync start {stamp} Europe/Istanbul today={today_str}")
-
+def sync_news(stamp: str) -> None:
+    """Haber + duyuru çek, haberler.html ve index teaser'ı güncelle.
+    Tek kaynak hatası tüm scripti öldürmesin; ana gövdede try/except ile çağrılır."""
     # --- Haberler ---
     haber_html = fetch("https://sandikli.bel.tr/haberler")
     duyuru_html = fetch("https://sandikli.bel.tr/duyurular")
@@ -292,6 +289,9 @@ def main() -> None:
             news.append(d)
     news = news[:14]
     print(f"news items: {len(news)}")
+    if not news:
+        print("haber: no items, skip")
+        return
 
     news_inner = "\n".join(news_article_html(n) for n in news)
     teaser_inner = "\n".join(teaser_card_html(n) for n in news[:6])
@@ -362,6 +362,19 @@ def main() -> None:
     )
     index_path.write_text(index_txt, encoding="utf-8")
     print("updated index.html")
+
+
+def main() -> None:
+    now = datetime.now(TZ)
+    today_str = now.strftime("%d.%m.%Y")
+    stamp = now.strftime("%Y-%m-%d")
+    print(f"sync start {stamp} Europe/Istanbul today={today_str}")
+
+    # --- Haberler --- (izole; tek kaynak hatası eczane/cenazeyi engellemesin)
+    try:
+        sync_news(stamp)
+    except Exception as e:
+        print(f"haber skip: {e}")
 
     # --- Eczane ---
     try:

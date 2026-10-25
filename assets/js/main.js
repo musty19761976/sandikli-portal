@@ -109,6 +109,12 @@
     });
   }
 
+  // ---------- Tema (dark mode) toggle ----------
+  initThemeToggle();
+
+  // ---------- PWA: service worker kaydı ----------
+  initSW();
+
   // ---------- Hava: yalnızca bugünün ikonu, navbar sağ üst ----------
   initNavWeatherIcon();
 
@@ -116,6 +122,53 @@
   const pageFile = (location.pathname.split("/").pop() || "").toLowerCase();
   if (pageFile === "cenaze-ilanlari.html") {
     initTextToSpeech();
+  }
+
+  function initThemeToggle() {
+    const root = document.documentElement;
+    const KEY = "sandikli-theme";
+
+    // Varsayılan: sistem tercihi; localStorage'dan üzerine yaz
+    const stored = (() => {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    })();
+    const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = stored === "dark" || stored === "light" ? stored : systemDark ? "dark" : "light";
+    root.setAttribute("data-theme", theme);
+
+    const inner = document.querySelector(".navbar-inner");
+    if (!inner) return;
+
+    let btn = document.getElementById("theme-toggle");
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.id = "theme-toggle";
+      btn.type = "button";
+      btn.className = "theme-toggle";
+      btn.setAttribute("aria-label", "Renk temasını değiştir");
+      btn.title = theme === "dark" ? "Açık temaya geç" : "Koyu temaya geç";
+      const target = inner.querySelector(".nav-toggle") || inner.querySelector(".nav-links") || inner;
+      inner.insertBefore(btn, target);
+    }
+
+    btn.textContent = theme === "dark" ? "☀️" : "🌙";
+    btn.addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      btn.textContent = next === "dark" ? "☀️" : "🌙";
+      btn.title = next === "dark" ? "Açık temaya geç" : "Koyu temaya geç";
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+  }
+
+  function initSW() {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch((err) => {
+          console.warn("SW kayıt başarısız:", err);
+        });
+      });
+    }
   }
 
   function initNavWeatherIcon() {

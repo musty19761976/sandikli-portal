@@ -1502,3 +1502,110 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .gallery-grid { grid-template-columns: 1fr; }
   .gallery-item.wide { grid-column: span 1; aspect-ratio: 16/10; }
 }
+
+/* ============================================
+   ARAMA (index) — search.js
+   ============================================ */
+.search-bar {
+  margin-top: 1.75rem;
+  max-width: 560px;
+  width: 100%;
+}
+.search-form { position: relative; }
+.search-input {
+  width: 100%;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  box-shadow: var(--shadow-sm);
+  -webkit-appearance: none;
+}
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  z-index: 50;
+  max-height: 320px;
+  overflow: auto;
+}
+.search-results li + li { border-top: 1px solid var(--line); }
+.search-results a {
+  display: block;
+  padding: 0.7rem 0.9rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: calc(var(--radius) - 6px);
+  font-weight: 600;
+}
+.search-results a:hover,
+.search-results a:focus-visible {
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+/* ============================================
+   TEMA (dark mode) — main.js toggle
+   :root[data-theme="dark"] CSS değişkenlerini değiştirir.
+   ============================================ */
+:root[data-theme="dark"] {
+  --ink: #e2e8f0;
+  --ink-soft: #cbd5e1;
+  --muted: #94a3b8;
+  --paper: #0f172a;
+  --paper-2: #1e293b;
+  --white: #0f172a;
+  --surface: #1e293b;
+  --accent: #60a5fa;
+  --accent-deep: #3b82f6;
+  --accent-soft: #1d4ed8;
+  --accent-glow: rgba(96, 165, 250, 0.18);
+  --copper: #60a5fa;
+  --copper-deep: #3b82f6;
+  --copper-soft: #1d4ed8;
+  --copper-glow: rgba(96, 165, 250, 0.18);
+  --forest: #60a5fa;
+  --forest-mid: #3b82f6;
+  --line: rgba(226, 232, 240, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+/* Navbar & footer arka planı karanlık temada zaten koyu olmalı */
+:root[data-theme="dark"] .navbar.scrolled { background: rgba(15, 23, 42, 0.9); }
+:root[data-theme="dark"] .section-dark { background: #0b1222; }
+/* Tema toggle butonu */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: var(--transition);
+}
+.theme-toggle:hover { border-color: var(--accent); }
+

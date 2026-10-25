@@ -1,0 +1,27 @@
+{
+  "name": "Sandıklı Tanıtım Portalı",
+  "short_name": "Sandıklı",
+  "description": "Sandıklı (Afyonkarahisar) tanıtım portalı — Hüdai Kaplıcaları, Akdağ, leblebi, tarih, ekonomi, haberler ve gerçek fotoğraflar.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "lang": "tr",
+  "categories": ["travel", "local", "news"],
+  "icons": [
+    {
+      "src": "assets/img/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

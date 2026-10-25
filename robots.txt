@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://musty19761976.github.io/sandikli-portal/sitemap.xml
