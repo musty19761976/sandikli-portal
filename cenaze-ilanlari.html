@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sandıklı vefat / cenaze ilanları — tam metin. Kaynak: Sandıklı Belediyesi." />
+  <title>Vefat İlanları | Sandıklı Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .sync-stamp {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem;
+      padding: 1rem 1.15rem; background: var(--white); border: 1px dashed var(--line);
+      border-radius: var(--radius); line-height: 1.65;
+    }
+    .respect-note {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--ink);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.75rem;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .vefat-list { display: flex; flex-direction: column; gap: 1.15rem; }
+    .vefat-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 0;
+      overflow: hidden;
+    }
+    .vefat-card .head {
+      padding: 1.15rem 1.4rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(20,17,15,0.02);
+    }
+    .vefat-card .label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem;
+    }
+    .vefat-card h3 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.45rem;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--ink);
+    }
+    .vefat-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.65rem 1.25rem;
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.9rem;
+    }
+    .vefat-meta div span {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+    .vefat-meta div strong {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .vefat-body {
+      padding: 1.15rem 1.4rem 1.35rem;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+    .vefat-body p { margin: 0; }
+    .note {
+      margin-top: 1.75rem; font-size: 0.88rem; color: var(--muted); line-height: 1.6;
+    }
+    @media (max-width: 560px) {
+      .vefat-meta { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar scrolled">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı</span></a>
+      <nav class="nav-links" aria-label="Ana menü">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="tarih.html">Tarih</a>
+        <a href="belgeler-ile-sandikli.html">Belgeler</a>
+        <a href="termal.html">Termal</a>
+        <a href="kesfet.html">Keşfet</a>
+        <a href="ekonomi.html">Ekonomi</a>
+        <a href="lezzet.html">Lezzet</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="haberler.html">Haberler</a>
+        <a href="nobetci-eczaneler.html">Eczane</a>
+        <a href="cenaze-ilanlari.html" class="active">Vefat</a>
+        <a href="ulasim.html">Ulaşım</a>
+        <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')"></div>
+    <div class="container">
+      <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <span>Vefat İlanları</span></nav>
+      <h1 class="display h1">Vefat duyuruları</h1>
+      <p class="lead">Sandıklı Belediyesi resmi listesinden tam metin duyurular. Güncel arşiv için belediye sayfasını ziyaret edin.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:820px">
+      <div class="sync-stamp">
+        <strong>Kaynak:</strong>
+        <a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">sandikli.bel.tr/cenaze-ilanlari</a>
+        (sayfa 1 · 10 duyuru)
+        · <strong>Portal senkron:</strong> 2026-07-11
+        · Skill: <code>/sandikliportal</code>
+      </div>
+
+      <div class="respect-note">
+        Allah rahmet eylesin; yakınlarına sabır ve başsağlığı dileriz.
+        Aşağıdaki metinler belediyenin kamuya açık resmi vefat duyurularının tamamıdır.
+        Değişiklik olabilir — lütfen
+        <a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">resmi listeyi</a> de kontrol edin.
+      </div>
+
+      <div class="vefat-list">
+
+        
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Himmet Duran</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>11.07.2026</strong></div>
+            <div><span>Yaş</span><strong>81</strong></div>
+            <div><span>Defin tarihi</span><strong>11.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>Öğle Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Çambeyli Köyünden Ayşe Mübetcel'in eşi, Göv Ali'nin oğlu,Hacımet oğlunun torunu,Kepez Ahmet'in damadı,Metin ve Meral'in babası HİMMET DURAN vefat etmiştir.Cenazesi bugün öğle namazına müteakip Ulu Camide namazı kılınarak şehir mezarlığında toprağa verilecektir. Merhuma Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Fatma Koç</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>11.07.2026</strong></div>
+            <div><span>Yaş</span><strong>87</strong></div>
+            <div><span>Defin tarihi</span><strong>11.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>Öğle Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Alamescit Köyünden Ahmet Koç'un eşi,İsmail, Mevlüt ve Mehmet Koç'un annesi FATMA KOÇ vefat etmiştir.Cenazesi bugün öğle namazına müteakip Alamescit Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir. Merhumeye Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Şükriye Sultan Çiftçi</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>10.07.2026</strong></div>
+            <div><span>Yaş</span><strong>39</strong></div>
+            <div><span>Defin tarihi</span><strong>10.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>Öğle Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Hisar Mahallesinden İstanbul'da ikamet eden Mustafa Akbay'ın kızı,Çağrı Çiftçi'nin eşi,İpek Çiftçi'nin annesi ŞÜKRİYE SULTAN ÇİFTÇİ vefat etmiştir.Cenazesi bugün cuma namazına müteakip Ulu Camide namazı kılınarak şehir mezarlığında toprağa verilecektir.Merhumeye Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Mustafa Yıldız</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>09.07.2026</strong></div>
+            <div><span>Yaş</span><strong>67</strong></div>
+            <div><span>Defin tarihi</span><strong>09.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>İkindi Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Karacaören Köyünden Merhum Çavuş Mehmet Yıldız'ın oğlu,Ofisten Emekli Süleyman, Hasan, Ümmühan ve Yusuf Yıldız'ın kardeşi, Fadime, Hilal ve Ramazan Yıldız'ın babası, Muradin Cami İmamı Niyazi Demirel'in kayınpederi MUSTAFA YILDIZ vefat etmiştir.Cenazesi bugün ikindi namazına müteakip Karacaören Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir. Merhuma Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Ali Yılmazçelik</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>09.07.2026</strong></div>
+            <div><span>Yaş</span><strong>70</strong></div>
+            <div><span>Defin tarihi</span><strong>09.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>Öğle Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Kozvankuyucak Köyünden olup İzmir'de ikamet eden ALİ YILMAZÇELİK vefat etmiştir.Cenazesi bugün öğle namazına müteakip Kozvankuyucak Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir.Merhuma Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Fadime Türker</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>08.07.2026</strong></div>
+            <div><span>Yaş</span><strong>77</strong></div>
+            <div><span>Defin tarihi</span><strong>08.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>İkindi Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Çiğiltepe Köyünden Nazmi Türker'in eşi FADİME TÜRKER vefat etmiştir.Cenazesi bugün ikindi namazına müteakip Çiğiltepe Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir.Merhumeye Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Orhan Gevrek</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>08.07.2026</strong></div>
+            <div><span>Yaş</span><strong>81</strong></div>
+            <div><span>Defin tarihi</span><strong>08.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>Öğle Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Cuma Mahallesinden Gevreklerin Merhum Hasan ve Turan Gevrek 'in kardeşi,Merhum Sabri ve Süleyman Gevrek'in babası Terzi ORHAN GEVREK vefat etmiştir.Cenazesi bugün öğle namazına müteakip Ulu Camide namazı kılınarak şehir mezarlığında toprağa verilecektir.Merhuma Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Mehmet Daban</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>07.07.2026</strong></div>
+            <div><span>Yaş</span><strong>67</strong></div>
+            <div><span>Defin tarihi</span><strong>07.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>İkindi Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Kızık Köyünden Ankara'da ikamet eden Merhum Yusuf Daban'ın oğlu, Ziya ve Ümmü Işıkoğlu'nun kardeşi,Yunus ve Oğuz Daban'ın babası MEHMET DABAN vefat etmiştir.Cenazesi bugün ikindi namazına müteakip Kızık Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir.Merhuma Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Yakup Aslan</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>06.07.2026</strong></div>
+            <div><span>Yaş</span><strong>64</strong></div>
+            <div><span>Defin tarihi</span><strong>06.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>Öğle Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Çiğiltepe Köyünden Hisar Mahallesinde mukim Merhum Abdullah Aslan'ın oğlu,Merhum Özgür ve Ali Aslan'ın babası,Nevzat Apaydın'ın kayınpederi YAKUP ASLAN vefat etmiştir.Cenazesi bugün öğle namazına müteakip Çiğiltepe Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir.Merhuma Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>Yüksel Turan</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>02.07.2026</strong></div>
+            <div><span>Yaş</span><strong>44</strong></div>
+            <div><span>Defin tarihi</span><strong>02.07.2026</strong></div>
+            <div><span>Defin saati</span><strong>İkindi Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>Aslen Hocalar İlçesinden Şoför Hakkı Turan'ın oğlu,Hasan Turan'ın kardeşi,Belediyemiz Personeli Hakkı Turan'ın amcası YÜKSEL TURAN vefat etmiştir.Cenazesi bugün ikindi namazına müteakip Hocalar ilçesinde namazı kılınarak Hocalar mezarlığında toprağa verilecektir. Merhuma Allah'tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="note">
+        Bu sayfada belediye listesinin ilk sayfasındaki duyuruların tam metni yayınlanır.
+        Daha eski ilanlar ve güncel güncellemeler için:
+        <a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">Sandıklı Belediyesi — Vefat Duyuruları</a>
+        ·
+        <a href="https://keos.sandikli.bel.tr/keos/?p=MEBIS&MID=67" target="_blank" rel="noopener">E-Mezarlık</a>
+      </p>
+
+      <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.75rem">
+        <a href="https://sandikli.bel.tr/cenaze-ilanlari" class="btn btn-primary" target="_blank" rel="noopener">Resmi liste (tüm sayfalar)</a>
+        <a href="nobetci-eczaneler.html" class="btn btn-outline-dark">Nöbetçi eczaneler</a>
+        <a href="index.html" class="btn btn-outline-dark">Ana sayfa</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı Portal</span></a>
+          <p>Vefat duyuruları Sandıklı Belediyesi resmi sayfasından tam metin olarak aktarılır.</p>
+        </div>
+        <div>
+          <h4>Hizmet</h4>
+          <ul class="footer-links">
+            <li><a href="nobetci-eczaneler.html">Nöbetçi eczaneler</a></li>
+            <li><a href="cenaze-ilanlari.html">Vefat ilanları</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Kaynak</h4>
+          <ul class="footer-links">
+            <li><a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">Belediye — Vefat</a></li>
+            <li><a href="https://sandikli.bel.tr/" target="_blank" rel="noopener">sandikli.bel.tr</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Keşfet</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="haberler.html">Haberler</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year></span> Sandıklı Tanıtım Portalı</span>
+        <span>Afyonkarahisar · Türkiye</span>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

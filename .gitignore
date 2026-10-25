@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Sistem
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editör / IDE
+.vscode/
+.idea/
+
+# Yerel veri / loglar
+*.log
+*.tmp
+
+# GitHub Actions token / sır
+.env
+.env.*

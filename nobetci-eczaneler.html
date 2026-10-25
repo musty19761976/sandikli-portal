@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sandıklı nöbetçi eczaneler — Temmuz 2026 listesi. Kaynak: Sandıklı Belediyesi." />
+  <title>Nöbetçi Eczaneler | Sandıklı Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .sync-stamp {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 1.75rem;
+      padding: 1rem 1.15rem; background: var(--white); border: 1px dashed var(--line);
+      border-radius: var(--radius); line-height: 1.65;
+    }
+    .pharma-table { width: 100%; border-collapse: collapse; background: var(--white);
+      border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+    .pharma-table th {
+      background: var(--ink); color: #fff; text-align: left; padding: 0.9rem 1rem;
+      font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .pharma-table td {
+      padding: 0.85rem 1rem; border-bottom: 1px solid var(--line);
+      font-size: 0.92rem; vertical-align: top;
+    }
+    .pharma-table tr:last-child td { border-bottom: none; }
+    .pharma-table tr:hover td { background: rgba(196,92,38,0.04); }
+    .pharma-table .date { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .pharma-table .name { font-weight: 650; color: var(--copper-deep); }
+    .pharma-table a.map {
+      font-size: 0.75rem; font-weight: 700; color: var(--teal-600, var(--copper-deep));
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .pharma-table tr.today td {
+      background: rgba(196, 92, 38, 0.1);
+      border-left: 3px solid var(--copper);
+    }
+    .note {
+      margin-top: 1.5rem; font-size: 0.88rem; color: var(--muted); line-height: 1.6;
+    }
+    @media (max-width: 700px) {
+      .pharma-table thead { display: none; }
+      .pharma-table tr { display: block; border-bottom: 1px solid var(--line); padding: 0.75rem 0; }
+      .pharma-table td { display: block; border: none; padding: 0.25rem 1rem; }
+      .pharma-table td::before {
+        content: attr(data-label); display: block;
+        font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--muted); margin-bottom: 0.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar scrolled">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı</span></a>
+      <nav class="nav-links" aria-label="Ana menü">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="tarih.html">Tarih</a>
+        <a href="belgeler-ile-sandikli.html">Belgeler</a>
+        <a href="termal.html">Termal</a>
+        <a href="kesfet.html">Keşfet</a>
+        <a href="ekonomi.html">Ekonomi</a>
+        <a href="lezzet.html">Lezzet</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="haberler.html">Haberler</a>
+        <a href="nobetci-eczaneler.html" class="active">Eczane</a>
+        <a href="cenaze-ilanlari.html">Vefat</a>
+        <a href="ulasim.html">Ulaşım</a>
+        <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')"></div>
+    <div class="container">
+      <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <span>Nöbetçi Eczaneler</span></nav>
+      <h1 class="display h1">Nöbetçi eczaneler</h1>
+      <p class="lead">Sandıklı Belediyesi resmi listesinden. Güncel ve kesin bilgi için belediye sayfasını kontrol edin.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sync-stamp">
+        <strong>Kaynak:</strong>
+        <a href="https://sandikli.bel.tr/nobetci-eczaneler" target="_blank" rel="noopener">sandikli.bel.tr/nobetci-eczaneler</a>
+        · <strong>Dönem:</strong> Temmuz 2026
+        · <strong>Portal senkron:</strong> 2026-07-11
+        · Skill: <code>/sandikliportal</code>
+      </div>
+
+      <table class="pharma-table">
+        <thead>
+          <tr>
+            <th>Tarih</th>
+            <th>Eczane</th>
+            <th>Adres</th>
+            <th>Harita</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="date" data-label="Tarih">01.07.2026</td>
+            <td class="name" data-label="Eczane">Daştan Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Mithatpaşa Sok. No:5/1</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/Htre5FMzxqzB2FkU7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">02.07.2026</td>
+            <td class="name" data-label="Eczane">Sağlık Eczanesi</td>
+            <td data-label="Adres">Ece Mah. İstasyon Cad. No:91</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/XYhJ1VJ2oExMMRRp9" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">03.07.2026</td>
+            <td class="name" data-label="Eczane">Armağan Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:138/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/vT4yAA1JNRM254Y86" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">04.07.2026</td>
+            <td class="name" data-label="Eczane">Badioğlu Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. Belediye Cad. No:11</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/qCeHGFPesMZMZZ1TA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">05.07.2026</td>
+            <td class="name" data-label="Eczane">Dost Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:132/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/5mEm8sNYZTdNnFdeA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">06.07.2026</td>
+            <td class="name" data-label="Eczane">Sare Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:102</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/56FmVGf9VYShMw4b8" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">07.07.2026</td>
+            <td class="name" data-label="Eczane">Çavuşoğlu Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. Belediye Cad. No:19</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/PzBhwUTfwWrUcDaN8" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">08.07.2026</td>
+            <td class="name" data-label="Eczane">Sümer Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:134/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/VYodBvJV9GsyMXKFA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">09.07.2026</td>
+            <td class="name" data-label="Eczane">Ekin Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:130/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/9tivAuiNqJfWDaVVA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">10.07.2026</td>
+            <td class="name" data-label="Eczane">Badioğlu Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. Belediye Cad. No:11</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/qCeHGFPesMZMZZ1TA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr class="today">
+            <td class="date" data-label="Tarih">11.07.2026</td>
+            <td class="name" data-label="Eczane">Ekin Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:130/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/9tivAuiNqJfWDaVVA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">12.07.2026</td>
+            <td class="name" data-label="Eczane">Topbaşoğlu Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Zincirli Han Sok. No:9</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/9tfZmGWP4tFC7KTFA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">13.07.2026</td>
+            <td class="name" data-label="Eczane">Erden Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Y.Emre Bulvarı No:38/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/A9DW4GkSA3tLfnJw7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">14.07.2026</td>
+            <td class="name" data-label="Eczane">Mezgil Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:86</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/6eLz4vxHRsEPY4Jk7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">15.07.2026</td>
+            <td class="name" data-label="Eczane">Çavuşoğlu Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. Belediye Cad. No:19</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/PzBhwUTfwWrUcDaN8" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">16.07.2026</td>
+            <td class="name" data-label="Eczane">Cihan Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Yunus Emre Bulvarı No:2/B</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/b7DCnjeQfVZjEJZU9" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">17.07.2026</td>
+            <td class="name" data-label="Eczane">Kokkokoğlu Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Belediye Cad. No:22</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/5924gTzuuqgKdSKz7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">18.07.2026</td>
+            <td class="name" data-label="Eczane">Erden Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Y.Emre Bulvarı No:38/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/A9DW4GkSA3tLfnJw7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">19.07.2026</td>
+            <td class="name" data-label="Eczane">Şirinevler Eczanesi</td>
+            <td data-label="Adres">Şirinevler Mah. 30 Ağustos Sok. No:35</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/ubucKhCHnJmH7kQy6" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">20.07.2026</td>
+            <td class="name" data-label="Eczane">Macit Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:128/C</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/kEWnZjrdpm7Zh6ud7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">21.07.2026</td>
+            <td class="name" data-label="Eczane">Sevgi Eczanesi</td>
+            <td data-label="Adres">Ece Mah. İstasyon Cad. No:93/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/cnzktT8JqJPve2ck6" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">22.07.2026</td>
+            <td class="name" data-label="Eczane">Dost Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:132/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/5mEm8sNYZTdNnFdeA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">23.07.2026</td>
+            <td class="name" data-label="Eczane">Topbaşoğlu Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Zincirli Han Sok. No:9</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/9tfZmGWP4tFC7KTFA" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">24.07.2026</td>
+            <td class="name" data-label="Eczane">Şirinevler Eczanesi</td>
+            <td data-label="Adres">Şirinevler Mah. 30 Ağustos Sok. No:35</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/ubucKhCHnJmH7kQy6" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">25.07.2026</td>
+            <td class="name" data-label="Eczane">Mezgil Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:86</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/6eLz4vxHRsEPY4Jk7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">26.07.2026</td>
+            <td class="name" data-label="Eczane">Daştan Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Mithatpaşa Sok. No:5/1</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/Htre5FMzxqzB2FkU7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">27.07.2026</td>
+            <td class="name" data-label="Eczane">Sağlık Eczanesi</td>
+            <td data-label="Adres">Ece Mah. İstasyon Cad. No:91</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/XYhJ1VJ2oExMMRRp9" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">28.07.2026</td>
+            <td class="name" data-label="Eczane">Daştan Eczanesi</td>
+            <td data-label="Adres">Ece Mah. Mithatpaşa Sok. No:5/1</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/Htre5FMzxqzB2FkU7" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">29.07.2026</td>
+            <td class="name" data-label="Eczane">Armağan Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:138/A</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/vT4yAA1JNRM254Y86" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">30.07.2026</td>
+            <td class="name" data-label="Eczane">Sare Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. İstasyon Cad. No:102</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/56FmVGf9VYShMw4b8" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+          <tr>
+            <td class="date" data-label="Tarih">31.07.2026</td>
+            <td class="name" data-label="Eczane">Çavuşoğlu Eczanesi</td>
+            <td data-label="Adres">Çakır Mah. Belediye Cad. No:19</td>
+            <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/PzBhwUTfwWrUcDaN8" target="_blank" rel="noopener">Aç</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="note">
+        Bu liste bilgilendirme amaçlıdır; değişiklik olabilir.
+        Güncel nöbet için:
+        <a href="https://sandikli.bel.tr/nobetci-eczaneler" target="_blank" rel="noopener">Sandıklı Belediyesi — Nöbetçi Eczaneler</a>.
+        Tıbbi tavsiye değildir.
+      </p>
+
+      <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.75rem">
+        <a href="https://sandikli.bel.tr/nobetci-eczaneler" class="btn btn-primary" target="_blank" rel="noopener">Resmi liste</a>
+        <a href="cenaze-ilanlari.html" class="btn btn-outline-dark">Vefat ilanları</a>
+        <a href="haberler.html" class="btn btn-outline-dark">Haberler</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı Portal</span></a>
+          <p>Nöbetçi eczane bilgisi Sandıklı Belediyesi kamuya açık listesinden derlenmiştir.</p>
+        </div>
+        <div>
+          <h4>Hizmet</h4>
+          <ul class="footer-links">
+            <li><a href="nobetci-eczaneler.html">Nöbetçi eczaneler</a></li>
+            <li><a href="cenaze-ilanlari.html">Vefat ilanları</a></li>
+            <li><a href="haberler.html">Haberler</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Kaynak</h4>
+          <ul class="footer-links">
+            <li><a href="https://sandikli.bel.tr/nobetci-eczaneler" target="_blank" rel="noopener">Belediye — Eczane</a></li>
+            <li><a href="https://sandikli.bel.tr/" target="_blank" rel="noopener">sandikli.bel.tr</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Keşfet</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="ulasim.html">Ulaşım</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year></span> Sandıklı Tanıtım Portalı</span>
+        <span>Afyonkarahisar · Türkiye</span>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sandıklı güncel haberler — Belediye, SANVAK, Facebook, Instagram ve X kaynaklarından detaylı özetler." />
+  <title>Haberler | Sandıklı Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .news-list { display: flex; flex-direction: column; gap: 1rem; }
+    .news-item {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem 1.5rem;
+      transition: var(--transition);
+      border-left: 3px solid var(--copper);
+    }
+    .news-item:hover { box-shadow: var(--shadow-md); transform: translateX(2px); }
+    .news-meta {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--copper); margin-bottom: 0.5rem;
+    }
+    .news-meta .src {
+      background: var(--paper); color: var(--ink-soft); padding: 0.2rem 0.55rem;
+      border-radius: 3px; letter-spacing: 0.03em;
+    }
+    .news-meta .tag {
+      background: rgba(196,92,38,0.12); color: var(--copper-deep);
+      padding: 0.2rem 0.5rem; border-radius: 3px;
+    }
+    .news-item h3 {
+      font-family: var(--font-display); font-weight: 500; font-size: 1.28rem;
+      margin-bottom: 0.5rem; letter-spacing: -0.02em; line-height: 1.25;
+    }
+    .news-item p { color: var(--muted); font-size: 0.93rem; margin-bottom: 0.85rem; line-height: 1.65; }
+    .news-item a.more {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--copper-deep);
+    }
+    .news-item a.more:hover { color: var(--ink); }
+    .sync-stamp {
+      font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem;
+      padding: 1rem 1.15rem; background: var(--white); border: 1px dashed var(--line);
+      border-radius: var(--radius); line-height: 1.6;
+    }
+    .sync-stamp strong { color: var(--ink); }
+    .section-label {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 500;
+      margin: 2.5rem 0 1.25rem; letter-spacing: -0.02em;
+      padding-bottom: 0.5rem; border-bottom: 2px solid var(--ink);
+    }
+    .section-label:first-of-type { margin-top: 0; }
+    .platform-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+    .platform-row a {
+      font-size: 0.75rem; font-weight: 600; padding: 0.35rem 0.7rem;
+      border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft);
+    }
+    .platform-row a:hover { border-color: var(--copper); color: var(--copper-deep); }
+  </style>
+</head>
+<body>
+  <header class="navbar scrolled">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı</span></a>
+      <nav class="nav-links" aria-label="Ana menü">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="tarih.html">Tarih</a>
+        <a href="belgeler-ile-sandikli.html">Belgeler</a>
+        <a href="termal.html">Termal</a>
+        <a href="kesfet.html">Keşfet</a>
+        <a href="ekonomi.html">Ekonomi</a>
+        <a href="lezzet.html">Lezzet</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="haberler.html" class="active">Haberler</a>
+        <a href="nobetci-eczaneler.html">Eczane</a>
+        <a href="cenaze-ilanlari.html">Vefat</a>
+        <a href="ulasim.html">Ulaşım</a>
+        <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')"></div>
+    <div class="container">
+      <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <span>Haberler</span></nav>
+      <h1 class="display h1">Haberler & sosyal gündem</h1>
+      <p class="lead">Belediye web, SANVAK, Facebook, Instagram ve X hesaplarından derlenen detaylı özetler. Medya dosyaları kopyalanmaz; kaynak linkleri verilir.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sync-stamp">
+        <strong>Son senkron:</strong> 2026-07-11 · Skill: <code>/sandikliportal</code> (tam senkron)<br />
+        <strong>Web:</strong> sandikli.bel.tr (haberler + duyurular + eczane + vefat) · sanvak.org<br />
+        <strong>Sosyal:</strong> FB sandiklibelediyesi · SaNDiKLiiLCe · IG/X özet · X @sandiklibld<br />
+        <strong>Not:</strong> Telifli medya indirilmedi; vefat ayrı sayfada.
+        <div class="platform-row">
+          <a href="https://sandikli.bel.tr/haberler" target="_blank" rel="noopener">Belediye haberler</a>
+          <a href="https://sandikli.bel.tr/duyurular" target="_blank" rel="noopener">Duyurular</a>
+          <a href="https://www.facebook.com/SaNDiKLiiLCe/" target="_blank" rel="noopener">SaNDiKLiiLCe</a>
+          <a href="http://www.sanvak.org/" target="_blank" rel="noopener">SANVAK</a>
+        </div>
+      </div>
+
+      <!-- WEB -->
+      <h2 class="section-label">Belediye web &amp; duyurular</h2>
+      <div class="news-list">
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>10 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">ekonomi</span>
+          </div>
+          <h3>TESK ve bölge ESOB başkanlarından makam ziyareti</h3>
+          <p>
+            TESK Genel Başkan Vekili Adlıhan Dere, 6. Bölge Esnaf KK Bölge Birliği / Isparta ESOB Başkanı Ahmet Tural
+            ve Burdur ESOB Başkanı Metin Sipahi, Başkan Adnan Öztaş’ı ziyaret etti. Esnaf-sanatkâr durumu ve
+            yerel yönetim çalışmaları üzerine istişare yapıldı.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/tesk-genel-baskan-vekili-ve-antalya-esob-baskanimiz-adlihan-dere-6-bolge-esnaf-ve-sanatkarlar-kredi-ve-kefalet-kooperatifleri-bolge-birligi-baskanimiz-ve-isparta-esob-baskanimiz-ahmet-tural-ile-burdur-esob-baskanimiz-metin-sipahi-sandikli-belediye" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>10 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">duyuru</span>
+          </div>
+          <h3>Yeni Cumhuriyet Başsavcısı’na hayırlı olsun ziyareti</h3>
+          <p>
+            Milletvekili Av. Ali Özkaya, Başkan Öztaş, AK Parti İlçe Başkanı Murat Erkalan ve TMO Müdürü Kahraman Yakan,
+            ilçeye yeni atanan Cumhuriyet Başsavcısı Celal Kaplan’ı ziyaret ederek görevinde başarı diledi.
+            Kamu kurumları arası iş birliği vurgulandı.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/afyonkarahisar-milletvekilimiz-av-ali-ozkaya-sandikli-belediye-baskanimiz-adnan-oztas-ak-parti-ilce-baskanimiz-murat-erkalan-ve-toprak-mahsulleri-ofisi-tmo-mudurumuz-kahraman-yakan-ilcemize-yeni-atanan-cumhuriyet-bassavcimiz-celal-kaplana-hayi" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>10 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">proje</span>
+          </div>
+          <h3>Milletvekili Özkaya ile proje istişaresi</h3>
+          <p>
+            Av. Ali Özkaya ve İlçe Başkanı Murat Erkalan, Başkan Öztaş’ı makamında ziyaret ederek devam eden
+            çalışmalar ve planlanan projeleri görüştü. Birlik içinde ilçeye değer katacak hizmetlerin önemi
+            vurgulandı.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/afyonkarahisar-milletvekilimiz-av-ali-ozkaya-ile-ak-parti-ilce-baskanimiz-murat-erkalan-sandikli-belediye-baskanimiz-adnan-oztasi-makaminda-ziyaret-etti" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>10 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">proje</span>
+          </div>
+          <h3>Kent Park Düğün Salonu yenilemesi tamamlandı</h3>
+          <p>
+            Başkan Öztaş’ın talimatıyla Kent Park Düğün Salonu’nda bakım, boya, elektrik ve sahne
+            yenileme çalışmaları bitti. Salon daha modern ve kullanışlı bir görünüme kavuşturuldu.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-belediye-baskanimiz-adnan-oztasin-talimatlariyla-kent-park-dugun-salonumuzda-baslatilan-bakim-onarim-ve-yenileme-calismalari-tamamlandi" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>10 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">ekonomi</span>
+          </div>
+          <h3>Has Kuyumculuk yeni iş yeri açılışı</h3>
+          <p>
+            Başkan Öztaş, Milletvekili Özkaya ve Meclis Üyesi Rifat Özbunar ile Has Kuyumculuk’un
+            yeni iş yeri açılışına katıldı. İşletme sahipleri Şaban ve Gökhan Coşar’a hayırlı olsun denildi.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-belediye-baskanimiz-adnan-oztas-afyonkarahisar-milletvekilimiz-av-ali-ozkaya-ve-belediye-meclis-uyemiz-rifat-ozbunar-ile-birlikte-ilcemizde-faaliyet-gosteren-has-kuyumculukun-yeni-is-yerinin-acilis-torenine-katildi" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>9 Temmuz 2026</span>
+            <span class="src">Belediye web · FB</span>
+            <span class="tag">etkinlik · spor</span>
+          </div>
+          <h3>15 Temmuz Dostluk Satranç Turnuvası</h3>
+          <p>
+            Belediye Facebook/Instagram duyurusuna göre başvuru 7–10 Temmuz, turnuva 14 Temmuz 2026
+            saat 09.30. Zaman kontrolü 35'+30''. Kaynak: sandiklibelediyesi sosyal hesapları.
+          </p>
+          <a class="more" href="https://www.facebook.com/sandiklibelediyesi/" target="_blank" rel="noopener">Facebook Belediye →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>9 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">ekonomi</span>
+          </div>
+          <h3>Esnaf Odası ve TSO’dan makam ziyareti</h3>
+          <p>
+            Esnaf ve Sanatkârlar Odası Başkanı Ali Çiçek ile Ticaret ve Sanayi Odası Başkanı Bekir Çetin,
+            Belediye Başkanı Adnan Öztaş’ı makamında ziyaret etti. Ekonomik gelişim ve iş birliği ele alındı.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/esnaf-ve-sanatkarlar-odasi-baskanimiz-ali-cicek-ile-ticaret-ve-sanayi-odasi-baskanimiz-bekir-cetin-sandikli-belediye-baskanimiz-adnan-oztasi-makaminda-ziyaret-etti" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>9 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">kültür</span>
+          </div>
+          <h3>Gardaş Yarenler Derneği ziyareti</h3>
+          <p>
+            Sandıklı Gardaş Yarenler Derneği Başkanı Yılmaz Demircan ve Yaren Bülent Akgül, Başkan Öztaş’ı ziyaret etti.
+            Yarenlik geleneğinin yaşatılması, kültürel değerler ve sosyal çalışmalar masaya yatırıldı.
+            İlçenin manevi ve toplumsal hafızasında yaren meclislerinin yeri bir kez daha hatırlatıldı.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-gardas-yarenler-dernegi-baskanimiz-yilmaz-demircan-ile-yarenimiz-bulent-akgul-sandikli-belediye-baskanimiz-adnan-oztasi-makaminda-ziyaret-etti" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>8 Temmuz 2026</span>
+            <span class="src">Belediye web · Instagram</span>
+            <span class="tag">termal</span>
+          </div>
+          <h3>Hüdai Kaplıcaları’nda yenileme ve bakım denetimi</h3>
+          <p>
+            Başkan Adnan Öztaş, Hüdai Kaplıcaları’nda süren yenileme çalışmalarını yerinde inceledi.
+            Kaplıca İşletme Müdürlüğü’nde oda ve apart daire yatırımları hakkında bilgi aldı;
+            ardından tadilattaki Kür Merkezi’ni gezerek süreci değerlendirdi. Termal turizm altyapısının
+            güçlendirilmesi ilçe ekonomisi ve sağlık turizmi için kritik önemde.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-belediye-baskanimiz-adnan-oztas-hudai-kaplicalarinda-devam-eden-yenileme-ve-bakim-calismalarini-yerinde-inceledi" target="_blank" rel="noopener">Belediye haberi →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>8 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">ekonomi</span>
+          </div>
+          <h3>Esnaf ziyaretleri sürüyor</h3>
+          <p>
+            Başkan Öztaş, ilçede faaliyet gösteren esnafları ziyaret ederek hayırlı işler diledi;
+            talep ve önerileri dinledi. Yerel ticaretin nabzını tutmak ve saha iletişimi güçlendirmek
+            amacıyla düzenlenen turlar, belediyenin esnaf odaklı gündeminin parçası.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-belediye-baskanimiz-adnan-oztas-ilcemizde-faaliyet-gosteren-esnaflarimizi-ziyaret-ederek-hayirli-isler-ve-bereketli-kazanclar-diledi" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>8 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">spor</span>
+          </div>
+          <h3>Sandıklıspor altyapısından Konyaspor seçmelerine</h3>
+          <p>
+            Konyaspor seçmelerinde 680 sporcu arasından antrenmanlara davet edilen 29 isimden
+            Salih Uluışık, Muhittin Demir ve Mustafa Özdayı Sandıklıspor altyapısından çıktı.
+            Gençler Başkan Öztaş’ı makamında ziyaret etti. İlçe futbolunun altyapı başarısı
+            Sandıklı’nın spor kimliğine katkı sağlıyor.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/konyaspor-tarafindan-duzenlenen-futbol-secmelerinde-680-sporcu-arasindan-antrenmanlara-davet-edilen-29-futbolcu-arasinda-yer-almayi-basaran-sandiklispor-alt-yapisinda-yetisen-genclerimiz-salih-uluisik-muhittin-demir-ve-mustafa-ozdayi-sandikli-beled" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>7 Temmuz 2026</span>
+            <span class="src">Belediye web · Instagram</span>
+            <span class="tag">ekonomi</span>
+          </div>
+          <h3>Foto Lensa iş yeri açılışı</h3>
+          <p>
+            İlçeye kazandırılan Foto Lensa iş yerinin açılışına Başkan Öztaş ve meclis üyeleri,
+            muhtarlar ile parti ilçe yönetimi katıldı. Yerel işletme yatırımları istihdam ve
+            çarşı canlılığı açısından önem taşıyor. Instagram @sandiklibelediyesi hesabında da duyuruldu.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-belediye-baskanimiz-adnan-oztas-ilcemize-kazandirilan-foto-lensa-isimli-is-yerinin-acilis-programina-katildi" target="_blank" rel="noopener">Belediye →</a>
+          ·
+          <a class="more" href="https://www.instagram.com/p/Dafd7n2jOoD/" target="_blank" rel="noopener">Instagram →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>7 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">proje</span>
+          </div>
+          <h3>Eski Cezaevi alanı: sosyal tesis, park ve otopark</h3>
+          <p>
+            Eski Cezaevi alanında planlanan sosyal tesis, çocuk oyun parkı ve otopark için
+            saha incelemesi yapıldı. Meclis üyeleri, muhtarlar ve birim müdürleri programda yer aldı.
+            Proje tamamlandığında merkezde sosyal yaşam ve ulaşım konforuna katkı bekleniyor.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-belediye-baskanimiz-adnan-oztas-eski-cezaevi-alaninda-yapimi-planlanan-sosyal-tesis-cocuk-oyun-parki-ve-otopark-alaninda-incelemelerde-bulundu" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>7 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">ekonomi</span>
+          </div>
+          <h3>İhracatçı seracılar derneği ziyareti</h3>
+          <p>
+            Sandıklı İhracatçı Seracılar İş Birliği Derneği yeni yönetimi, seracılık sektörünün
+            durumu, üretici talepleri ve tarımsal üretimi geliştirme yollarını görüşmek üzere
+            belediyeyi ziyaret etti. Termal seracılık ve ihracat Sandıklı tarımında stratejik alan.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-ihracatci-seracilar-is-birligi-derneginin-yeni-yonetim-kurulu-sandikli-belediye-baskanimiz-adnan-oztasi-makaminda-ziyaret-etti" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>7 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">duyuru</span>
+          </div>
+          <h3>Temmuz ayı meclis toplantısı</h3>
+          <p>
+            Olağan meclis toplantısı Başkan Öztaş başkanlığında meclis üyeleri ve birim müdürlerinin
+            katılımıyla yapıldı. Yerel yönetim karar süreçleri ve aylık gündem kalemleri ele alındı.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/temmuz-ayi-meclis-toplantimiz-gerceklestirildi" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>6 Temmuz 2026</span>
+            <span class="src">Belediye web</span>
+            <span class="tag">etkinlik</span>
+          </div>
+          <h3>Miniklere karne hediyesi ve çocuk karnavalı</h3>
+          <p>
+            Başkan Öztaş, karne döneminde çocuklara yönelik sözünü tutarak etkinlik ve tiyatro
+            programlarını sürdürüyor. Çocuk Karnavalı ile minikler renkli aktivitelerde buluşturuluyor.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/haberler/sandikli-belediye-baskanimiz-adnan-oztastan-miniklerimize-karne-hediyesi" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>16 Mayıs 2026</span>
+            <span class="src">Belediye duyuru</span>
+            <span class="tag">duyuru</span>
+          </div>
+          <h3>SANJET ısınma sezonu uzatıldı</h3>
+          <p>
+            Vatandaş talebi üzerine SANJET A.Ş. 2025–2026 ısınma sezonunun bir süre daha
+            devam etmesine karar verdi. Merkezi ısıtma hizmeti kullanıcıları için önemli bir duyuru.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/duyurular/sanjet-as-2025-2026-isinma-sezonu-devam-ediyor" target="_blank" rel="noopener">Kaynağa git →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>27 Nisan 2026</span>
+            <span class="src">Belediye · Facebook</span>
+            <span class="tag">etkinlik · termal</span>
+          </div>
+          <h3>Hıdırellez şenlikleri — Hüdai’de stant başvuruları</h3>
+          <p>
+            Geleneksel Hıdırellez Şenlikleri 5–6 Mayıs 2026’da Sandıklı Hüdai Kaplıcaları’nda
+            planlandı. Yiyecek, içecek, el işi ve hediyelik stant alanları için başvurular açıldı.
+            Facebook sandiklibelediyesi sayfasında da duyuruldu.
+          </p>
+          <a class="more" href="https://sandikli.bel.tr/duyurular/sandikli-hudai-kaplicalarinda-duzenlenecek-olan-geleneksel-hidirellez-senlikleri-kapsaminda-stant-kiralama-basvurulari-basladi" target="_blank" rel="noopener">Duyuru →</a>
+        </article>
+
+      </div>
+
+      <!-- SOSYAL -->
+      <h2 class="section-label">Sosyal medyadan (Facebook · Instagram · X)</h2>
+      <div class="news-list">
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>Temmuz 2026</span>
+            <span class="src">Instagram @sandiklibelediyesi</span>
+            <span class="tag">proje</span>
+          </div>
+          <h3>İlçenin dört bir yanında saha çalışmaları</h3>
+          <p>
+            Belediye Instagram hesabında paylaşılan seride, Başkan Öztaş’ın talimatıyla
+            mahallelerde saha çalışmalarının sürdüğü duyuruldu. Altyapı ve bakım ekiplerinin
+            sahada olduğu görsellerle vatandaşa hizmet temposu aktarıldı.
+          </p>
+          <a class="more" href="https://www.instagram.com/p/DaNHakZjBnj/" target="_blank" rel="noopener">Instagram →</a>
+          ·
+          <a class="more" href="https://www.instagram.com/p/DacuInKjEH_/" target="_blank" rel="noopener">İlgili post →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>Temmuz 2026</span>
+            <span class="src">Instagram @sandiklibelediyesi</span>
+            <span class="tag">proje</span>
+          </div>
+          <h3>Başkan saha incelemelerini yerinde sürdürüyor</h3>
+          <p>
+            Instagram paylaşımında Başkan Öztaş’ın ilçenin farklı noktalarındaki çalışmaları
+            yerinde incelediği belirtildi. Saha denetimi, proje ve hizmet kalitesinin takibi
+            açısından düzenli iletişim kanalı olarak kullanılıyor.
+          </p>
+          <a class="more" href="https://www.instagram.com/p/DaU6Rs6jBg7/" target="_blank" rel="noopener">Instagram →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>9 Temmuz 2026</span>
+            <span class="src">Facebook sandiklibelediyesi</span>
+            <span class="tag">duyuru</span>
+          </div>
+          <h3>Elektrik kesintisi duyurusu</h3>
+          <p>
+            Belediye Facebook sayfasında 9 Temmuz 2026 tarihinde 09.00–18.00 saatleri arasında
+            ilçe genelinde Osmangazi Elektrik Dağıtım A.Ş. kaynaklı planlı kesinti duyuruldu.
+            Güncel kesinti ve şebeke bilgisi için dağıtım şirketi ve belediye kanalları takip edilmeli.
+          </p>
+          <a class="more" href="https://www.facebook.com/sandiklibelediyesi/" target="_blank" rel="noopener">Facebook Belediye →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>Haziran–Temmuz 2026</span>
+            <span class="src">Facebook · Ulak Haber</span>
+            <span class="tag">kültür</span>
+          </div>
+          <h3>Akşam pazarı ve ilçe gündemi</h3>
+          <p>
+            Sandıklı Ulak Haber ve benzeri yerel Facebook sayfalarında akşam pazarı, etkinlik
+            ve günlük yaşam paylaşımları öne çıkıyor. Pazartesi pazarı kültürü ilçenin sosyal
+            ritminin parçası. Orijinal videolar için Facebook sayfalarını ziyaret edin.
+          </p>
+          <a class="more" href="https://www.facebook.com/SaNDiKLiiLCe/" target="_blank" rel="noopener">SaNDiKLiiLCe →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>10 Mart 2026</span>
+            <span class="src">X @sandiklibld</span>
+            <span class="tag">ekonomi</span>
+          </div>
+          <h3>Çevre ve atık yönetimi ziyareti</h3>
+          <p>
+            Afyonkarahisar Çevre Hizmetler Birliği Müdürü Ercan Özcan ve BETA Çevre Hizmetleri
+            yetkilileri Başkan Öztaş’ı ziyaret etti. Atık yönetimi ve çevre hizmetlerinde
+            iş birliği gündemi ilçenin sürdürülebilir altyapısı için önemli.
+          </p>
+          <a class="more" href="https://x.com/sandiklibld/status/2031345667830911243" target="_blank" rel="noopener">X gönderisi →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>26 Şubat 2026</span>
+            <span class="src">X @sandiklibld</span>
+            <span class="tag">duyuru</span>
+          </div>
+          <h3>Ramazan’da fırın denetimleri</h3>
+          <p>
+            Başkan Öztaş’ın talimatıyla zabıta ekipleri Ramazan ayında fırınlarda gramaj ve
+            hijyen denetimi yaptı. Tüketici hakları ve gıda güvenliği için periyodik saha kontrolü
+            paylaşıldı.
+          </p>
+          <a class="more" href="https://x.com/sandiklibld/status/2026962780381712669" target="_blank" rel="noopener">X gönderisi →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>24 Şubat 2026</span>
+            <span class="src">X @sandiklibld</span>
+            <span class="tag">proje</span>
+          </div>
+          <h3>Sazak ve Fatih mahallelerinde saha incelemesi</h3>
+          <p>
+            Başkan Öztaş, Sazak ve Fatih mahallelerindeki belediye çalışmalarını yerinde inceledi.
+            Mahalle bazlı hizmet takibi X hesabından da aktarıldı.
+          </p>
+          <a class="more" href="https://x.com/sandiklibld/status/2026218934903468526" target="_blank" rel="noopener">X gönderisi →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>24 Şubat 2026</span>
+            <span class="src">X @sandiklibld</span>
+            <span class="tag">kültür</span>
+          </div>
+          <h3>Öğrencilere kitap desteği</h3>
+          <p>
+            Cumhuriyet Ortaokulu’nda kitap dağıtımı ile ortaöğretim öğrencilerinin okuma
+            alışkanlığı desteklendi. Eğitim ve kültür yatırımları belediyenin sosyal yüzünü güçlendiriyor.
+          </p>
+          <a class="more" href="https://x.com/sandiklibld/status/2026217922272612459" target="_blank" rel="noopener">X gönderisi →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>4 Temmuz 2026</span>
+            <span class="src">X @thermalparkk</span>
+            <span class="tag">termal · tanıtım</span>
+          </div>
+          <h3>Sandıklı Thermal Park: doğada şifa ve konaklama</h3>
+          <p>
+            Sandıklı Thermal Park Resort X hesabı, Hüdai bölgesinde termal konaklama, bahçe ve
+            huzur odaklı tanıtım paylaşımı yaptı. Özel otel tanıtımıdır; rezervasyon ve fiyat için
+            tesis kanalları kullanılmalıdır. (Tıbbi tavsiye değildir.)
+          </p>
+          <a class="more" href="https://x.com/thermalparkk/status/2073384034252497129" target="_blank" rel="noopener">X @thermalparkk →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>Arşiv · resmi</span>
+            <span class="src">X @SandikliKaymakm</span>
+            <span class="tag">duyuru</span>
+          </div>
+          <h3>Kaymakamlık X hesabı — resmi protokol paylaşımları</h3>
+          <p>
+            @SandikliKaymakm hesabı kaymakamlık programları, protokol ve ilçe kamu gündemini
+            duyurur. Hesap aralıklı güncellenebilir; en güncel resmi bilgi için
+            sandikli.gov.tr ve kaymakamlık sosyal hesapları birlikte izlenmeli.
+          </p>
+          <a class="more" href="https://x.com/SandikliKaymakm" target="_blank" rel="noopener">X Kaymakamlık →</a>
+          ·
+          <a class="more" href="https://www.facebook.com/sandiklikaymakamligi/" target="_blank" rel="noopener">FB Kaymakamlık →</a>
+          ·
+          <a class="more" href="https://www.instagram.com/sandikli_kaymakamligi/" target="_blank" rel="noopener">IG Kaymakamlık →</a>
+        </article>
+
+        <article class="news-item">
+          <div class="news-meta">
+            <span>Arşiv</span>
+            <span class="src">SANVAK · web</span>
+            <span class="tag">tanıtım · kültür</span>
+          </div>
+          <h3>SANVAK arşivi: tarih, galeri, kültür-sanat</h3>
+          <p>
+            Sandıklı’lılar Vakfı (SANVAK) sitesinde tarihçe, camiler-türbeler, eski Sandıklı
+            galerisi, kültür-sanat ve faaliyetler yer alır. Portalın tarih ve keşfet sayfaları
+            bu arşivle beslenir; güncel faaliyet için sanvak.org ziyaret edilmeli.
+          </p>
+          <a class="more" href="http://www.sanvak.org/" target="_blank" rel="noopener">sanvak.org →</a>
+          ·
+          <a class="more" href="http://www.sanvak.org/sandiklimiz/sandikli.tarihcesi.html" target="_blank" rel="noopener">Tarihçe →</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="cta-banner">
+        <h2 class="display h2">Kaynakları takip edin</h2>
+        <p>Özetler bilgilendirme amaçlıdır. Tam metin ve görseller için orijinal hesaplara gidin. Güncelleme: /sandikliportal</p>
+        <div class="cta-actions">
+          <a href="https://sandikli.bel.tr/" class="btn btn-gold" target="_blank" rel="noopener">Belediye</a>
+          <a href="https://www.instagram.com/sandiklibelediyesi/" class="btn btn-outline" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://x.com/sandiklibld" class="btn btn-outline" target="_blank" rel="noopener">X</a>
+          <a href="https://www.facebook.com/sandiklibelediyesi/" class="btn btn-outline" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı Portal</span></a>
+          <p>Bağımsız tanıtım. Haber özetleri Belediye, SANVAK, Facebook, Instagram ve X’ten derlenir. Telifli medya kopyalanmaz.</p>
+        </div>
+        <div>
+          <h4>Keşfet</h4>
+          <ul class="footer-links">
+            <li><a href="haberler.html">Haberler</a></li>
+            <li><a href="termal.html">Termal</a></li>
+            <li><a href="kesfet.html">Keşfet</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Kaynaklar</h4>
+          <ul class="footer-links">
+            <li><a href="https://sandikli.bel.tr/" target="_blank" rel="noopener">Belediye web</a></li>
+            <li><a href="http://www.sanvak.org/" target="_blank" rel="noopener">SANVAK</a></li>
+            <li><a href="https://www.facebook.com/SaNDiKLiiLCe/" target="_blank" rel="noopener">SaNDiKLiiLCe</a></li>
+            <li><a href="https://x.com/sandiklibld" target="_blank" rel="noopener">@sandiklibld</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sosyal</h4>
+          <ul class="footer-links">
+            <li><a href="https://www.instagram.com/sandiklibelediyesi/" target="_blank" rel="noopener">IG Belediye</a></li>
+            <li><a href="https://www.facebook.com/sandiklibelediyesi/" target="_blank" rel="noopener">FB Belediye</a></li>
+            <li><a href="https://www.instagram.com/sandikli_kaymakamligi/" target="_blank" rel="noopener">IG Kaymakamlık</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year></span> Sandıklı Tanıtım Portalı · Senkron 2026-07-09</span>
+        <span>Afyonkarahisar · Türkiye</span>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
