@@ -13,7 +13,7 @@
     { t: "Ekonomi", href: "ekonomi.html", k: "ekonomi tarım haşhaş leblebi patates şeker pancarı hayvancılık sanayi ticaret altın" },
     { t: "Lezzet & Kültür", href: "lezzet.html", k: "lezzet yemek leblebi ekmek kebap haşhaş hamur işi gastronomi kültür" },
     { t: "Galeri", href: "galeri.html", k: "galeri fotoğraf görsel resim şehir akdağ köy manzara" },
-    { t: "Haberler", href: "haberler.html", k: "haber gündem belediye duyuru etkinlik sosyal medya" },
+    { t: "Geleneklerimiz", href: "geleneklerimiz.html", k: "gelenek adet ramazan iftar kabir arife bayram dogum besik dogdu pelte corbasi dis duzlamasi hedik sunnet dugun takim gelin cumasi kultur" },
     { t: "Nöbetçi Eczaneler", href: "nobetci-eczaneler.html", k: "eczane nöbetçi ilaç ecza bugün harita" },
     { t: "Vefat İlanları", href: "cenaze-ilanlari.html", k: "vefat cenaze ilan duyuru ölüm taziye" },
     { t: "Ulaşım & İletişim", href: "ulasim.html", k: "ulaşım otobüs tren havalimanı konaklama otel yatak iletişim adres telefon form" },
@@ -93,6 +93,10 @@
   // Sadece index.html üzerinde çalıştır (search-bar orada)
   var page = (location.pathname.split("/").pop() || "").toLowerCase();
   if (page === "index.html" || page === "" || page === "index") {
-    document.addEventListener("DOMContentLoaded", ensureUI);
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", ensureUI);
+    } else {
+      ensureUI();
+    }
   }
 })();

@@ -2,6 +2,23 @@
 (function () {
   "use strict";
 
+  // ── Aurora Background ─────────────────────────────────────────────────────
+  // Vanilla port of aurora-background.tsx: fixed animated blobs behind content
+  (function injectAurora() {
+    if (document.getElementById("aurora-root")) return;
+    const root = document.createElement("div");
+    root.id = "aurora-root";
+    root.className = "aurora-root";
+    root.setAttribute("aria-hidden", "true");
+    for (let i = 1; i <= 4; i++) {
+      const blob = document.createElement("div");
+      blob.className = `aurora-blob aurora-blob-${i}`;
+      root.appendChild(blob);
+    }
+    document.body.insertBefore(root, document.body.firstChild);
+  })();
+  // ─────────────────────────────────────────────────────────────────────────
+
   const navbar = document.querySelector(".navbar");
   const toggle = document.querySelector(".nav-toggle");
   const links = document.querySelector(".nav-links");
@@ -14,21 +31,72 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  // Mobile menu
-  if (toggle && links) {
-    toggle.addEventListener("click", () => {
-      links.classList.toggle("open");
-      navbar.classList.toggle("menu-open");
-      document.body.style.overflow = links.classList.contains("open") ? "hidden" : "";
+  // Mobile menu & dropdown logic
+  let backdrop = document.querySelector(".nav-backdrop");
+  if (!backdrop) {
+    backdrop = document.createElement("div");
+    backdrop.className = "nav-backdrop";
+    document.body.appendChild(backdrop);
+  }
+
+  function closeMenu() {
+    if (links) links.classList.remove("open");
+    if (navbar) navbar.classList.remove("menu-open");
+    if (backdrop) backdrop.classList.remove("active");
+    document.body.style.overflow = "";
+    document.querySelectorAll(".nav-dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
+  }
+
+  function toggleMenu() {
+    if (!links || !navbar) return;
+    const willOpen = !links.classList.contains("open");
+    links.classList.toggle("open", willOpen);
+    navbar.classList.toggle("menu-open", willOpen);
+    if (backdrop) backdrop.classList.toggle("active", willOpen);
+    document.body.style.overflow = willOpen ? "hidden" : "";
+  }
+
+  if (toggle) {
+    toggle.addEventListener("click", toggleMenu);
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener("click", closeMenu);
+  }
+
+  // Handle dropdown buttons
+  document.querySelectorAll(".nav-dropdown-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const parent = btn.closest(".nav-dropdown");
+      const wasOpen = parent.classList.contains("is-open");
+      document.querySelectorAll(".nav-dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
+      if (!wasOpen) {
+        parent.classList.add("is-open");
+      }
     });
+  });
+
+  // Close dropdowns on outside click
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".nav-dropdown")) {
+      document.querySelectorAll(".nav-dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
+    }
+  });
+
+  // Close menu when clicking regular links
+  if (links) {
     links.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => {
-        links.classList.remove("open");
-        navbar.classList.remove("menu-open");
-        document.body.style.overflow = "";
+        closeMenu();
       });
     });
   }
+
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
 
   // Reveal on scroll
   const reveals = document.querySelectorAll(".reveal");
@@ -122,6 +190,11 @@
   const pageFile = (location.pathname.split("/").pop() || "").toLowerCase();
   if (pageFile === "cenaze-ilanlari.html") {
     initTextToSpeech();
+  }
+
+  // ---------- Nöbetçi Eczane: günün eczanesini en üstte göster ve tabloda vurgula ----------
+  if (pageFile === "nobetci-eczaneler.html" || document.getElementById("pharma-table")) {
+    initNobetciEczane();
   }
 
   function initThemeToggle() {
@@ -411,5 +484,111 @@
     document.querySelectorAll(".vefat-card").forEach((el) => {
       if (getSpeakableText(el).length >= 20) attachToolbar(el);
     });
+  }
+
+  function initNobetciEczane() {
+    const table = document.getElementById("pharma-table") || document.querySelector(".pharma-table");
+    const card = document.getElementById("today-pharmacy-card");
+    if (!table) return;
+
+    // Türkiye saatiyle bugünün tarihini al
+    const now = new Date();
+    let day = "", month = "", year = "";
+    let formattedLongDate = "";
+
+    try {
+      const partsFormatter = new Intl.DateTimeFormat("tr-TR", {
+        timeZone: "Europe/Istanbul",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+      const parts = partsFormatter.formatToParts(now);
+      day = parts.find((p) => p.type === "day")?.value || "";
+      month = parts.find((p) => p.type === "month")?.value || "";
+      year = parts.find((p) => p.type === "year")?.value || "";
+
+      const longFormatter = new Intl.DateTimeFormat("tr-TR", {
+        timeZone: "Europe/Istanbul",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        weekday: "long"
+      });
+      formattedLongDate = longFormatter.format(now);
+    } catch (e) {
+      // Fallback
+      const d = String(now.getDate()).padStart(2, "0");
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      const y = now.getFullYear();
+      day = d;
+      month = m;
+      year = String(y);
+      formattedLongDate = `${d}.${m}.${y}`;
+    }
+
+    const todayStr = `${day}.${month}.${year}`;
+    const rows = table.querySelectorAll("tbody tr");
+    let matchedRow = null;
+
+    rows.forEach((tr) => {
+      const dateCell = tr.querySelector(".date");
+      if (!dateCell) return;
+      const cellText = dateCell.textContent.trim();
+      if (cellText === todayStr) {
+        matchedRow = tr;
+      }
+    });
+
+    // Eğer bugünün tarihi tabloda bulunduysa
+    if (matchedRow) {
+      rows.forEach((r) => r.classList.remove("today"));
+      matchedRow.classList.add("today");
+
+      const name = matchedRow.querySelector(".name")?.textContent?.trim() || "";
+      const addr = matchedRow.querySelector('[data-label="Adres"]')?.textContent?.trim() || "";
+      const mapLink = matchedRow.querySelector('[data-label="Harita"] a')?.getAttribute("href") || "#";
+
+      if (card) {
+        const nameEl = document.getElementById("today-pharmacy-name");
+        const addrEl = document.getElementById("today-pharmacy-addr");
+        const mapEl = document.getElementById("today-pharmacy-map");
+        const dateEl = document.getElementById("today-date-display");
+
+        if (nameEl && name) nameEl.textContent = name;
+        if (addrEl && addr) {
+          addrEl.innerHTML = `<span aria-hidden="true">📍</span> ${addr}`;
+        }
+        if (mapEl && mapLink && mapLink !== "#") {
+          mapEl.setAttribute("href", mapLink);
+        }
+        if (dateEl && formattedLongDate) {
+          dateEl.textContent = formattedLongDate;
+        }
+      }
+    } else {
+      // Tabloda mevcut bir .today satırı varsa kartı onunla senkronize et
+      const existingToday = table.querySelector("tr.today");
+      if (existingToday && card) {
+        const name = existingToday.querySelector(".name")?.textContent?.trim() || "";
+        const addr = existingToday.querySelector('[data-label="Adres"]')?.textContent?.trim() || "";
+        const mapLink = existingToday.querySelector('[data-label="Harita"] a')?.getAttribute("href") || "#";
+        const nameEl = document.getElementById("today-pharmacy-name");
+        const addrEl = document.getElementById("today-pharmacy-addr");
+        const mapEl = document.getElementById("today-pharmacy-map");
+        const dateEl = document.getElementById("today-date-display");
+
+        if (nameEl && name) nameEl.textContent = name;
+        if (addrEl && addr) {
+          addrEl.innerHTML = `<span aria-hidden="true">📍</span> ${addr}`;
+        }
+        if (mapEl && mapLink && mapLink !== "#") {
+          mapEl.setAttribute("href", mapLink);
+        }
+        if (dateEl && formattedLongDate) {
+          dateEl.textContent = formattedLongDate;
+        }
+      }
+    }
   }
 })();

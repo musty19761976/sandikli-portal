@@ -7,87 +7,10 @@
   <title>Vefat İlanları | Sandıklı Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#0f172a" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-    .sync-stamp {
-      font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem;
-      padding: 1rem 1.15rem; background: var(--white); border: 1px dashed var(--line);
-      border-radius: var(--radius); line-height: 1.65;
-    }
-    .respect-note {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--ink);
-      padding: 1.1rem 1.25rem;
-      margin-bottom: 1.75rem;
-      font-size: 0.95rem;
-      color: var(--ink-soft);
-      line-height: 1.65;
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
-    .vefat-list { display: flex; flex-direction: column; gap: 1.15rem; }
-    .vefat-card {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 0;
-      overflow: hidden;
-    }
-    .vefat-card .head {
-      padding: 1.15rem 1.4rem 0.85rem;
-      border-bottom: 1px solid var(--line);
-      background: rgba(20,17,15,0.02);
-    }
-    .vefat-card .label {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem;
-    }
-    .vefat-card h3 {
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 1.45rem;
-      letter-spacing: -0.02em;
-      margin: 0;
-      color: var(--ink);
-    }
-    .vefat-meta {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.65rem 1.25rem;
-      padding: 1rem 1.4rem;
-      border-bottom: 1px solid var(--line);
-      font-size: 0.9rem;
-    }
-    .vefat-meta div span {
-      display: block;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.2rem;
-    }
-    .vefat-meta div strong {
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .vefat-body {
-      padding: 1.15rem 1.4rem 1.35rem;
-      font-size: 0.95rem;
-      line-height: 1.75;
-      color: var(--ink-soft);
-    }
-    .vefat-body p { margin: 0; }
-    .note {
-      margin-top: 1.75rem; font-size: 0.88rem; color: var(--muted); line-height: 1.6;
-    }
-    @media (max-width: 560px) {
-      .vefat-meta { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/style.css?v=5" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Sandıklı Portal" />
     <meta property="og:title" content="Vefat İlanları | Sandıklı Portal" />
@@ -98,22 +21,83 @@
     <link rel="canonical" href="https://musty19761976.github.io/sandikli-portal/cenaze-ilanlari.html" />
   </head>
 <body>
-  <header class="navbar scrolled">
+  <header class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı</span></a>
       <nav class="nav-links" aria-label="Ana menü">
         <a href="index.html">Ana Sayfa</a>
-        <a href="tarih.html">Tarih</a>
-        <a href="belgeler-ile-sandikli.html">Belgeler</a>
-        <a href="termal.html">Termal</a>
-        <a href="kesfet.html">Keşfet</a>
-        <a href="ekonomi.html">Ekonomi</a>
-        <a href="lezzet.html">Lezzet</a>
-        <a href="galeri.html">Galeri</a>
-        <a href="haberler.html">Haberler</a>
-        <a href="nobetci-eczaneler.html">Eczane</a>
-        <a href="cenaze-ilanlari.html" class="active">Vefat</a>
-        <a href="ulasim.html">Ulaşım</a>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+            <span>Tarih & Kültür</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="tarih.html">
+              <strong>Tarihçe</strong>
+              <small>Antik çağlardan bugüne Sandıklı</small>
+            </a>
+            <a href="belgeler-ile-sandikli.html">
+              <strong>Belgeler ile Sandıklı</strong>
+              <small>1831 Osmanlı arşivleri & nüfus defteri</small>
+            </a>
+            <a href="geleneklerimiz.html">
+              <strong>Geleneklerimiz</strong>
+              <small>Ramazan, bayramlar, düğünler & adetler</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+            <span>Keşfet & Yaşam</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="termal.html">
+              <strong>Hüdai Termal</strong>
+              <small>Şifalı sular, çamur banyoları & spa</small>
+            </a>
+            <a href="kesfet.html">
+              <strong>Gezilecek Yerler</strong>
+              <small>Akdağ, Tokalı Kanyonu, yaylalar</small>
+            </a>
+            <a href="lezzet.html">
+              <strong>Lezzet & Mutfak</strong>
+              <small>Coğrafi işaretli leblebi, kebap & ekmek</small>
+            </a>
+            <a href="ekonomi.html">
+              <strong>Ekonomi & Tarım</strong>
+              <small>Jeotermal seracılık, patates & sanayi</small>
+            </a>
+            <a href="galeri.html">
+              <strong>Foto Galeri</strong>
+              <small>Sandıklı'dan yüksek çözünürlüklü kareler</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn active" type="button" aria-expanded="false">
+            <span>Hizmetler</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="nobetci-eczaneler.html">
+              <strong>Nöbetçi Eczaneler</strong>
+              <small>Günlük güncellenen nöbetçi listesi</small>
+            </a>
+            <a href="cenaze-ilanlari.html" class="active">
+              <strong>Vefat İlanları</strong>
+              <small>Sandıklı Belediyesi resmi duyuruları</small>
+            </a>
+            <a href="ulasim.html">
+              <strong>Ulaşım & Konaklama</strong>
+              <small>Nasıl gidilir, otobüs, tren, oteller</small>
+            </a>
+          </div>
+        </div>
+
         <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
       </nav>
       <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
@@ -123,35 +107,58 @@
   <section class="page-hero">
     <div class="page-hero-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')"></div>
     <div class="container">
-      <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <span>Vefat İlanları</span></nav>
-      <h1 class="display h1">Vefat duyuruları</h1>
-      <p class="lead">Sandıklı Belediyesi resmi listesinden tam metin duyurular. Güncel arşiv için belediye sayfasını ziyaret edin.</p>
+      <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <span>Hizmetler</span> · <span>Vefat İlanları</span></nav>
+      <h1 class="display h1">Vefat İlanları</h1>
+      <p class="lead">Sandıklı Belediyesi resmi vefat ve taziye kayıtları. Vefat eden hemşehrilerimize Allah’tan rahmet, kederli ailelerine ve yakınlarına sabır ve başsağlığı dileriz.</p>
     </div>
   </section>
 
   <section class="section">
-    <div class="container" style="max-width:820px">
-      <div class="sync-stamp">
-        <strong>Kaynak:</strong>
-        <a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">sandikli.bel.tr/cenaze-ilanlari</a>
-        (sayfa 1 · 10 duyuru)
-        · <strong>Portal senkron:</strong> 2026-10-25
-        · Skill: <code>/sandikliportal</code>
+    <div class="container">
+      <div class="respect-card reveal">
+        <h4>🕊️ Başsağlığı & Taziye Mesajı</h4>
+        <p>
+          Aramızdan ayrılan muhterem hemşehrilerimize Cenab-ı Allah’tan rahmet; kederli ailelerine, akraba ve sevenlerine sabır ve başsağlığı dileriz. 
+          Aşağıdaki kayıtlar Sandıklı Belediyesi resmi duyuru sisteminden tam metin olarak derlenmektedir.
+          Detaylı arşiv veya resmi teyit için <a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">belediye sayfasını</a> ziyaret edebilirsiniz.
+        </p>
       </div>
 
-      <div class="respect-note">
-        Allah rahmet eylesin; yakınlarına sabır ve başsağlığı dileriz.
-        Aşağıdaki metinler belediyenin kamuya açık resmi vefat duyurularının tamamıdır.
-        Değişiklik olabilir — lütfen
-        <a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">resmi listeyi</a> de kontrol edin.
-      </div>
+        <div class="vefat-toolbar reveal">
+          <div class="vefat-search-wrap">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="vefat-filter-input" placeholder="İsim, köy, mahalle veya cami ile ara..." aria-label="Vefat ilanlarında ara" />
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
+            <span class="vefat-badge" id="vefat-count-badge">10 Güncel İlan</span>
+            <span style="font-size:0.8125rem;color:var(--mute);font-weight:600">Portal Senkron: 2026-10-25</span>
+          </div>
+        </div>
 
-      <div class="vefat-list">
+        <div id="vefat-empty" class="vefat-empty-msg">Aramanıza uygun vefat duyurusu bulunamadı.</div>
+
+        <div class="vefat-list">
       <!-- SYNC:CENAZE:START -->
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Abdullah Kişpinar</h3>
+            <h3>SAİT AKÇAY</h3>
+          </div>
+          <div class="vefat-meta">
+            <div><span>Tarih</span><strong>25.10.2026</strong></div>
+            <div><span>Yaş</span><strong>79</strong></div>
+            <div><span>Defin tarihi</span><strong>25.10.2026</strong></div>
+            <div><span>Defin saati</span><strong>İkindi Namazından Sonra</strong></div>
+          </div>
+          <div class="vefat-body">
+            <p>İlçemiz Alamescit Köyünden Ahmet ve Kerime Akçay&#x27;ın oğlu, Emine Akçay&#x27;ın eşi, Yeter, Sebahat, Saadet ve Ahmet Akçay&#x27;ın babası SAİT AKÇAY vefat etmiştir.Cenazesi bugün ikindi namazına müteakip Alamescit Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir. Merhuma Allah&#x27;tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
+          </div>
+        </article>
+
+        <article class="vefat-card">
+          <div class="head">
+            <p class="label">Vefat eden</p>
+            <h3>ABDULLAH KIŞPINAR</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>24.10.2026</strong></div>
@@ -167,7 +174,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Ufuk Öncül</h3>
+            <h3>UFUK ÖNCÜL</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>23.10.2026</strong></div>
@@ -183,7 +190,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Sadetti̇n Yildirim</h3>
+            <h3>SADETTİN YILDIRIM</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>23.10.2026</strong></div>
@@ -199,7 +206,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Sati Akbulut</h3>
+            <h3>SATI AKBULUT</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>21.10.2006</strong></div>
@@ -215,7 +222,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Safi̇ye Ci̇la</h3>
+            <h3>SAFİYE CİLA</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>20.10.2026</strong></div>
@@ -231,7 +238,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Sami̇ye Karakaş</h3>
+            <h3>SAMİYE KARAKAŞ</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>20.10.2026</strong></div>
@@ -247,7 +254,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Hali̇l Güneş</h3>
+            <h3>HALİL GÜNEŞ</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>19.10.2026</strong></div>
@@ -263,7 +270,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Ahmet Yavuz</h3>
+            <h3>AHMET YAVUZ</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>18.10.2026</strong></div>
@@ -279,7 +286,7 @@
         <article class="vefat-card">
           <div class="head">
             <p class="label">Vefat eden</p>
-            <h3>Emi̇ne Teti̇k</h3>
+            <h3>EMİNE TETİK</h3>
           </div>
           <div class="vefat-meta">
             <div><span>Tarih</span><strong>17.10.2026</strong></div>
@@ -291,36 +298,22 @@
             <p>İlçemiz Koçhisar Köyünden Almanya&#x27;da ikamet eden Belediyemizden Emekli Mehmet Tetik&#x27;in eşi, Hesna ve İsa Tetik&#x27;in annesi EMİNE TETİK vefat etmiştir.Cenazesi bugün ikindi namazına müteakip Koçhisar Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir.Merhumeye Allah&#x27;tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
           </div>
         </article>
-
-        <article class="vefat-card">
-          <div class="head">
-            <p class="label">Vefat eden</p>
-            <h3>Haci Yusuf Çi̇ği̇ltepe</h3>
-          </div>
-          <div class="vefat-meta">
-            <div><span>Tarih</span><strong>17.10.2026</strong></div>
-            <div><span>Yaş</span><strong>70</strong></div>
-            <div><span>Defin tarihi</span><strong>17.10.2026</strong></div>
-            <div><span>Defin saati</span><strong>Öğle Namazından Sonra</strong></div>
-          </div>
-          <div class="vefat-body">
-            <p>İlçemiz Dutağaç Köyünden Herdemlerin Mehmet Çiğiltepe&#x27;nin oğlu, Mehmet Ali Çiğiltepe&#x27;nin babası HACI YUSUF ÇİĞİLTEPE vefat etmiştir. Cenazesi bugün öğle namazına müteakip Dutağaç Köyünde namazı kılınarak köy mezarlığında toprağa verilecektir.Merhuma Allah&#x27;tan rahmet dost ve yakınlarına başsağlığı dileriz.</p>
-          </div>
-        </article>
       <!-- SYNC:CENAZE:END -->
+        </div>
 
-      <p class="note">
-        Bu sayfada belediye listesinin ilk sayfasındaki duyuruların tam metni yayınlanır.
-        Daha eski ilanlar ve güncel güncellemeler için:
-        <a href="https://sandikli.bel.tr/cenaze-ilanlari" target="_blank" rel="noopener">Sandıklı Belediyesi — Vefat Duyuruları</a>
-        ·
-        <a href="https://keos.sandikli.bel.tr/keos/?p=MEBIS&MID=67" target="_blank" rel="noopener">E-Mezarlık</a>
-      </p>
-
-      <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.75rem">
-        <a href="https://sandikli.bel.tr/cenaze-ilanlari" class="btn btn-primary" target="_blank" rel="noopener">Resmi liste (tüm sayfalar)</a>
-        <a href="nobetci-eczaneler.html" class="btn btn-outline-dark">Nöbetçi eczaneler</a>
-        <a href="index.html" class="btn btn-outline-dark">Ana sayfa</a>
+        <div class="vefat-footer-banner reveal">
+          <div>
+            <h3>Resmi Kaynaklar & E-Mezarlık Hizmeti</h3>
+            <p>
+              Bu sayfada Sandıklı Belediyesi tarafından kamuoyu ile paylaşılan güncel vefat duyurularının tam metni aktarılmaktadır. Geçmiş dönem arşiv kayıtları ve mezar yeri ada/parsel sorgulamaları için resmi belediye sistemlerini kullanabilirsiniz.
+            </p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.85rem">
+            <a href="https://sandikli.bel.tr/cenaze-ilanlari" class="btn btn-primary" target="_blank" rel="noopener">Belediye Resmi Sayfası (Tüm Sayfalar)</a>
+            <a href="https://keos.sandikli.bel.tr/keos/?p=MEBIS&MID=67" class="btn btn-secondary" target="_blank" rel="noopener">E-Mezarlık (KEOS)</a>
+            <a href="nobetci-eczaneler.html" class="btn btn-outline-dark">Nöbetçi Eczaneler</a>
+            <a href="ulasim.html" class="btn btn-outline-dark">Ulaşım & Mezarlık Yolu</a>
+        </div>
       </div>
     </div>
   </section>
@@ -350,7 +343,8 @@
           <h4>Keşfet</h4>
           <ul class="footer-links">
             <li><a href="index.html">Ana sayfa</a></li>
-            <li><a href="haberler.html">Haberler</a></li>
+            <li><a href="geleneklerimiz.html">Geleneklerimiz</a></li>
+            <li><a href="ulasim.html">Ulaşım</a></li>
           </ul>
         </div>
       </div>
@@ -361,5 +355,35 @@
     </div>
   </footer>
   <script src="assets/js/main.js"></script>
+  <script>
+    (function () {
+      const input = document.getElementById("vefat-filter-input");
+      const cards = document.querySelectorAll(".vefat-card");
+      const empty = document.getElementById("vefat-empty");
+      const countBadge = document.getElementById("vefat-count-badge");
+      if (!input || !cards.length) return;
+
+      input.addEventListener("input", function () {
+        const query = this.value.toLocaleLowerCase("tr-TR").trim();
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const text = card.textContent.toLocaleLowerCase("tr-TR");
+          const matches = !query || text.includes(query);
+          card.style.display = matches ? "" : "none";
+          if (matches) visibleCount++;
+        });
+
+        if (empty) {
+          empty.style.display = visibleCount === 0 ? "block" : "none";
+        }
+        if (countBadge) {
+          countBadge.textContent = query
+            ? `${visibleCount} Sonuç Bulundu`
+            : `${cards.length} Güncel İlan`;
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

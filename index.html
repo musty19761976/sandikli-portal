@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#0f172a" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=4" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Sandıklı Portal" />
     <meta property="og:title" content="Sandıklı | Afyonkarahisar'ın Büyük ve Gelişmiş İlçesi" />
@@ -29,17 +29,78 @@
       </a>
       <nav class="nav-links" aria-label="Ana menü">
         <a href="index.html" class="active">Ana Sayfa</a>
-        <a href="tarih.html">Tarih</a>
-        <a href="belgeler-ile-sandikli.html">Belgeler</a>
-        <a href="termal.html">Termal</a>
-        <a href="kesfet.html">Keşfet</a>
-        <a href="ekonomi.html">Ekonomi</a>
-        <a href="lezzet.html">Lezzet</a>
-        <a href="galeri.html">Galeri</a>
-        <a href="haberler.html">Haberler</a>
-        <a href="nobetci-eczaneler.html">Eczane</a>
-        <a href="cenaze-ilanlari.html">Vefat</a>
-        <a href="ulasim.html">Ulaşım</a>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+            <span>Tarih & Kültür</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="tarih.html">
+              <strong>Tarihçe</strong>
+              <small>Antik çağlardan bugüne Sandıklı</small>
+            </a>
+            <a href="belgeler-ile-sandikli.html">
+              <strong>Belgeler ile Sandıklı</strong>
+              <small>1831 Osmanlı arşivleri & nüfus defteri</small>
+            </a>
+            <a href="geleneklerimiz.html">
+              <strong>Geleneklerimiz</strong>
+              <small>Ramazan, bayramlar, düğünler & adetler</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+            <span>Keşfet & Yaşam</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="termal.html">
+              <strong>Hüdai Termal</strong>
+              <small>Şifalı sular, çamur banyoları & spa</small>
+            </a>
+            <a href="kesfet.html">
+              <strong>Gezilecek Yerler</strong>
+              <small>Akdağ, Tokalı Kanyonu, yaylalar</small>
+            </a>
+            <a href="lezzet.html">
+              <strong>Lezzet & Mutfak</strong>
+              <small>Coğrafi işaretli leblebi, kebap & ekmek</small>
+            </a>
+            <a href="ekonomi.html">
+              <strong>Ekonomi & Tarım</strong>
+              <small>Jeotermal seracılık, patates & sanayi</small>
+            </a>
+            <a href="galeri.html">
+              <strong>Foto Galeri</strong>
+              <small>Sandıklı'dan yüksek çözünürlüklü kareler</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+            <span>Hizmetler</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="nobetci-eczaneler.html">
+              <strong>Nöbetçi Eczaneler</strong>
+              <small>Günlük güncellenen nöbetçi listesi</small>
+            </a>
+            <a href="cenaze-ilanlari.html">
+              <strong>Vefat İlanları</strong>
+              <small>Sandıklı Belediyesi resmi duyuruları</small>
+            </a>
+            <a href="ulasim.html">
+              <strong>Ulaşım & Konaklama</strong>
+              <small>Nasıl gidilir, otobüs, tren, oteller</small>
+            </a>
+          </div>
+        </div>
+
         <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
       </nav>
       <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
@@ -48,7 +109,7 @@
 
   <!-- HERO: gerçek Sandıklı şehri fotoğrafı (Wikimedia) -->
   <section class="hero">
-    <div class="hero-bg has-photo" style="background-image:linear-gradient(180deg,rgba(20,17,15,.35) 0%,rgba(20,17,15,.55) 40%,rgba(20,17,15,.92) 100%),url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')" aria-hidden="true"></div>
+    <div class="hero-bg has-photo" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')" aria-hidden="true"></div>
     <div class="container hero-content">
       <p class="eyebrow">Afyonkarahisar · Ege Bölgesi · İç Batı Anadolu</p>
       <h1 class="display h1">Afyonkarahisar’ın<br />en büyük ve en gelişmiş<br />ilçelerinden: <em>Sandıklı</em></h1>
@@ -344,73 +405,6 @@
     </div>
   </section>
 
-  <section class="section section-alt">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="eyebrow">Gündem · web + sosyal</p>
-        <h2 class="display h2">Son haberler</h2>
-        <p class="lead">Belediye web + sosyal özetler · /sandikliportal · 2026-10-25</p>
-      </div>
-      <div class="card-grid reveal">
-      <!-- SYNC:TEASER:START -->
-        <article class="card">
-          <div class="card-body">
-            <span class="tag-gold">20 Ekim · Belediye</span>
-            <h3>AK Parti İlçe Başkanımız Murat Erkalan,…</h3>
-            <p>Samimi bir ortamda gerçekleşen ziyarette karşılıklı görüş alışverişinde bulunuldu.…</p>
-            <a href="haberler.html" class="card-link">Tüm haberler →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-body">
-            <span class="tag-gold">20 Ekim · Belediye</span>
-            <h3>AK Parti İlçe Başkanımız Murat Erkalan,…</h3>
-            <p>Samimi bir ortamda gerçekleşen ziyarette karşılıklı görüş alışverişinde bulunuldu.…</p>
-            <a href="haberler.html" class="card-link">Tüm haberler →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-body">
-            <span class="tag-gold">20 Ekim · Belediye</span>
-            <h3>Afyon Kocatepe Üniversitesi Sandıklı Meslek…</h3>
-            <p>Toplantıya, Sandıklı Kaymakamımız Batuhan Bingöl, Sandıklı Belediye Başkan Yardımcımız…</p>
-            <a href="haberler.html" class="card-link">Tüm haberler →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-body">
-            <span class="tag-gold">20 Ekim · Belediye</span>
-            <h3>Sandıklı Belediye Başkanımız Adnan Öztaş,…</h3>
-            <p>Gerçekleştirilen ziyaretlerde karşılıklı görüş alışverişinde bulunulurken, Belediye…</p>
-            <a href="haberler.html" class="card-link">Tüm haberler →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-body">
-            <span class="tag-gold">20 Ekim · Belediye</span>
-            <h3>/854236744_1618341459798842_3042005616896039403…</h3>
-            <p>ENERJİ KENTLERİ BİRLİĞİ EKİM AYI OLAĞAN MECLİS TOPLANTISI</p>
-            <a href="haberler.html" class="card-link">Tüm haberler →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-body">
-            <span class="tag-gold">19 Ekim · Belediye</span>
-            <h3>Belediye Başkan Vekilimiz Sevim Ulusoy,…</h3>
-            <p>Açılışın ardından iş yeri sahibi Hakan Şener’e hayırlı olsun dileklerini ileten Başkan…</p>
-            <a href="haberler.html" class="card-link">Tüm haberler →</a>
-          </div>
-        </article>
-      <!-- SYNC:TEASER:END -->
-      </div>
-    </div>
-  </section>
-
   <section class="section">
     <div class="container">
       <div class="cta-banner reveal">
@@ -444,7 +438,7 @@
             <li><a href="kesfet.html">Gezilecek Yerler</a></li>
             <li><a href="ekonomi.html">Ekonomi</a></li>
             <li><a href="galeri.html">Galeri</a></li>
-            <li><a href="haberler.html">Haberler</a></li>
+            <li><a href="geleneklerimiz.html">Geleneklerimiz</a></li>
           </ul>
         </div>
         <div>

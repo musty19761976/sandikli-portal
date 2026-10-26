@@ -44,116 +44,8 @@ def replace_between(text: str, start: str, end: str, new_inner: str) -> str:
     return text[: i + len(start)] + "\n" + new_inner.rstrip() + "\n      " + text[j:]
 
 
-def parse_belediye_list(page_html: str, base: str, limit: int = 12) -> list[dict]:
-    """Parse sandikli.bel.tr haber/duyuru listing links."""
-    # Pattern: date then title/summary in markdown-ish fetch, or raw HTML anchors
-    items: list[dict] = []
-
-    # Raw HTML: often date in text near <a href=".../haberler/...">
-    # Match blocks like: 10 Temmuz - 2026 ... <a href="URL">title paragraphs
-    # Simpler: find all haberler/ or duyurular/ article links with nearby text
-    link_re = re.compile(
-        r'href="(https://sandikli\.bel\.tr/(haberler|duyurular)/[^"]+)"',
-        re.I,
-    )
-    seen = set()
-    for m in link_re.finditer(page_html):
-        url = m.group(1).split("?")[0]
-        if url in seen or url.rstrip("/").endswith(("haberler", "duyurular")):
-            continue
-        seen.add(url)
-        # Look back for date pattern
-        start = max(0, m.start() - 800)
-        chunk = page_html[start : m.end() + 1200]
-        # Strip tags for text extract
-        text = re.sub(r"<script[\s\S]*?</script>", " ", chunk, flags=re.I)
-        text = re.sub(r"<style[\s\S]*?</style>", " ", text, flags=re.I)
-        text = re.sub(r"<[^>]+>", "\n", text)
-        text = html.unescape(text)
-        text = re.sub(r"[ \t]+", " ", text)
-        lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-
-        date_s = ""
-        title = ""
-        body = ""
-        date_pat = re.compile(
-            r"(\d{1,2}\s+(Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık)\s*[-–]?\s*\d{4})",
-            re.I,
-        )
-        for ln in lines:
-            dm = date_pat.search(ln)
-            if dm and not date_s:
-                date_s = dm.group(1).replace(" - ", " ").replace("-", " ").strip()
-        # Title: often first long line after date that's not "dakika"
-        candidates = [
-            ln
-            for ln in lines
-            if len(ln) > 40
-            and "dakika" not in ln.lower()
-            and "saniye" not in ln.lower()
-            and not date_pat.match(ln)
-        ]
-        if candidates:
-            title = candidates[0][:160]
-            if len(candidates) > 1:
-                body = candidates[1][:320]
-        if not title:
-            slug = url.rstrip("/").split("/")[-1].replace("-", " ")
-            title = slug[:120]
-        if not body:
-            body = title
-
-        kind = "duyuru" if "/duyurular/" in url else "haber"
-        items.append(
-            {
-                "date": date_s or "—",
-                "title": title,
-                "body": body,
-                "url": url,
-                "kind": kind,
-            }
-        )
-        if len(items) >= limit:
-            break
-    return items
 
 
-def short_title(text: str, n: int = 70) -> str:
-    t = re.sub(r"\s+", " ", text).strip()
-    if len(t) <= n:
-        return t
-    return t[: n - 1].rsplit(" ", 1)[0] + "…"
-
-
-def news_article_html(it: dict) -> str:
-    tag = "duyuru" if it["kind"] == "duyuru" else "haber"
-    src = "Belediye web"
-    return f"""        <article class="news-item">
-          <div class="news-meta">
-            <span>{html.escape(it["date"])}</span>
-            <span class="src">{html.escape(src)}</span>
-            <span class="tag">{tag}</span>
-          </div>
-          <h3>{html.escape(short_title(it["title"], 100))}</h3>
-          <p>
-            {html.escape(it["body"])}
-          </p>
-          <a class="more" href="{html.escape(it["url"])}" target="_blank" rel="noopener">Kaynağa git →</a>
-        </article>
-"""
-
-
-def teaser_card_html(it: dict) -> str:
-    date_short = it["date"].replace(" 2026", "").replace(" 2025", "")[:20]
-    return f"""        <article class="card">
-          <div class="card-body">
-            <span class="tag-gold">{html.escape(date_short)} · Belediye</span>
-            <h3>{html.escape(short_title(it["title"], 48))}</h3>
-            <p>{html.escape(short_title(it["body"], 90))}</p>
-            <a href="haberler.html" class="card-link">Tüm haberler →</a>
-          </div>
-        </article>
-"""
 
 
 def parse_cenaze(page_html: str) -> list[dict]:
@@ -165,7 +57,7 @@ def parse_cenaze(page_html: str) -> list[dict]:
         nm = re.search(r'heading-6">\s*([^<]+)', t)
         if not nm:
             continue
-        name = nm.group(1).strip()
+        name = upper_tr(nm.group(1))
         tarih = (re.search(r"Tarih:</span>\s*([^<\s]+)", t) or type("X", (), {"group": lambda *a: ""})()).group(1)
         yas_m = re.search(r"Yaş:</span>\s*([^<\s]+)", t)
         if not yas_m:
@@ -194,15 +86,16 @@ def parse_cenaze(page_html: str) -> list[dict]:
     return items
 
 
-def title_case_tr(s: str) -> str:
-    # Simple title case; Turkish İ/i imperfect but ok for display
-    return " ".join(w[:1].upper() + w[1:].lower() if w else "" for w in s.split())
+def upper_tr(s: str) -> str:
+    """Turkish-aware uppercase conversion ensuring accurate İ/I casing."""
+    trans = str.maketrans({"i": "İ", "ı": "I"})
+    return s.strip().translate(trans).upper()
 
 
 def cenaze_cards_html(items: list[dict]) -> str:
     blocks = []
     for it in items:
-        name = title_case_tr(it["name"])
+        name = upper_tr(it["name"])
         metin = html.escape(it["metin"])
         blocks.append(
             f"""        <article class="vefat-card">
@@ -274,94 +167,6 @@ def eczane_table_html(rows: list[tuple[str, str, str, str]], today: str) -> str:
     return "".join(trs)
 
 
-def sync_news(stamp: str) -> None:
-    """Haber + duyuru çek, haberler.html ve index teaser'ı güncelle.
-    Tek kaynak hatası tüm scripti öldürmesin; ana gövdede try/except ile çağrılır."""
-    # --- Haberler ---
-    haber_html = fetch("https://sandikli.bel.tr/haberler")
-    duyuru_html = fetch("https://sandikli.bel.tr/duyurular")
-    news = parse_belediye_list(haber_html, "haberler", 10)
-    duyurular = parse_belediye_list(duyuru_html, "duyurular", 4)
-    # merge: news first, then duyuru not duplicate urls
-    urls = {n["url"] for n in news}
-    for d in duyurular:
-        if d["url"] not in urls:
-            news.append(d)
-    news = news[:14]
-    print(f"news items: {len(news)}")
-    if not news:
-        print("haber: no items, skip")
-        return
-
-    news_inner = "\n".join(news_article_html(n) for n in news)
-    teaser_inner = "\n".join(teaser_card_html(n) for n in news[:6])
-
-    haber_path = ROOT / "haberler.html"
-    haber_txt = haber_path.read_text(encoding="utf-8")
-    # sync stamp block optional replace
-    haber_txt = re.sub(
-        r"(<strong>Son senkron:</strong>\s*)[^·<\n]+",
-        rf"\g<1>{stamp} · Skill: <code>/sandikliportal</code> + GitHub Actions ",
-        haber_txt,
-        count=1,
-    )
-    if "<!-- SYNC:NEWS:START -->" not in haber_txt:
-        # insert markers around first news-list of belediye section
-        haber_txt = haber_txt.replace(
-            '<div class="news-list">',
-            '<div class="news-list">\n      <!-- SYNC:NEWS:START -->',
-            1,
-        )
-        # close before social section or second section-label
-        if "<!-- WEB -->" in haber_txt or "Sosyal medyadan" in haber_txt:
-            haber_txt = haber_txt.replace(
-                '<h2 class="section-label">Sosyal medyadan',
-                "<!-- SYNC:NEWS:END -->\n\n      <h2 class=\"section-label\">Sosyal medyadan",
-                1,
-            )
-        else:
-            # end before CTA section
-            haber_txt = haber_txt.replace(
-                '</div>\n    </div>\n  </section>\n\n  <section class="section section-alt">',
-                "<!-- SYNC:NEWS:END -->\n      </div>\n    </div>\n  </section>\n\n  <section class=\"section section-alt\">",
-                1,
-            )
-    haber_txt = replace_between(
-        haber_txt, "<!-- SYNC:NEWS:START -->", "<!-- SYNC:NEWS:END -->", news_inner
-    )
-    haber_path.write_text(haber_txt, encoding="utf-8")
-    print("updated haberler.html")
-
-    index_path = ROOT / "index.html"
-    index_txt = index_path.read_text(encoding="utf-8")
-    index_txt = re.sub(
-        r"(/sandikliportal · )\d{4}-\d{2}-\d{2}",
-        rf"\g<1>{stamp}",
-        index_txt,
-        count=1,
-    )
-    if "<!-- SYNC:TEASER:START -->" not in index_txt:
-        index_txt = index_txt.replace(
-            '<div class="card-grid reveal">',
-            '<div class="card-grid reveal">\n      <!-- SYNC:TEASER:START -->',
-            1,
-        )
-        # first closing of card-grid after teaser - find after Son haberler section
-        idx = index_txt.find("<!-- SYNC:TEASER:START -->")
-        rest = index_txt[idx:]
-        close = rest.find("</div>\n    </div>\n  </section>")
-        if close > 0:
-            abs_close = idx + close
-            index_txt = (
-                index_txt[:abs_close]
-                + "<!-- SYNC:TEASER:END -->\n      "
-                + index_txt[abs_close:]
-            )
-    index_txt = replace_between(
-        index_txt, "<!-- SYNC:TEASER:START -->", "<!-- SYNC:TEASER:END -->", teaser_inner
-    )
-    index_path.write_text(index_txt, encoding="utf-8")
-    print("updated index.html")
 
 
 def main() -> None:
@@ -369,12 +174,6 @@ def main() -> None:
     today_str = now.strftime("%d.%m.%Y")
     stamp = now.strftime("%Y-%m-%d")
     print(f"sync start {stamp} Europe/Istanbul today={today_str}")
-
-    # --- Haberler --- (izole; tek kaynak hatası eczane/cenazeyi engellemesin)
-    try:
-        sync_news(stamp)
-    except Exception as e:
-        print(f"haber skip: {e}")
 
     # --- Eczane ---
     try:

@@ -3,82 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sandıklı nöbetçi eczaneler — Temmuz 2026 listesi. Kaynak: Sandıklı Belediyesi." />
+  <meta name="description" content="Sandıklı nöbetçi eczaneler — güncel liste ve bugün nöbetçi olan eczane. Kaynak: Sandıklı Belediyesi." />
   <title>Nöbetçi Eczaneler | Sandıklı Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#0f172a" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-    .sync-stamp {
-      font-size: 0.85rem; color: var(--muted); margin-bottom: 1.75rem;
-      padding: 1rem 1.15rem; background: var(--white); border: 1px dashed var(--line);
-      border-radius: var(--radius); line-height: 1.65;
-    }
-    .pharma-table { width: 100%; border-collapse: collapse; background: var(--white);
-      border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
-    .pharma-table th {
-      background: var(--ink); color: #fff; text-align: left; padding: 0.9rem 1rem;
-      font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
-    }
-    .pharma-table td {
-      padding: 0.85rem 1rem; border-bottom: 1px solid var(--line);
-      font-size: 0.92rem; vertical-align: top;
-    }
-    .pharma-table tr:last-child td { border-bottom: none; }
-    .pharma-table tr:hover td { background: rgba(196,92,38,0.04); }
-    .pharma-table .date { font-weight: 700; color: var(--ink); white-space: nowrap; }
-    .pharma-table .name { font-weight: 650; color: var(--copper-deep); }
-    .pharma-table a.map {
-      font-size: 0.75rem; font-weight: 700; color: var(--teal-600, var(--copper-deep));
-      letter-spacing: 0.04em; text-transform: uppercase;
-    }
-    .pharma-table tr.today td {
-      background: rgba(196, 92, 38, 0.1);
-      border-left: 3px solid var(--copper);
-    }
-    .note {
-      margin-top: 1.5rem; font-size: 0.88rem; color: var(--muted); line-height: 1.6;
-    }
-    @media (max-width: 700px) {
-      .pharma-table thead { display: none; }
-      .pharma-table tr { display: block; border-bottom: 1px solid var(--line); padding: 0.75rem 0; }
-      .pharma-table td { display: block; border: none; padding: 0.25rem 1rem; }
-      .pharma-table td::before {
-        content: attr(data-label); display: block;
-        font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
-        text-transform: uppercase; color: var(--muted); margin-bottom: 0.15rem;
-      }
-    }
-  </style>
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Sandıklı Portal" />
-    <meta property="og:title" content="Nöbetçi Eczaneler | Sandıklı Portal" />
-    <meta property="og:description" content="Sandıklı nöbetçi eczaneler — Temmuz 2026 listesi. Kaynak: Sandıklı Belediyesi." />
-    <meta property="og:url" content="https://musty19761976.github.io/sandikli-portal/nobetci-eczaneler.html" />
-    <meta property="og:locale" content="tr_TR" />
-    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1200px-Sand%C4%B1kl%C4%B1_Afyon.jpg" />
-    <link rel="canonical" href="https://musty19761976.github.io/sandikli-portal/nobetci-eczaneler.html" />
-  </head>
+  <link rel="stylesheet" href="assets/css/style.css?v=6" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sandıklı Portal" />
+  <meta property="og:title" content="Nöbetçi Eczaneler | Sandıklı Portal" />
+  <meta property="og:description" content="Sandıklı nöbetçi eczaneler — güncel liste ve bugün nöbetçi olan eczane. Kaynak: Sandıklı Belediyesi." />
+  <meta property="og:url" content="https://musty19761976.github.io/sandikli-portal/nobetci-eczaneler.html" />
+  <meta property="og:locale" content="tr_TR" />
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1200px-Sand%C4%B1kl%C4%B1_Afyon.jpg" />
+  <link rel="canonical" href="https://musty19761976.github.io/sandikli-portal/nobetci-eczaneler.html" />
+</head>
 <body>
   <header class="navbar scrolled">
     <div class="container navbar-inner">
       <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı</span></a>
       <nav class="nav-links" aria-label="Ana menü">
         <a href="index.html">Ana Sayfa</a>
-        <a href="tarih.html">Tarih</a>
-        <a href="belgeler-ile-sandikli.html">Belgeler</a>
-        <a href="termal.html">Termal</a>
-        <a href="kesfet.html">Keşfet</a>
-        <a href="ekonomi.html">Ekonomi</a>
-        <a href="lezzet.html">Lezzet</a>
-        <a href="galeri.html">Galeri</a>
-        <a href="haberler.html">Haberler</a>
-        <a href="nobetci-eczaneler.html" class="active">Eczane</a>
-        <a href="cenaze-ilanlari.html">Vefat</a>
-        <a href="ulasim.html">Ulaşım</a>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+            <span>Tarih & Kültür</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="tarih.html">
+              <strong>Tarihçe</strong>
+              <small>Antik çağlardan bugüne Sandıklı</small>
+            </a>
+            <a href="belgeler-ile-sandikli.html">
+              <strong>Belgeler ile Sandıklı</strong>
+              <small>1831 Osmanlı arşivleri & nüfus defteri</small>
+            </a>
+            <a href="geleneklerimiz.html">
+              <strong>Geleneklerimiz</strong>
+              <small>Ramazan, bayramlar, düğünler & adetler</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+            <span>Keşfet & Yaşam</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="termal.html">
+              <strong>Hüdai Termal</strong>
+              <small>Şifalı sular, çamur banyoları & spa</small>
+            </a>
+            <a href="kesfet.html">
+              <strong>Gezilecek Yerler</strong>
+              <small>Akdağ, Tokalı Kanyonu, yaylalar</small>
+            </a>
+            <a href="lezzet.html">
+              <strong>Lezzet & Mutfak</strong>
+              <small>Coğrafi işaretli leblebi, kebap & ekmek</small>
+            </a>
+            <a href="ekonomi.html">
+              <strong>Ekonomi & Tarım</strong>
+              <small>Jeotermal seracılık, patates & sanayi</small>
+            </a>
+            <a href="galeri.html">
+              <strong>Foto Galeri</strong>
+              <small>Sandıklı'dan yüksek çözünürlüklü kareler</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn active" type="button" aria-expanded="false">
+            <span>Hizmetler</span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="nobetci-eczaneler.html" class="active">
+              <strong>Nöbetçi Eczaneler</strong>
+              <small>Günlük güncellenen nöbetçi listesi</small>
+            </a>
+            <a href="cenaze-ilanlari.html">
+              <strong>Vefat İlanları</strong>
+              <small>Sandıklı Belediyesi resmi duyuruları</small>
+            </a>
+            <a href="ulasim.html">
+              <strong>Ulaşım & Konaklama</strong>
+              <small>Nasıl gidilir, otobüs, tren, oteller</small>
+            </a>
+          </div>
+        </div>
+
         <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
       </nav>
       <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
@@ -96,15 +115,44 @@
 
   <section class="section">
     <div class="container">
-      <div class="sync-stamp">
+      <!-- GÜNÜN NÖBETÇİ ECZANESİ KARTI (EN ÜSTTE) -->
+      <div class="today-pharmacy-card reveal" id="today-pharmacy-card">
+        <div class="today-badge-row">
+          <span class="badge-today">🟢 Bugün Nöbetçi Eczane</span>
+          <span class="today-date-text" id="today-date-display">26 Ekim 2026 Pazartesi</span>
+        </div>
+        <div class="today-pharmacy-main">
+          <div class="today-pharmacy-info">
+            <h2 class="today-pharmacy-name" id="today-pharmacy-name">Dost Eczanesi</h2>
+            <p class="today-pharmacy-addr" id="today-pharmacy-addr">
+              <span aria-hidden="true">📍</span>
+              Çakır Mahallesi, İstasyon Caddesi No:132/A Sandıklı / Afyonkarahisar
+            </p>
+            <div class="today-pharmacy-hours">
+              <span aria-hidden="true">⏰</span>
+              <span>Bugün sabah 08:30’dan yarın sabah 08:30’a kadar kesintisiz nöbetçidir.</span>
+            </div>
+          </div>
+          <div class="today-pharmacy-actions">
+            <a class="btn btn-primary" id="today-pharmacy-map" href="https://maps.app.goo.gl/5mEm8sNYZTdNnFdeA" target="_blank" rel="noopener">
+              📍 Haritada Yol Tarifi Al
+            </a>
+            <a class="btn btn-outline-dark" href="#pharma-table">
+              📋 Tüm Ayın Listesi
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sync-stamp reveal">
         <strong>Kaynak:</strong>
         <a href="https://sandikli.bel.tr/nobetci-eczaneler" target="_blank" rel="noopener">sandikli.bel.tr/nobetci-eczaneler</a>
-        · <strong>Dönem:</strong> Temmuz 2026
-        · <strong>Portal senkron:</strong> 2026-10-25
+        · <strong>Dönem:</strong> Ekim 2026
+        · <strong>Portal senkron:</strong> 2026-10-26
         · Skill: <code>/sandikliportal</code>
       </div>
 
-      <table class="pharma-table">
+      <table class="pharma-table" id="pharma-table">
         <thead>
           <tr>
             <th>Tarih</th>
@@ -259,13 +307,13 @@
             <td data-label="Adres">Çakır Mahallesi, İstasyon Caddesi, No:134/A Sandıklı / Afyonkarahisar</td>
             <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/VYodBvJV9GsyMXKFA" target="_blank" rel="noopener">Aç</a></td>
           </tr>
-          <tr class="today">
+          <tr>
             <td class="date" data-label="Tarih">25.10.2026</td>
             <td class="name" data-label="Eczane">Sevgi Eczanesi</td>
             <td data-label="Adres">Ece Mahallesi, İstasyon Caddesi, No:93/A Sandıklı / Afyonkarahisar</td>
             <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/cnzktT8JqJPve2ck6" target="_blank" rel="noopener">Aç</a></td>
           </tr>
-          <tr>
+          <tr class="today">
             <td class="date" data-label="Tarih">26.10.2026</td>
             <td class="name" data-label="Eczane">Dost Eczanesi</td>
             <td data-label="Adres">Çakır Mahallesi, İstasyon Caddesi No:132/A Sandıklı / Afyonkarahisar</td>
@@ -315,7 +363,6 @@
       <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.75rem">
         <a href="https://sandikli.bel.tr/nobetci-eczaneler" class="btn btn-primary" target="_blank" rel="noopener">Resmi liste</a>
         <a href="cenaze-ilanlari.html" class="btn btn-outline-dark">Vefat ilanları</a>
-        <a href="haberler.html" class="btn btn-outline-dark">Haberler</a>
       </div>
     </div>
   </section>
@@ -332,7 +379,6 @@
           <ul class="footer-links">
             <li><a href="nobetci-eczaneler.html">Nöbetçi eczaneler</a></li>
             <li><a href="cenaze-ilanlari.html">Vefat ilanları</a></li>
-            <li><a href="haberler.html">Haberler</a></li>
           </ul>
         </div>
         <div>
@@ -346,6 +392,7 @@
           <h4>Keşfet</h4>
           <ul class="footer-links">
             <li><a href="index.html">Ana sayfa</a></li>
+            <li><a href="geleneklerimiz.html">Geleneklerimiz</a></li>
             <li><a href="ulasim.html">Ulaşım</a></li>
           </ul>
         </div>
@@ -356,6 +403,6 @@
       </div>
     </div>
   </footer>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=6"></script>
 </body>
 </html>
