@@ -21,3 +21,6 @@ Desktop.ini
 # GitHub Actions token / sır
 .env
 .env.*
+
+# Claude / İmpeccable yerel tarama
+.impeccable/

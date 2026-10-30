@@ -2,101 +2,9 @@
 (function () {
   "use strict";
 
-  // ── Aurora Background ─────────────────────────────────────────────────────
-  // Vanilla port of aurora-background.tsx: fixed animated blobs behind content
-  (function injectAurora() {
-    if (document.getElementById("aurora-root")) return;
-    const root = document.createElement("div");
-    root.id = "aurora-root";
-    root.className = "aurora-root";
-    root.setAttribute("aria-hidden", "true");
-    for (let i = 1; i <= 4; i++) {
-      const blob = document.createElement("div");
-      blob.className = `aurora-blob aurora-blob-${i}`;
-      root.appendChild(blob);
-    }
-    document.body.insertBefore(root, document.body.firstChild);
-  })();
-  // ─────────────────────────────────────────────────────────────────────────
-
-  const navbar = document.querySelector(".navbar");
-  const toggle = document.querySelector(".nav-toggle");
-  const links = document.querySelector(".nav-links");
-
-  // Scroll navbar
-  function onScroll() {
-    if (!navbar) return;
-    navbar.classList.toggle("scrolled", window.scrollY > 40);
-  }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  // Mobile menu & dropdown logic
-  let backdrop = document.querySelector(".nav-backdrop");
-  if (!backdrop) {
-    backdrop = document.createElement("div");
-    backdrop.className = "nav-backdrop";
-    document.body.appendChild(backdrop);
-  }
-
-  function closeMenu() {
-    if (links) links.classList.remove("open");
-    if (navbar) navbar.classList.remove("menu-open");
-    if (backdrop) backdrop.classList.remove("active");
-    document.body.style.overflow = "";
-    document.querySelectorAll(".nav-dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
-  }
-
-  function toggleMenu() {
-    if (!links || !navbar) return;
-    const willOpen = !links.classList.contains("open");
-    links.classList.toggle("open", willOpen);
-    navbar.classList.toggle("menu-open", willOpen);
-    if (backdrop) backdrop.classList.toggle("active", willOpen);
-    document.body.style.overflow = willOpen ? "hidden" : "";
-  }
-
-  if (toggle) {
-    toggle.addEventListener("click", toggleMenu);
-  }
-
-  if (backdrop) {
-    backdrop.addEventListener("click", closeMenu);
-  }
-
-  // Handle dropdown buttons
-  document.querySelectorAll(".nav-dropdown-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const parent = btn.closest(".nav-dropdown");
-      const wasOpen = parent.classList.contains("is-open");
-      document.querySelectorAll(".nav-dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
-      if (!wasOpen) {
-        parent.classList.add("is-open");
-      }
-    });
-  });
-
-  // Close dropdowns on outside click
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest(".nav-dropdown")) {
-      document.querySelectorAll(".nav-dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
-    }
-  });
-
-  // Close menu when clicking regular links
-  if (links) {
-    links.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("click", () => {
-        closeMenu();
-      });
-    });
-  }
-
-  // Close on Escape key
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu();
-  });
+  // Aurora background removed — static canvas surface
+  // Navbar, navbar.js fetch sonrası yüklendiğinden interaction kodları
+  // ayrıca tanımlanır ve navbar.js tarafından tetiklenir. bkz. _initNavbarInteractions.
 
   // Reveal on scroll
   const reveals = document.querySelectorAll(".reveal");
@@ -177,9 +85,6 @@
     });
   }
 
-  // ---------- Tema (dark mode) toggle ----------
-  initThemeToggle();
-
   // ---------- PWA: service worker kaydı ----------
   initSW();
 
@@ -196,6 +101,11 @@
   if (pageFile === "nobetci-eczaneler.html" || document.getElementById("pharma-table")) {
     initNobetciEczane();
   }
+
+  initThemeToggle();
+  window._initThemeToggle = initThemeToggle;
+  // Hava durumu ikonu da navbar yüklendikten sonra çağrılmalı (aynı sıralama deseni)
+  window._initNavWeatherIcon = initNavWeatherIcon;
 
   function initThemeToggle() {
     const root = document.documentElement;
@@ -591,4 +501,123 @@
       }
     }
   }
+
+  // Navbar interaction'ları — navbar.js fetch ile navbar'ı yükledikten
+  // SONRA çağrılır (ilk yüklemede navbar yok, bu yüzden burada tanımlı).
+  function initNavbarInteractions() {
+    var navbar = document.querySelector(".navbar");
+    var toggle = document.querySelector(".nav-toggle");
+    var links = document.querySelector(".nav-links");
+    if (!navbar) return;
+
+    // Scroll navbar
+    var oldScroll = window._navbarScroll;
+    if (oldScroll) window.removeEventListener("scroll", oldScroll);
+    function onScroll() {
+      navbar.classList.toggle("scrolled", window.scrollY > 40);
+    }
+    window._navbarScroll = onScroll;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Mobil menü & dropdown
+    var backdrop = document.querySelector(".nav-backdrop");
+    if (!backdrop) {
+      backdrop = document.createElement("div");
+      backdrop.className = "nav-backdrop";
+      document.body.appendChild(backdrop);
+    }
+
+    function closeMenu() {
+      if (links) links.classList.remove("open");
+      if (navbar) navbar.classList.remove("menu-open");
+      if (backdrop) backdrop.classList.remove("active");
+      document.body.style.overflow = "";
+      closeAllDropdowns();
+    }
+
+    // Tüm açık dropdown'ları kapat ve aria-expanded senkronla
+    function closeAllDropdowns() {
+      document.querySelectorAll(".nav-dropdown.is-open").forEach(function (d) {
+        d.classList.remove("is-open");
+        var b = d.querySelector(".nav-dropdown-btn");
+        if (b) b.setAttribute("aria-expanded", "false");
+      });
+    }
+
+    function toggleMenu() {
+      if (!links || !navbar) return;
+      var willOpen = !links.classList.contains("open");
+      links.classList.toggle("open", willOpen);
+      navbar.classList.toggle("menu-open", willOpen);
+      if (backdrop) backdrop.classList.toggle("active", willOpen);
+      document.body.style.overflow = willOpen ? "hidden" : "";
+    }
+
+    if (toggle && !toggle.dataset.navInit) {
+      toggle.dataset.navInit = "1";
+      toggle.addEventListener("click", toggleMenu);
+    }
+    if (backdrop && !backdrop.dataset.navInit) {
+      backdrop.dataset.navInit = "1";
+      backdrop.addEventListener("click", closeMenu);
+    }
+
+    // Dropdown butonları
+    document.querySelectorAll(".nav-dropdown-btn").forEach(function (btn) {
+      if (btn.dataset.navInit === "1") return;
+      btn.dataset.navInit = "1";
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var parent = btn.closest(".nav-dropdown");
+        var wasOpen = parent.classList.contains("is-open");
+        closeAllDropdowns();
+        if (!wasOpen) {
+          parent.classList.add("is-open");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    // Dış tıklama ile kapat
+    if (!window._navOutsideClick) {
+      window._navOutsideClick = function (e) {
+        if (!e.target.closest(".nav-dropdown")) {
+          closeAllDropdowns();
+        }
+      };
+      document.addEventListener("click", window._navOutsideClick);
+    }
+
+    // Normal linklere tıklayınca menüyü kapat
+    if (links) {
+      document.querySelectorAll(".nav-links a[href]:not(.nav-cta)").forEach(function (a) {
+        if (a.dataset.navInit === "1") return;
+        a.dataset.navInit = "1";
+        a.addEventListener("click", closeMenu);
+      });
+    }
+
+    // Escape ile kapat
+    if (!window._navEscape) {
+      window._navEscape = function (e) {
+        if (e.key === "Escape") closeMenu();
+      };
+      document.addEventListener("keydown", window._navEscape);
+    }
+
+    // Aktif link
+    var path = (location.pathname.split("/").pop() || "index.html").replace(/^\/+/, "");
+    document.querySelectorAll(".nav-links a[href]").forEach(function (a) {
+      var href = a.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("http")) return;
+      var file = href.split("/").pop();
+      if (file === path || (path === "" && file === "index.html")) {
+        a.classList.add("active");
+      }
+    });
+
+    // Tema toggle'ı navbar.js tarafından bağlanır (_initThemeToggle)
+  }
+  window._initNavbarInteractions = initNavbarInteractions;
 })();

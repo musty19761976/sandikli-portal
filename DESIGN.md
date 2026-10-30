@@ -12,9 +12,11 @@ colors:
   ink: "#0e0f0c"
   ink-deep: "#163300"
   body: "#454745"
-  mute: "#868685"
+  mute: "#555854"
+  mute-dark: "#a6aba4"
   canvas: "#ffffff"
   canvas-soft: "#e8ebe6"
+  line: "#d8ded5"
   positive: "#2ead4b"
   positive-deep: "#054d28"
   warning: "#ffd11a"
@@ -29,28 +31,28 @@ colors:
 
 typography:
   display-mega:
-    fontFamily: Wise Sans, Inter, system-ui, -apple-system, sans-serif
+    fontFamily: Wise Sans, Plus Jakarta Sans, Inter, system-ui, -apple-system, sans-serif
     fontSize: 126px
     fontWeight: 900
     lineHeight: 107.1px
   display-xxl:
-    fontFamily: Wise Sans, Inter, system-ui, sans-serif
+    fontFamily: Wise Sans, Plus Jakarta Sans, Inter, system-ui, sans-serif
     fontSize: 96px
     fontWeight: 900
     lineHeight: 81.6px
   display-xl:
-    fontFamily: Wise Sans, Inter, system-ui, sans-serif
+    fontFamily: Wise Sans, Plus Jakarta Sans, Inter, system-ui, sans-serif
     fontSize: 64px
     fontWeight: 900
     lineHeight: 54.4px
   display-lg:
-    fontFamily: Wise Sans, Inter, system-ui, sans-serif
+    fontFamily: Wise Sans, Plus Jakarta Sans, Inter, system-ui, sans-serif
     fontSize: 47px
     fontWeight: 400
     lineHeight: 70.5px
     letterSpacing: -0.108px
   display-md:
-    fontFamily: Wise Sans, Inter, system-ui, sans-serif
+    fontFamily: Wise Sans, Plus Jakarta Sans, Inter, system-ui, sans-serif
     fontSize: 40px
     fontWeight: 900
     lineHeight: 34px
