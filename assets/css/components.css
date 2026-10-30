@@ -82,6 +82,9 @@
   background-color: var(--canvas);
   border-bottom: 1px solid var(--line);
   transition: background-color var(--transition), border-color var(--transition);
+  /* Kendi stacking context'i: sayfadaki hiçbir içerik (z-index'li bölümler
+     dahil) navbar linklerini örtemez. */
+  isolation: isolate;
 }
 .navbar.scrolled {
   background-color: rgba(255, 252, 247, 0.92);
@@ -126,6 +129,10 @@
 }
 .logo:hover .logo-mark { transform: scale(1.05); }
 .logo-text { color: var(--ink); font-weight: 700; }
+
+/* #navbar-root: dikey/yatay kaydırılan, overflow'lu bir ataya bağlanmasın diye
+   kendi konumlanmış bağlamını kurar; navbar position:fixed buradan çözülür. */
+#navbar-root { position: relative; z-index: 2000; }
 
 .nav-links {
   display: flex;
