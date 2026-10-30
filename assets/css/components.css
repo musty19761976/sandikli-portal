@@ -161,7 +161,7 @@
 .nav-dropdown:hover .chevron, .nav-dropdown.is-open .chevron { transform: rotate(180deg); opacity: 0.8; }
 
 .dropdown-menu {
-  position: absolute;
+  position: absolute !important;
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%) translateY(8px);
@@ -678,7 +678,7 @@
   .nav-links.open { transform: translateX(0); }
   .nav-links > a, .nav-dropdown-btn { width: 100%; justify-content: space-between; padding: 10px 12px; font-size: 0.875rem; border-radius: var(--radius-md); }
   .nav-dropdown { width: 100%; }
-  .dropdown-menu { position: static; transform: none !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; box-shadow: none !important; border: none !important; border-left: 2px solid var(--primary) !important; border-radius: 0 !important; margin: 4px 0 6px 12px; padding: 2px 0 2px 8px; background: transparent !important; gap: 2px; display: none; }
+  .dropdown-menu { position: static !important; transform: none !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; box-shadow: none !important; border: none !important; border-left: 2px solid var(--primary) !important; border-radius: 0 !important; margin: 4px 0 6px 12px; padding: 2px 0 2px 8px; background: transparent !important; gap: 2px; display: none; }
   .nav-dropdown.is-open .dropdown-menu { display: flex; }
   .dropdown-menu a { padding: 6px 12px !important; }
   .dropdown-menu a strong { font-size: 0.8125rem; }
