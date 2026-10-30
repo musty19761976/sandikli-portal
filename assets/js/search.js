@@ -27,7 +27,6 @@
     { t: "Atasözleri", href: "sandikli-atasozleri.html", k: "atasözü deyim halk sözü sandıklı" },
     { t: "Deyimleri", href: "sandikli-deyimleri.html", k: "deyim tabir ifade sandıklı yöre" },
     { t: "Bunları Biliyor musunuz?", href: "bunlari-biliyor-musunuz.html", k: "bilgi ünlü hemşehri ilginç gerçek sandıklı" },
-    { t: "Görsel Yönetim Paneli", href: "admin.html", k: "admin cloudinary görsel yönetim yükle panel" },
   ];
 
   function norm(s) {
