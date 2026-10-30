@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sandıklı’da kullanılan atasözleri listesi." />
+  <title>Sandıklı Atasözleri | Sandıklı Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#c9952e" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sandıklı Portal" />
+  <meta property="og:title" content="Sandıklı Atasözleri | Sandıklı Portal" />
+  <meta property="og:description" content="Sandıklı’da kullanılan atasözleri listesi." />
+  <meta property="og:url" content="https://musty19761976.github.io/sandikli-portal/sandikli-atasozleri.html" />
+  <meta property="og:locale" content="tr_TR" />
+  <link rel="canonical" href="https://musty19761976.github.io/sandikli-portal/sandikli-atasozleri.html" />
+  <style>
+  .sd-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--canvas); }
+  .sd-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .sd-table th { background: var(--canvas-soft); text-align: left; padding: 10px 14px; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); border-bottom: 1px solid var(--line); }
+  .sd-table td { padding: 9px 14px; border-bottom: 1px solid var(--line); color: var(--body); vertical-align: top; }
+  .sd-table tr:last-child td { border-bottom: none; }
+  .sd-table tr:hover td { background: var(--primary-pale); }
+  .sd-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .sd-chip { display: inline-block; padding: 6px 12px; border-radius: var(--radius-pill); background: var(--canvas-soft); border: 1px solid var(--line); color: var(--ink); font-size: 0.8125rem; }
+  .sd-def { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+  .sd-def li { padding: 0.55rem 0; border-bottom: 1px solid var(--line); font-size: 0.9375rem; color: var(--body); line-height: 1.5; }
+  .sd-def li b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 768px) { .sd-def { grid-template-columns: 1fr; } }
+  .sd-quotes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 2rem; }
+  .sd-quotes li { padding: 0.5rem 0 0.5rem 1.1rem; border-bottom: 1px solid var(--line); position: relative; color: var(--body); font-size: 0.9375rem; }
+  .sd-quotes li::before { content: "◆"; position: absolute; left: 0; top: 0.6rem; color: var(--primary); font-size: 0.6rem; }
+  @media (max-width: 768px) { .sd-quotes { grid-template-columns: 1fr; } }
+  .sd-bullets { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+  .sd-bullets li { display: flex; gap: 0.75rem; padding: 0.9rem 1.1rem; background: var(--canvas); border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--body); }
+  .sd-bullets li::before { content: "✦"; color: var(--primary); font-weight: 700; }
+  .sd-note { margin-top: 2rem; font-size: 0.8125rem; color: var(--mute); }
+</style>
+</head>
+<body>
+      <div id="navbar-root"><header class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">S</span>
+      <span class="logo-text">Sandıklı</span>
+    </a>
+    <nav class="nav-links" aria-label="Ana menü">
+      <a href="index.html">Ana Sayfa</a>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Tarih &amp; Kültür</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu">
+          <a href="tarih.html"><strong>Tarihçe</strong><small>Antik çağlardan bugüne Sandıklı</small></a>
+          <a href="belgeler-ile-sandikli.html"><strong>Belgeler ile Sandıklı</strong><small>1831 Osmanlı arşivleri &amp; nüfus defteri</small></a>
+          <a href="geleneklerimiz.html"><strong>Geleneklerimiz</strong><small>Ramazan, bayramlar, düğünler &amp; adetler</small></a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Keşfet &amp; Yaşam</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu">
+          <a href="termal.html"><strong>Hüdai Termal</strong><small>Şifalı sular, çamur banyoları &amp; spa</small></a>
+          <a href="kesfet.html"><strong>Gezilecek Yerler</strong><small>Akdağ, Tokalı Kanyonu, yaylalar</small></a>
+          <a href="lezzet.html"><strong>Lezzet &amp; Mutfak</strong><small>Coğrafi işaretli leblebi, kebap &amp; ekmek</small></a>
+          <a href="ekonomi.html"><strong>Ekonomi &amp; Tarım</strong><small>Jeotermal seracılık, patates &amp; sanayi</small></a>
+          <a href="galeri.html"><strong>Foto Galeri</strong><small>Sandıklı'dan yüksek çözünürlüklü kareler</small></a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Sandıklımız</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu dropdown-mega">
+          <a href="sandiklimiz.html"><strong>Tüm bölümler</strong><small>Sandıklımız ana sayfası</small></a>
+          <a href="sandikli-tarihcesi.html"><strong>Sandıklı Tarihçesi</strong><small>Kusura Höyük’ten Cumhuriyet’e</small></a>
+          <a href="sandikli-siyasi-yapisi.html"><strong>Sandıklı Siyasi Yapısı</strong><small>1869’dan bugüne belediye başkanları</small></a>
+          <a href="sandiklida-kullanilan-lakaplar.html"><strong>Kullanılan Lakaplar</strong><small>Sülale ve aile lakapları</small></a>
+          <a href="sandiklida-kultur-sanat.html"><strong>Kültür-Sanat</strong><small>Yunus Emre, medreseler, camiler, yatırlar</small></a>
+          <a href="sandikli-kaymakamlari.html"><strong>Sandıklı Kaymakamları</strong><small>1935’ten bugüne kaymakamlar</small></a>
+          <a href="sandikli-mahalli-sozleri.html"><strong>Mahalli Sözler</strong><small>Yöre kelimeleri ve anlamları</small></a>
+          <a href="sandikli-atasozleri.html"><strong>Atasözleri</strong><small>Sandıklı’da yaşayan atasözleri</small></a>
+          <a href="sandikli-deyimleri.html"><strong>Deyimleri</strong><small>Yörede kullanılan deyimler</small></a>
+          <a href="bunlari-biliyor-musunuz.html"><strong>Bunları Biliyor musunuz?</strong><small>Ünlü hemşehriler, az bilinen gerçekler</small></a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Hizmetler</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu">
+          <a href="nobetci-eczaneler.html"><strong>Nöbetçi Eczaneler</strong><small>Günlük güncellenen nöbetçi listesi</small></a>
+          <a href="cenaze-ilanlari.html"><strong>Vefat İlanları</strong><small>Sandıklı Belediyesi resmi duyuruları</small></a>
+          <a href="ulasim.html"><strong>Ulaşım &amp; Konaklama</strong><small>Nasıl gidilir, otobüs, tren, oteller</small></a>
+        </div>
+      </div>
+
+      <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
+  </div>
+</header></div></div>
+
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')"></div>
+    <div class="container">
+      <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <a href="sandiklimiz.html">Sandıklımız</a> · <span>Sandıklı Atasözleri</span></nav>
+      <h1 class="display h1">Sandıklı Atasözleri</h1>
+      <p class="lead">Sandıklı’da kullanılan atasözleri listesi.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="prose reveal">
+        <ul class="sd-quotes">
+          <li>Acı acıya, su sancıya iyi gelir.</li>
+          <li>Akşamın hayrından sabahın şerri iyidir.</li>
+          <li>Ateş olmayan yerden duman çıkmaz.</li>
+          <li>Bir çöplükte iki horoz ötmez.</li>
+          <li>Can çıkmayınca huy çıkmaz.</li>
+          <li>Canın cehennemde olsa bile yardım et.</li>
+          <li>Doğru söyleyeni kırk köyden kovarlar.</li>
+          <li>Eski düşman dost olmaz.</li>
+          <li>Her kuşun eti yenmez.</li>
+          <li>İntikamın sermayesi ömürdür.</li>
+          <li>İsteyenin bir yüzü, istemeyenin iki yüzü kara.</li>
+          <li>İyilik et, denize at. Halik bilmezse Malik bilsin.</li>
+          <li>Karı kısmısının lafına güvenilmez.</li>
+          <li>Maşa dururken elini yakma.</li>
+          <li>Su küçüğün, sofra büyüğündür.</li>
+          <li>Yüzüne tükürsen yağmur yağdı sanacak.</li>
+        </ul>
+      </div>
+      <p class="sd-note">Kaynak: <a href="http://www.sanvak.org/sandiklimiz/sandikli.atasozleri.html" target="_blank" rel="noopener">SANVAK — Sandıklı Vakfı</a>.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <div>
+          <p class="tag-gold">Devam edin</p>
+          <h2>Sandıklı’yı keşfedin</h2>
+          <p>Diğer bölümlerle devam edin: tarih, kültür, gelenekler ve doğa.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="tarih.html" class="btn btn-gold">Tarihçe</a>
+          <a href="sandiklimiz.html" class="btn btn-outline">Sandıklımız</a>
+          <a href="geleneklerimiz.html" class="btn btn-outline">Geleneklerimiz</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-mark">S</span><span class="logo-text">Sandıklı Portal</span></a>
+          <p>Sandıklı’yı tanıtan bağımsız tanıtım portalı. Kaynak: Valilik ve kaymakamlık kamuya açık metinleri.</p>
+        </div>
+        <div><h4>Keşfet</h4><ul class="footer-links"><li><a href="tarih.html">Tarihçe</a></li><li><a href="sandiklimiz.html">Sandıklımız</a></li><li><a href="termal.html">Hüdai Termal</a></li><li><a href="kesfet.html">Gezilecek Yerler</a></li><li><a href="geleneklerimiz.html">Geleneklerimiz</a></li></ul></div>
+        <div><h4>Pratik</h4><ul class="footer-links"><li><a href="ulasim.html">Ulaşım</a></li><li><a href="ulasim.html#konaklama">Konaklama</a></li><li><a href="ulasim.html#iletisim">İletişim</a></li></ul></div>
+        <div><h4>Resmi</h4><ul class="footer-links">
+          <li><a href="http://www.sanvak.org/" target="_blank" rel="noopener">SANVAK</a></li>
+          <li><a href="https://www.facebook.com/SaNDiKLiiLCe/" target="_blank" rel="noopener">SaNDiKLiiLCe</a></li><li><a href="https://www.sandikli.gov.tr" target="_blank" rel="noopener">Kaymakamlık</a></li><li><a href="https://www.afyonkarahisar.gov.tr/sandikli" target="_blank" rel="noopener">Valilik</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© <span data-year></span> Sandıklı Tanıtım Portalı</span><span>Afyonkarahisar · Türkiye</span></div>
+    </div>
+  </footer>
+  <script src="assets/js/navbar.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

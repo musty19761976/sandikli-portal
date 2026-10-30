@@ -226,6 +226,17 @@
 .dropdown-menu a small { font-size: 0.75rem; color: var(--muted); margin-top: 2px; font-weight: 400; line-height: 1.25; }
 .dropdown-menu a:hover { background-color: var(--canvas-soft) !important; }
 .dropdown-menu a.active strong { color: var(--primary); }
+.dropdown-menu.dropdown-mega {
+  min-width: 520px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 4px;
+}
+@media (max-width: 1024px) {
+  .dropdown-menu.dropdown-mega { display: none; min-width: 0; grid-template-columns: 1fr; }
+  .nav-dropdown.is-open .dropdown-menu.dropdown-mega { display: flex; }
+}
+
 
 .nav-cta {
   position: relative;
