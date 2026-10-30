@@ -10,8 +10,8 @@
 
   // ---- KONFİG ----
   // Cloudinary dashboard'dan al: https://cloudinary.com/console
-  var CLOUD_NAME = ""; // örn: "sandikli-portal"
-  var UPLOAD_PRESET = ""; // örn: "sandikli_unsigned"
+  var CLOUD_NAME = "njivgbxn";
+  var UPLOAD_PRESET = "sandikli_unsigned";
   var CLOUDINARY_BASE = CLOUD_NAME
     ? "https://res.cloudinary.com/" + CLOUD_NAME + "/image/upload/"
     : null;
