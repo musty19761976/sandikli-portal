@@ -244,8 +244,8 @@
         // fade-in
         requestAnimationFrame(() => el.classList.add("is-ready"));
       })
-      .catch(() => {
-        // Sessizce gizle — ikon zorunlu değil
+      .catch((e) => {
+        console.warn("SandikliPortal: hava durumu alinamadi:", e?.message ?? "unknown");
         el.hidden = true;
       });
   }

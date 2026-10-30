@@ -1,6 +1,6 @@
 /* Sandıklı Portal — sayfa içi arama
    Statik basit indeks: her sayfanın başlığı + anahtar kelimeler.
-   index.html'deki arama kutusuyla kullanılır; ana sayfa dışında gizli kalır. */
+   Tum sayfalarda calisir. */
 (function () {
   "use strict";
 
@@ -17,6 +17,16 @@
     { t: "Nöbetçi Eczaneler", href: "nobetci-eczaneler.html", k: "eczane nöbetçi ilaç ecza bugün harita" },
     { t: "Vefat İlanları", href: "cenaze-ilanlari.html", k: "vefat cenaze ilan duyuru ölüm taziye" },
     { t: "Ulaşım & İletişim", href: "ulasim.html", k: "ulaşım otobüs tren havalimanı konaklama otel yatak iletişim adres telefon form" },
+    { t: "Sandıklımız (tüm bölümler)", href: "sandiklimiz.html", k: "sandıklımız sanvak bölüm içerik" },
+    { t: "Sandıklı Tarihçesi (Sandıklımız)", href: "sandikli-tarihcesi.html", k: "kusura höyük tarihçe sandıklı efsane isim" },
+    { t: "Sandıklı Siyasi Yapısı", href: "sandikli-siyasi-yapisi.html", k: "siyasi belediye başkan seçim sandıklı" },
+    { t: "Kullanılan Lakaplar", href: "sandiklida-kullanilan-lakaplar.html", k: "lakap sülale aile soyadı sandıklı" },
+    { t: "Kültür-Sanat", href: "sandiklida-kultur-sanat.html", k: "kültür sanat yunus emre medrese cami yatır kitabe" },
+    { t: "Sandıklı Kaymakamları", href: "sandikli-kaymakamlari.html", k: "kaymakam mülki idare amir listesi sandıklı" },
+    { t: "Mahalli Sözler", href: "sandikli-mahalli-sozleri.html", k: "mahalli yöresel kelime sözlük ağız sandıklı" },
+    { t: "Atasözleri", href: "sandikli-atasozleri.html", k: "atasözü deyim halk sözü sandıklı" },
+    { t: "Deyimleri", href: "sandikli-deyimleri.html", k: "deyim tabir ifade sandıklı yöre" },
+    { t: "Bunları Biliyor musunuz?", href: "bunlari-biliyor-musunuz.html", k: "bilgi ünlü hemşehri ilginç gerçek sandıklı" },
   ];
 
   function norm(s) {
@@ -90,13 +100,10 @@
     if (list) list.hidden = true;
   }
 
-  // Sadece index.html üzerinde çalıştır (search-bar orada)
-  var page = (location.pathname.split("/").pop() || "").toLowerCase();
-  if (page === "index.html" || page === "" || page === "index") {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", ensureUI);
-    } else {
-      ensureUI();
-    }
+  // Tum sayfalarda calisir (search-bar tum sayfalara eklendi)
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", ensureUI);
+  } else {
+    ensureUI();
   }
 })();

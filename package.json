@@ -1,9 +1,5 @@
 {
   "name": "sandikli-portal",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "tsc"
-  }
+  "version": "1.0.1",
+  "private": true
 }
