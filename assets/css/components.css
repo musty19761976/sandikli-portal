@@ -75,6 +75,9 @@
 
 /* ---------- Navigation ---------- */
 .navbar {
+  /* Display yedekli: .navbar-inner varsayılan olarak her zaman görünür,
+     JS (navbar.js + _initNavbarInteractions) başarısız olsa da menüler durur. */
+  display: block;
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
@@ -184,7 +187,10 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  /* opacity/visibility/pointer-events geçişi YOK: geçiş iptal olursa kutu
+     gizli kalıyordu (is-open iken opacity 0). Anlık açılış, sadece transform
+     yumuşak. !important: başka bir kural menüyü gizlemesin. */
+  transition: transform 0.2s ease;
   z-index: 1050;
 }
 :root[data-theme="dark"] .dropdown-menu {
@@ -200,9 +206,9 @@
   height: 10px;
 }
 .nav-dropdown:hover .dropdown-menu, .nav-dropdown:focus-within .dropdown-menu, .nav-dropdown.is-open .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
   transform: translateX(-50%) translateY(0);
 }
 .dropdown-menu a {

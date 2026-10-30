@@ -1,38 +1,47 @@
-/* Sandıklı Portal — Navbar loader
-   Tek bir navbar.html dosyasını tüm sayfalara yükler.
-   Her sayfada <header class="navbar"> yerine <div id="navbar-root"></div> kullan. */
+/* Sandıklı Portal — Navbar
+   Navbar HTML'i her sayfaya scripts/inline_navbar.py ile gömülüdür
+   (<div id="navbar-root">…</div>). JS yalnızca davranışı bağlar:
+   scroll, aktif link, mobil menü, açılır kutular, tema, hava durumu.
+
+   Geriye dönük uyumluluk: gömülü navbar bulunamazsa components/navbar.html
+   fetch edilir (eski page templates). Fetch de başarısız olursa yine de
+   interaction'lar kurulur; menüler HTML'de zaten var. */
 (function () {
   "use strict";
 
-  const root = document.getElementById("navbar-root");
+  var root = document.getElementById("navbar-root");
   if (!root) return;
 
-  var basePath = "";
+  function bind() {
+    if (typeof window._initNavbarInteractions === "function") {
+      window._initNavbarInteractions();
+    }
+    // Tema toggle'ı (navbar DOM'a oturunca mevcut fonksiyona güvenir)
+    if (typeof window._initThemeToggle === "function") window._initThemeToggle();
+    // Hava durumu ikonu
+    if (typeof window._initNavWeatherIcon === "function") window._initNavWeatherIcon();
+  }
 
-  fetch(basePath + "components/navbar.html")
+  if (root.querySelector(".navbar")) {
+    // Gömülü navbar: sadece davranış bağla
+    bind();
+    return;
+  }
+
+  fetch("components/navbar.html")
     .then(function (r) {
       if (!r.ok) throw new Error("navbar fetch failed");
       return r.text();
     })
     .then(function (html) {
       root.innerHTML = html;
-
-      // Tema toggle'ı (navbar DOM'a oturunca mevcut fonksiyona güvenir)
-      if (typeof window._initThemeToggle === "function") window._initThemeToggle();
-
-      // Navbar interaction'ları (scroll, aktif link, mobil menü, dropdown)
-      if (typeof window._initNavbarInteractions === "function") {
-        window._initNavbarInteractions();
-      }
-
-      // Hava durumu ikonu (navbar-inner artık DOM'da)
-      if (typeof window._initNavWeatherIcon === "function") {
-        window._initNavWeatherIcon();
-      }
+      bind();
     })
     .catch(function () {
-      // Yedek: sayfadaki mevcut navbarı göster (inline fallback)
+      // Navbar yoksa kullanicinin bos bir header gormesindense sayfa basligi
+      // linki ile en azindan ana sayfaya donus birak.
       var fallback = document.querySelector("header.navbar");
       if (fallback) fallback.style.display = "";
+      bind();
     });
 })();
