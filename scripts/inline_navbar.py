@@ -34,6 +34,11 @@ def main() -> int:
             # Bos degil: icerigi yeni navbar ile degistir
             start = html.index('<div id="navbar-root">')
             end = html.index("</header>", start) + len("</header>")
+            # Eski gommede header'dan sonra navbar-root'un kapanisi kaliyor;
+            # onu da yut, yoksa her calistirmada fazladan bir </div> eklenir.
+            kuyruk = re.match(r"\s*</div>", html[end:])
+            if kuyruk:
+                end += kuyruk.end()
             new = html[:start] + f'<div id="navbar-root">{nav}</div>' + html[end:]
         else:
             print(f"ATLANDI (navbar-root yok): {page.name}")
