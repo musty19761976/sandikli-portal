@@ -5,51 +5,67 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #c9952e;
-  --on-primary: #1a1206;
-  --primary-active: #dfb45a;
-  --primary-neutral: #d9b24e;
-  --primary-pale: #f5edd6;
+  /* Kaplıca paleti: çam ink + kireçtaşı kâğıt + şifalı su yeşili.
+     Sıcaklık tonlardan değil kâğıttan ve serif tipografiden geliyor;
+     bakır yalnızca küçük vurgularda (canlı/aktif işaretler). */
+  --primary: #0f6b5f;
+  --on-primary: #f7fcfa;
+  --primary-active: #138675;
+  --primary-neutral: #86b3a9;
+  --primary-pale: #e1eee9;
 
-  --ink: #1a1206;
-  --ink-deep: #0d0903;
-  --body: #4a3d2e;
-  --mute: #8b7d6c;
+  --ink: #132420;
+  --ink-deep: #08120f;
+  --body: #3b4b45;
+  --mute: #5a6862;
 
-  --canvas: #fffcf7;
-  --canvas-soft: #f3ede3;
-  --paper: #f3ede3;
-  --paper-2: #e8e0d3;
-  --surface: #fffcf7;
+  /* Koyu bant yüzeyi: footer, CTA ve .section-dark her iki temada da koyu
+     kalır — aksi hâlde koyu temada açık bir bant oluşuyordu. */
+  --panel: #10201b;
+  --panel-ink: #e8f0eb;
+  --panel-mute: #a8b8b2;
+  --panel-accent: #55d6be;
+
+  --canvas: #f7f4ec;
+  --canvas-soft: #efeade;
+  --paper: #efeade;
+  --paper-2: #e4ddcc;
+  --surface: #fbf9f3;
   --surface-elevated: #ffffff;
-  --white: #fffcf7;
-  --line: #d9cfbe;
+  --white: #fbf9f3;
+  --line: #d9d2c1;
 
-  --positive: #2d7a3e;
-  --positive-deep: #1a4a26;
-  --warning: #d9a43a;
-  --warning-deep: #8a6a1e;
-  --warning-content: #4a3b1c;
-  --negative: #b84a3a;
-  --negative-deep: #8a2a1e;
-  --negative-darkest: #6a1a0e;
-  --negative-bg: #2a0e0a;
-  --accent-orange: #d98a4a;
-  --accent-cyan: #4a8a9a;
+  --positive: #2e7a47;
+  --positive-deep: #1b4a2b;
+  --warning: #b98a22;
+  --warning-deep: #7a5a12;
+  --warning-content: #40330f;
+  --negative: #a94a3d;
+  --negative-deep: #7e2c22;
+  --negative-darkest: #5e1d16;
+  --negative-bg: #2a0f0b;
+  --accent-orange: #b4633a;
+  --accent-cyan: #2e7c86;
 
-  --accent: #c9952e;
-  --accent-deep: #0d0903;
-  --accent-soft: #f5edd6;
-  --accent-glow: rgba(201, 149, 46, 0.3);
+  --accent: #0f6b5f;
+  --accent-deep: #08120f;
+  --accent-soft: #e1eee9;
+  --accent-glow: rgba(15, 107, 95, 0.28);
 
-  --gold-500: #c9952e;
-  --gold-400: #dfb45a;
-  --gold-300: #f5edd6;
+  --gold-500: #b4633a;
+  --gold-400: #c98055;
+  --gold-300: #f0e3ce;
 
-  --forest: #2d7a3e;
-  --forest-mid: #1a4a26;
-  --muted: #8b7d6c;
-  --ink-soft: #5a4d3e;
+  /* Daha önce tanımsız kullanılan tokenlar (sessizce yok sayılıyordu). */
+  --copper: #9e5330;
+  --copper-deep: #8b4526;
+  --teal-600: #0f7365;
+  --teal-700: #0f6b5f;
+
+  --forest: #2e7a47;
+  --forest-mid: #1b4a2b;
+  --muted: #5a6862;
+  --ink-soft: #4b5b54;
 
   --radius-none: 0px;
   --radius-sm: 6px;
@@ -69,9 +85,9 @@
   --spacing-2xl: 32px;
   --spacing-3xl: 48px;
 
-  --shadow-sm: 0 1px 2px rgba(26, 18, 6, 0.06);
-  --shadow-md: 0 4px 12px rgba(26, 18, 6, 0.07);
-  --shadow-lg: 0 8px 24px rgba(26, 18, 6, 0.08);
+  --shadow-sm: 0 1px 2px rgba(9, 23, 19, 0.06);
+  --shadow-md: 0 4px 12px rgba(9, 23, 19, 0.08);
+  --shadow-lg: 0 8px 24px rgba(9, 23, 19, 0.1);
 
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Manrope", system-ui, -apple-system, sans-serif;
@@ -80,35 +96,47 @@
 }
 
 :root[data-theme="dark"] {
-  --canvas: #1a1610;
-  --canvas-soft: #0d0903;
-  --paper: #0d0903;
-  --paper-2: #1a1610;
-  --surface: #1a1610;
-  --surface-elevated: #2a241c;
-  --white: #1a1610;
-  --line: #2a241c;
+  --panel: #08110e;
+  --panel-ink: #e5eee9;
+  --panel-mute: #93a19a;
+  --panel-accent: #6fd9c6;
 
-  --ink: #efe6d8;
-  --ink-deep: #f5edd6;
-  --body: #b8aa99;
-  --mute: #8b7d6c;
-  --muted: #8b7d6c;
-  --ink-soft: #b8aa99;
+  --canvas: #0b1512;
+  --canvas-soft: #050c0a;
+  --paper: #050c0a;
+  --paper-2: #0f1d19;
+  --surface: #0f1b17;
+  --surface-elevated: #17251f;
+  --white: #0f1b17;
+  --line: #22312b;
 
-  --primary: #c9952e;
-  --on-primary: #1a1206;
-  --primary-active: #dfb45a;
-  --primary-pale: rgba(201, 149, 46, 0.15);
+  --ink: #e5eee9;
+  --ink-deep: #f2f8f5;
+  --body: #a9b9b3;
+  --mute: #7e8c86;
+  --muted: #7e8c86;
+  --ink-soft: #a9b9b3;
 
-  --accent: #c9952e;
-  --accent-deep: #dfb45a;
-  --gold-500: #c9952e;
-  --gold-400: #dfb45a;
+  --primary: #3cc7ae;
+  --on-primary: #04120e;
+  --primary-active: #64d8c3;
+  --primary-neutral: rgba(60, 199, 174, 0.4);
+  --primary-pale: rgba(60, 199, 174, 0.14);
+
+  --accent: #3cc7ae;
+  --accent-deep: #64d8c3;
+  --gold-500: #d08c5c;
+  --gold-400: #e0a87c;
+  --gold-300: #f0e3ce;
+
+  --copper: #d08c5c;
+  --copper-deep: #e0a87c;
+  --teal-600: #64d8c3;
+  --teal-700: #6fd9c6;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
   color-scheme: dark;
 }
 
