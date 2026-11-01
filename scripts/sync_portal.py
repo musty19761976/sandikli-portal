@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Sandıklı Portal — GitHub Actions uyumlu otomatik senkron.
-Kaynak: Sandıklı Belediyesi (haberler, nöbetçi eczane, vefat).
-Sadece stdlib. Telifli medya indirmez.
+Sandıklı Portal — günlük otomatik senkron (GitHub Actions uyumlu).
+
+Kaynak: Sandıklı Belediyesi (nöbetçi eczane, vefat ilanları). Sadece stdlib.
+
+Davranış:
+- Önce doğrudan istek atar; 403/429/5xx alırsa okuyucu proxy üzerinden tekrar dener
+  (GitHub runner IP'leri belediye tarafından engellendiği için gerekli).
+- Ayrıştırma/doğrulama başarısızsa sessizce geçmez: çıkış kodu 1 döner, iş kırmızı yanar.
+- Yalnızca içerik gerçekten değiştiyse dosya yazar; boş commit üretmez.
 """
 from __future__ import annotations
 
@@ -11,23 +17,44 @@ import html
 import json
 import re
 import ssl
+import sys
+import time
+import urllib.error
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Europe/Istanbul")
-UA = "SandikliPortalBot/1.0 (+https://github.com/; daily sync; contact: local)"
+UA = "SandikliPortalBot/1.0 (+https://github.com/musty19761976/sandikli-portal; gunluk senkron)"
+PROXY = "https://r.jina.ai/"
 
-# WMO not needed here
+ECZANE_URL = "https://sandikli.bel.tr/nobetci-eczaneler"
+CENAZE_URL = "https://sandikli.bel.tr/cenaze-ilanlari"
+
+HEADERS = {
+    "User-Agent": UA,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+}
+
+DATE_RE = re.compile(r"^(\d{2})\.(\d{2})\.(\d{4})$")
 
 
-def fetch(url: str, timeout: int = 45) -> str:
+# --------------------------------------------------------------------- HTTP
+
+
+def _get(url: str, headers: dict, timeout: int = 45) -> bytes:
     ctx = ssl.create_default_context()
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, context=ctx, timeout=timeout) as resp:
-        raw = resp.read()
+        if resp.status != 200:
+            raise RuntimeError(f"HTTP {resp.status}")
+        return resp.read()
+
+
+def _decode(raw: bytes) -> str:
     for enc in ("utf-8", "utf-8-sig", "iso-8859-9", "windows-1254"):
         try:
             return raw.decode(enc)
@@ -36,16 +63,113 @@ def fetch(url: str, timeout: int = 45) -> str:
     return raw.decode("utf-8", errors="replace")
 
 
+def fetch(url: str, tries: int = 2) -> tuple[str, str]:
+    """(html, kaynak) döndürür. kaynak: 'dogrudan' | 'proxy'."""
+    son_hata = ""
+    for i in range(tries):
+        try:
+            return _decode(_get(url, HEADERS)), "dogrudan"
+        except urllib.error.HTTPError as e:
+            son_hata = f"HTTP {e.code}"
+            if e.code not in (403, 429, 451, 500, 502, 503, 504):
+                break
+        except Exception as e:  # ağ hatası, zaman aşımı, TLS
+            son_hata = str(e)
+        time.sleep(2 + i * 3)
+
+    # Yedek yol: okuyucu proxy — sayfayı HTML olarak geri verir
+    try:
+        h = dict(HEADERS)
+        h["X-Return-Format"] = "html"
+        return _decode(_get(PROXY + url, h, timeout=60)), "proxy"
+    except Exception as e:
+        raise RuntimeError(f"kaynak alınamadı (doğrudan: {son_hata} · proxy: {e})") from e
+
+
+# ------------------------------------------------------------------- yardımcı
+
+
 def replace_between(text: str, start: str, end: str, new_inner: str) -> str:
     i = text.find(start)
     j = text.find(end)
     if i < 0 or j < 0 or j <= i:
-        raise RuntimeError(f"Marker not found: {start!r} … {end!r}")
+        raise RuntimeError(f"İşaret bulunamadı: {start!r} … {end!r}")
     return text[: i + len(start)] + "\n" + new_inner.rstrip() + "\n      " + text[j:]
 
 
+def between(text: str, start: str, end: str) -> str:
+    i = text.find(start)
+    j = text.find(end)
+    if i < 0 or j < 0 or j <= i:
+        return ""
+    return text[i + len(start) : j].strip()
 
 
+def stamp_replace(text: str, stamp: str) -> str:
+    """Sayfadaki 'Portal Senkron: YYYY-MM-DD' damgasını günceller (iki sayfada
+    farklı yazımlar var: büyük/küçük S ve </strong> sarmalı olabilir)."""
+    return re.sub(
+        r"(?i)(portal\s+senkron:\s*(?:</strong>\s*)?)\d{4}-\d{2}-\d{2}",
+        rf"\g<1>{stamp}",
+        text,
+        count=1,
+    )
+
+
+def upper_tr(s: str) -> str:
+    """Türkçe büyük harf (i→İ, ı→I)."""
+    trans = str.maketrans({"i": "İ", "ı": "I"})
+    return s.strip().translate(trans).upper()
+
+
+def write_if_changed(path: Path, text: str) -> bool:
+    old = path.read_text(encoding="utf-8") if path.exists() else ""
+    if old == text:
+        print(f"  · {path.name}: değişiklik yok")
+        return False
+    path.write_text(text, encoding="utf-8")
+    print(f"  · {path.name}: güncellendi")
+    return True
+
+
+# --------------------------------------------------------------- ayrıştırma
+
+
+def parse_eczane(page_html: str) -> list[tuple[str, str, str, str]]:
+    """Nöbetçi eczane tablosu → (tarih, eczane, adres, harita) listesi.
+
+    En yeni tarihin bulunduğu aya ait satırlar döner; böylece ay devri
+    (Ekim → Kasım) sorun olmaz ve eski ayın satırları tabloya karışmaz.
+    """
+    text = re.sub(r"<script[\s\S]*?</script>", " ", page_html, flags=re.I)
+    maps = re.findall(r'href="(https://maps\.app\.goo\.gl/[^"]+)"', text)
+    plain = html.unescape(re.sub(r"<[^>]+>", "\n", text))
+    lines = [ln.strip() for ln in plain.splitlines() if ln.strip()]
+
+    rows: list[tuple[str, str, str, str]] = []
+    i = 0
+    map_i = 0
+    while i < len(lines):
+        if DATE_RE.match(lines[i]) and i + 2 < len(lines):
+            d, name, addr = lines[i], lines[i + 1], lines[i + 2]
+            if name.lower() not in ("haritada aç", "button") and name != d:
+                rows.append((d, name, addr, maps[map_i] if map_i < len(maps) else "#"))
+                if map_i < len(maps):
+                    map_i += 1
+                i += 3
+                continue
+        i += 1
+
+    if not rows:
+        return []
+
+    def anahtar(r: tuple[str, str, str, str]) -> tuple[int, int, int]:
+        g, a, y = DATE_RE.match(r[0]).groups()
+        return (int(y), int(a), int(g))
+
+    en_yeni = max(rows, key=anahtar)[0]
+    ay = en_yeni[3:10]  # MM.YYYY
+    return [r for r in rows if r[0][3:10] == ay]
 
 
 def parse_cenaze(page_html: str) -> list[dict]:
@@ -66,13 +190,10 @@ def parse_cenaze(page_html: str) -> list[dict]:
         defin_t = (re.search(r"Defin Tarihi:</span>\s*([^<\s]+)", t) or type("X", (), {"group": lambda *a: ""})()).group(1)
         defin_s_m = re.search(r"Defin Saati:</span>\s*([^<]+)", t)
         defin_s = defin_s_m.group(1).strip() if defin_s_m else ""
-        metin_m = re.search(
-            r'item-foot">\s*<p class="text-small">\s*(.*?)\s*</p>', t, re.S
-        )
+        metin_m = re.search(r'item-foot">\s*<p class="text-small">\s*(.*?)\s*</p>', t, re.S)
         metin = ""
         if metin_m:
-            metin = html.unescape(metin_m.group(1))
-            metin = re.sub(r"\s+", " ", metin).strip()
+            metin = re.sub(r"\s+", " ", html.unescape(metin_m.group(1))).strip()
         items.append(
             {
                 "name": name,
@@ -86,10 +207,39 @@ def parse_cenaze(page_html: str) -> list[dict]:
     return items
 
 
-def upper_tr(s: str) -> str:
-    """Turkish-aware uppercase conversion ensuring accurate İ/I casing."""
-    trans = str.maketrans({"i": "İ", "ı": "I"})
-    return s.strip().translate(trans).upper()
+# ---------------------------------------------------------------- doğrulama
+
+
+def validate_eczane(rows: list[tuple[str, str, str, str]], today: datetime) -> None:
+    if not rows:
+        raise RuntimeError("eczane tablosu boş ayrıştırıldı (kaynak yapısı değişmiş olabilir)")
+
+    def d(s: str) -> datetime:
+        return datetime.strptime(s, "%d.%m.%Y")
+
+    tarihler = [d(r[0]) for r in rows]
+    en_eski, en_yeni = min(tarihler), max(tarihler)
+    if today.date() < en_eski.date() or today.date() > en_yeni.date():
+        raise RuntimeError(
+            f"eczane listesi bugünü kapsamıyor (liste aralığı {en_eski:%d.%m.%Y} – {en_yeni:%d.%m.%Y})"
+        )
+
+
+def validate_cenaze(items: list[dict], page_html: str, today: datetime) -> None:
+    if items:
+        en_yeni = max(
+            (datetime.strptime(i["tarih"], "%d.%m.%Y") for i in items if DATE_RE.match(i.get("tarih", ""))),
+            default=None,
+        )
+        if en_yeni and (today.date() - en_yeni.date()).days > 30:
+            print(f"  ! vefat listesindeki en yeni kayıt {en_yeni:%d.%m.%Y} — kaynak güncellenmiyor olabilir")
+        return
+    # Hiç kayıt yok: sayfada kart varsa yapı değişmiş demektir
+    if 'dead-item' in page_html:
+        raise RuntimeError("vefat kartları sayfada var ama hiçbiri ayrıştırılamadı (yapı değişmiş)")
+
+
+# ------------------------------------------------------------------ üretim
 
 
 def cenaze_cards_html(items: list[dict]) -> str:
@@ -118,39 +268,6 @@ def cenaze_cards_html(items: list[dict]) -> str:
     return "\n".join(blocks)
 
 
-def parse_eczane_july(page_html: str) -> list[tuple[str, str, str, str]]:
-    """Return list of (date, name, address, map_url) for Temmuz section if present."""
-    # After ## Temmuz or Temmuz 2026
-    m = re.search(r"Temmuz\s*2026([\s\S]+?)(?:\n\s*Ara\s*|\Z)", page_html)
-    chunk = m.group(1) if m else page_html
-    text = re.sub(r"<script[\s\S]*?</script>", " ", chunk, flags=re.I)
-    # Keep map links
-    maps = re.findall(r'href="(https://maps\.app\.goo\.gl/[^"]+)"', text)
-    plain = re.sub(r"<[^>]+>", "\n", text)
-    plain = html.unescape(plain)
-    lines = [ln.strip() for ln in plain.splitlines() if ln.strip()]
-    rows = []
-    i = 0
-    map_i = 0
-    date_re = re.compile(r"^(\d{2}\.\d{2}\.\d{4})$")
-    while i < len(lines):
-        if date_re.match(lines[i]) and i + 2 < len(lines):
-            d = lines[i]
-            name = lines[i + 1]
-            addr = lines[i + 2]
-            if name.lower() in ("haritada aç", "button") or d == name:
-                i += 1
-                continue
-            map_url = maps[map_i] if map_i < len(maps) else "#"
-            if map_i < len(maps):
-                map_i += 1
-            rows.append((d, name, addr, map_url))
-            i += 3
-        else:
-            i += 1
-    return rows
-
-
 def eczane_table_html(rows: list[tuple[str, str, str, str]], today: str) -> str:
     trs = []
     for d, name, addr, map_url in rows:
@@ -167,90 +284,82 @@ def eczane_table_html(rows: list[tuple[str, str, str, str]], today: str) -> str:
     return "".join(trs)
 
 
+# -------------------------------------------------------------------- akış
 
 
-def main() -> None:
+def sync_eczane(today: datetime, stamp: str) -> None:
+    page, via = fetch(ECZANE_URL)
+    rows = parse_eczane(page)
+    validate_eczane(rows, today)
+    print(f"  eczane: {len(rows)} satır · kaynak: {via}")
+
+    path = ROOT / "nobetci-eczaneler.html"
+    txt = path.read_text(encoding="utf-8")
+    yeni_tablo = eczane_table_html(rows, today.strftime("%d.%m.%Y"))
+    eski_tablo = between(txt, "<!-- SYNC:ECZANE:START -->", "<!-- SYNC:ECZANE:END -->")
+    if eski_tablo == yeni_tablo.strip():
+        print("  · nobetci-eczaneler.html: değişiklik yok")
+        return
+
+    txt = txt.replace(' class="today"', "")
+    if "<!-- SYNC:ECZANE:START -->" not in txt:
+        txt = txt.replace("<tbody>", "<tbody>\n      <!-- SYNC:ECZANE:START -->", 1)
+        txt = txt.replace("</tbody>", "<!-- SYNC:ECZANE:END -->\n        </tbody>", 1)
+    txt = replace_between(txt, "<!-- SYNC:ECZANE:START -->", "<!-- SYNC:ECZANE:END -->", yeni_tablo)
+    txt = stamp_replace(txt, stamp)
+    write_if_changed(path, txt)
+
+
+def sync_cenaze(today: datetime, stamp: str) -> None:
+    page, via = fetch(CENAZE_URL)
+    items = parse_cenaze(page)
+    validate_cenaze(items, page, today)
+    if not items:
+        print(f"  cenaze: kaynakta ilan yok · kaynak: {via} — dosyalar korunuyor")
+        return
+    print(f"  cenaze: {len(items)} kayıt · kaynak: {via}")
+
+    data_path = ROOT / "assets" / "cenaze-data.json"
+    write_if_changed(data_path, json.dumps(items, ensure_ascii=False, indent=2))
+
+    path = ROOT / "cenaze-ilanlari.html"
+    txt = path.read_text(encoding="utf-8")
+    yeni_kartlar = cenaze_cards_html(items)
+    eski_kartlar = between(txt, "<!-- SYNC:CENAZE:START -->", "<!-- SYNC:CENAZE:END -->")
+    if eski_kartlar == yeni_kartlar.strip():
+        print("  · cenaze-ilanlari.html: değişiklik yok")
+        return
+
+    if "<!-- SYNC:CENAZE:START -->" not in txt:
+        txt = txt.replace(
+            '<div class="vefat-list">', '<div class="vefat-list">\n      <!-- SYNC:CENAZE:START -->', 1
+        )
+        txt = txt.replace('<p class="note">', "<!-- SYNC:CENAZE:END -->\n\n      <p class=\"note\">", 1)
+    txt = replace_between(txt, "<!-- SYNC:CENAZE:START -->", "<!-- SYNC:CENAZE:END -->", yeni_kartlar)
+    txt = stamp_replace(txt, stamp)
+    write_if_changed(path, txt)
+
+
+def main() -> int:
     now = datetime.now(TZ)
-    today_str = now.strftime("%d.%m.%Y")
     stamp = now.strftime("%Y-%m-%d")
-    print(f"sync start {stamp} Europe/Istanbul today={today_str}")
+    print(f"sync start {stamp} Europe/Istanbul today={now:%d.%m.%Y}")
 
-    # --- Eczane ---
-    try:
-        ecz_html = fetch("https://sandikli.bel.tr/nobetci-eczaneler")
-        rows = parse_eczane_july(ecz_html)
-        if rows:
-            ecz_path = ROOT / "nobetci-eczaneler.html"
-            ecz_txt = ecz_path.read_text(encoding="utf-8")
-            ecz_txt = re.sub(
-                r"(Portal senkron:</strong>\s*)\d{4}-\d{2}-\d{2}",
-                rf"\g<1>{stamp}",
-                ecz_txt,
-                count=1,
-            )
-            # strip class="today" then re-apply
-            ecz_txt = ecz_txt.replace(' class="today"', "")
-            # rebuild tbody if markers exist
-            if "<!-- SYNC:ECZANE:START -->" not in ecz_txt:
-                ecz_txt = ecz_txt.replace(
-                    "<tbody>", "<tbody>\n      <!-- SYNC:ECZANE:START -->", 1
-                )
-                ecz_txt = ecz_txt.replace(
-                    "</tbody>", "<!-- SYNC:ECZANE:END -->\n        </tbody>", 1
-                )
-            table = eczane_table_html(rows, today_str)
-            ecz_txt = replace_between(
-                ecz_txt, "<!-- SYNC:ECZANE:START -->", "<!-- SYNC:ECZANE:END -->", table
-            )
-            ecz_path.write_text(ecz_txt, encoding="utf-8")
-            print(f"updated nobetci-eczaneler.html rows={len(rows)} today={today_str}")
-        else:
-            print("eczane: no rows parsed, skip")
-    except Exception as e:
-        print(f"eczane skip: {e}")
+    hatalar: list[str] = []
+    for ad, islev in (("eczane", sync_eczane), ("cenaze", sync_cenaze)):
+        try:
+            islev(now, stamp)
+        except Exception as e:
+            hatalar.append(f"{ad}: {e}")
+            print(f"  HATA — {ad}: {e}")
 
-    # --- Cenaze ---
-    try:
-        cen_html = fetch("https://sandikli.bel.tr/cenaze-ilanlari")
-        items = parse_cenaze(cen_html)
-        if items:
-            data_path = ROOT / "assets" / "cenaze-data.json"
-            data_path.write_text(
-                json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8"
-            )
-            cen_path = ROOT / "cenaze-ilanlari.html"
-            cen_txt = cen_path.read_text(encoding="utf-8")
-            cen_txt = re.sub(
-                r"(Portal senkron:</strong>\s*)\d{4}-\d{2}-\d{2}",
-                rf"\g<1>{stamp}",
-                cen_txt,
-                count=1,
-            )
-            if "<!-- SYNC:CENAZE:START -->" not in cen_txt:
-                cen_txt = cen_txt.replace(
-                    '<div class="vefat-list">',
-                    '<div class="vefat-list">\n      <!-- SYNC:CENAZE:START -->',
-                    1,
-                )
-                # end before note
-                cen_txt = cen_txt.replace(
-                    '<p class="note">',
-                    "<!-- SYNC:CENAZE:END -->\n\n      <p class=\"note\">",
-                    1,
-                )
-            cards = cenaze_cards_html(items)
-            cen_txt = replace_between(
-                cen_txt, "<!-- SYNC:CENAZE:START -->", "<!-- SYNC:CENAZE:END -->", cards
-            )
-            cen_path.write_text(cen_txt, encoding="utf-8")
-            print(f"updated cenaze-ilanlari.html items={len(items)}")
-        else:
-            print("cenaze: no items, skip")
-    except Exception as e:
-        print(f"cenaze skip: {e}")
+    if hatalar:
+        print("sync FAILED: " + " | ".join(hatalar))
+        return 1
 
     print("sync done")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

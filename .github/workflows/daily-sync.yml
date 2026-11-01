@@ -1,17 +1,22 @@
 # Sandıklı Portal — günlük otomatik içerik senkronu
 # Her gün 05:00 UTC (~08:00 İstanbul) çalışır; değişen dosyaları commit eder.
-# GitHub Pages / Netlify / Cloudflare Pages bağlıysa otomatik yeniden yayınlanır.
+# Ayrıştırma/doğrulama başarısız olursa iş KIRMIZI yanar (sessiz bozulma yok).
 
 name: Daily portal sync
 
 on:
   schedule:
-    # UTC — yaz saatinde TR 08:00, kışın 08:00 civarı
+    # UTC — yaz saatinde TR 08:00
     - cron: "0 5 * * *"
   workflow_dispatch: # Actions sekmesinden "Run workflow" ile elle çalıştır
 
 permissions:
   contents: write
+
+# Elle tetikleme ile zamanlanmış çalışma üst üste binmesin
+concurrency:
+  group: daily-sync
+  cancel-in-progress: false
 
 jobs:
   sync:
@@ -32,10 +37,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add haberler.html index.html nobetci-eczaneler.html cenaze-ilanlari.html assets/cenaze-data.json || true
+          git add nobetci-eczaneler.html cenaze-ilanlari.html assets/cenaze-data.json
           if git diff --staged --quiet; then
-            echo "No content changes."
-          else
-            git commit -m "chore(sync): belediye haber/eczane/vefat otomatik güncelleme"
-            git push
+            echo "Değişiklik yok, commit atılmadı."
+            exit 0
           fi
+          git commit -m "chore(sync): eczane + vefat listesi otomatik güncellendi"
+          git pull --rebase --autostash
+          git push
