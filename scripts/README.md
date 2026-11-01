@@ -8,7 +8,7 @@
 - `clean_js.py` — JS'den istenmeyen kodu temizler
 - `check_assets.py` — varlik referanslarini dogrular
 - `batch_improvements.py` — toplu iyilestirme
-- `upload.py` — resim yukle (Cloudinary), URL al
+- `upload.py` — resim yukle (Cloudinary), URL al; anahtarlar `.env`/ortam degiskeninden okunur
 
 ## Tek seferlik SANVAK araclari (`tmp/`)
 - `extract.py` — cp1254 kaynaktan JSON cikarma

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Sandıklı resim yükle — Cloudinary'e gönder, URL'yi al.
 
+Kimlik bilgileri kodda tutulmaz. Sırayla şuradan okunur:
+  1) ortam değişkenleri: CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
+  2) proje kökündeki .env dosyası (git'e girmez)
+
 Kullanım:
   python scripts/upload.py resim.jpg
   python scripts/upload.py *.jpg
@@ -16,9 +20,30 @@ import urllib.request
 
 
 CLOUD_NAME = "njivgbxn"
-API_KEY = "369881526152257"
-API_SECRET = "WU6HrHOzyOZormiYzsCei7bq-d0"
 BASE = f"https://api.cloudinary.com/v1_1/{CLOUD_NAME}/image/upload"
+
+KOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ENV_DOSYASI = os.path.join(KOK, ".env")
+
+
+def env_yukle():
+    """Proje kökündeki .env dosyasını (varsa) ortam değişkenlerine ekler."""
+    if not os.path.isfile(ENV_DOSYASI):
+        return
+    with open(ENV_DOSYASI, encoding="utf-8") as f:
+        for satir in f:
+            satir = satir.strip()
+            if not satir or satir.startswith("#") or "=" not in satir:
+                continue
+            anahtar, deger = satir.split("=", 1)
+            os.environ.setdefault(anahtar.strip(), deger.strip().strip('"').strip("'"))
+
+
+env_yukle()
+
+# Boşsa hiçbir istek gönderilmez; anahtarlar sadece yerelde tanımlanır.
+API_KEY = os.environ.get("CLOUDINARY_API_KEY", "")
+API_SECRET = os.environ.get("CLOUDINARY_API_SECRET", "")
 
 
 def sign(params):
@@ -90,15 +115,24 @@ def upload(filepath):
 
 
 def main():
+    if not API_KEY or not API_SECRET:
+        print("HATA: Cloudinary anahtarları tanımlı değil.")
+        print("  CLOUDINARY_API_KEY ve CLOUDINARY_API_SECRET ortam değişkenlerini ayarlayın,")
+        print(f"  ya da {ENV_DOSYASI} dosyasına şu satırları ekleyin:")
+        print("    CLOUDINARY_API_KEY=...")
+        print("    CLOUDINARY_API_SECRET=...")
+        return 1
+
     files = sys.argv[1:]
     if not files:
         print("Kullanım: python scripts/upload.py resim.jpg [resim2.png ...]")
         print("Çıktıdaki URL'yi HTML'e kopyala.")
-        return
+        return 0
 
     for f in files:
         upload(f)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
