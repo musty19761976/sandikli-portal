@@ -1,13 +1,18 @@
-# Sandıklı Portal — günlük otomatik içerik senkronu
-# Her gün 05:00 UTC (~08:00 İstanbul) çalışır; değişen dosyaları commit eder.
+# Sandıklı Portal — otomatik içerik senkronu
+# GitHub zamanlanmış işleri birkaç saat geciktirebildiği için gün içinde birden
+# çok kez denenir: sabah penceresinde saat başı, öğleden sonra iki kez.
+# Değişiklik yoksa commit atılmaz (koşular boşa gitmez).
 # Ayrıştırma/doğrulama başarısız olursa iş KIRMIZI yanar (sessiz bozulma yok).
 
 name: Daily portal sync
 
 on:
   schedule:
-    # UTC — yaz saatinde TR 08:00
-    - cron: "0 5 * * *"
+    # UTC — İstanbul (+3). Sabah penceresi: 05:30 – 12:30 TR, saat başı deneme
+    - cron: "30 2-9 * * *"
+    # Öğleden sonra: gün içinde eklenen vefat ilanları için
+    - cron: "0 13 * * *" # 16:00 TR
+    - cron: "0 17 * * *" # 20:00 TR
   workflow_dispatch: # Actions sekmesinden "Run workflow" ile elle çalıştır
 
 permissions:
@@ -21,6 +26,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
