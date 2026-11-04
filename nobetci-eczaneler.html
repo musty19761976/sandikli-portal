@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#c9952e" />
+  <meta name="theme-color" content="#0d6a5c" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Sandıklı Portal" />
@@ -17,13 +17,16 @@
   <meta property="og:description" content="Sandıklı nöbetçi eczaneler — güncel liste ve bugün nöbetçi olan eczane. Kaynak: Sandıklı Belediyesi." />
   <meta property="og:url" content="https://musty19761976.github.io/sandikli-portal/nobetci-eczaneler.html" />
   <meta property="og:locale" content="tr_TR" />
-  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1200px-Sand%C4%B1kl%C4%B1_Afyon.jpg" />
-      <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://musty19761976.github.io/sandikli-portal/assets/img/photos/sandikli-afyon.jpg" />
+  <meta property="og:image:alt" content="Sandıklı — Afyonkarahisar manzarası" />
+    <meta name="twitter:image" content="https://musty19761976.github.io/sandikli-portal/assets/img/photos/sandikli-afyon.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Nöbetçi Eczaneler | Sandıklı Portal" />
     <meta name="twitter:description" content="Sandıklı nöbetçi eczaneler — güncel liste ve bugün nöbetçi olan eczane. Kaynak: Sandıklı Belediyesi." />
     <link rel="canonical" href="https://musty19761976.github.io/sandikli-portal/nobetci-eczaneler.html" />
 </head>
 <body>
+  <a class="skip-link" href="#content">İçeriğe atla</a>
       <div id="navbar-root"><header class="navbar">
   <div class="container navbar-inner">
     <a href="index.html" class="logo">
@@ -55,7 +58,7 @@
           <a href="kesfet.html"><strong>Gezilecek Yerler</strong><small>Akdağ, Tokalı Kanyonu, yaylalar</small></a>
           <a href="lezzet.html"><strong>Lezzet &amp; Mutfak</strong><small>Coğrafi işaretli leblebi, kebap &amp; ekmek</small></a>
           <a href="ekonomi.html"><strong>Ekonomi &amp; Tarım</strong><small>Jeotermal seracılık, patates &amp; sanayi</small></a>
-          <a href="galeri.html"><strong>Foto Galeri</strong><small>Sandıklı'dan yüksek çözünürlüklü kareler</small></a>
+          <a href="galeri.html"><strong>Foto Galeri</strong><small>Sandıklı’dan yüksek çözünürlüklü kareler</small></a>
         </div>
       </div>
 
@@ -96,8 +99,9 @@
   </div>
 </header></div>
 
+  <main id="content" tabindex="-1">
   <section class="page-hero">
-    <div class="page-hero-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1600px-Sand%C4%B1kl%C4%B1_Afyon.jpg')"></div>
+    <div class="page-hero-bg" style="background-image:url('assets/img/photos/sandikli-afyon.jpg')"></div>
     <div class="container">
       <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <span>Nöbetçi Eczaneler</span></nav>
       <h1 class="display h1">Nöbetçi eczaneler</h1>
@@ -111,27 +115,27 @@
       <!-- GÜNÜN NÖBETÇİ ECZANESİ KARTI (EN ÜSTTE) -->
       <div class="today-pharmacy-card reveal" id="today-pharmacy-card">
         <div class="today-badge-row">
-          <span class="badge-today">🟢 Bugün Nöbetçi Eczane</span>
+          <span class="badge-today"><span class="live-dot" aria-hidden="true"></span> Bugün Nöbetçi Eczane</span>
           <span class="today-date-text" id="today-date-display">26 Ekim 2026 Pazartesi</span>
         </div>
         <div class="today-pharmacy-main">
           <div class="today-pharmacy-info">
             <h2 class="today-pharmacy-name" id="today-pharmacy-name">Dost Eczanesi</h2>
             <p class="today-pharmacy-addr" id="today-pharmacy-addr">
-              <span aria-hidden="true">📍</span>
+              <span aria-hidden="true"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#pin"></use></svg></span>
               Çakır Mahallesi, İstasyon Caddesi No:132/A Sandıklı / Afyonkarahisar
             </p>
             <div class="today-pharmacy-hours">
-              <span aria-hidden="true">⏰</span>
+              <span class="link-with-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#clock"></use></svg></span>
               <span>Bugün sabah 08:30’dan yarın sabah 08:30’a kadar kesintisiz nöbetçidir.</span>
             </div>
           </div>
           <div class="today-pharmacy-actions">
             <a class="btn btn-primary" id="today-pharmacy-map" href="https://maps.app.goo.gl/5mEm8sNYZTdNnFdeA" target="_blank" rel="noopener">
-              📍 Haritada Yol Tarifi Al
+              <span class="link-with-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#pin"></use></svg> Haritada Yol Tarifi Al</span>
             </a>
             <a class="btn btn-outline-dark" href="#pharma-table">
-              📋 Tüm Ayın Listesi
+              <span class="link-with-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#list"></use></svg> Tüm Ayın Listesi</span>
             </a>
           </div>
         </div>
@@ -140,12 +144,13 @@
       <div class="sync-stamp reveal">
         <strong>Kaynak:</strong>
         <a href="https://sandikli.bel.tr/nobetci-eczaneler" target="_blank" rel="noopener">sandikli.bel.tr/nobetci-eczaneler</a>
-        · <strong>Dönem:</strong> Ekim 2026
-        · <strong>Portal senkron:</strong> 2026-11-04
+        · <strong>Dönem:</strong> Kasım 2026
+        · <strong>Portal senkron:</strong> 2026-11-01
         · Skill: <code>/sandikliportal</code>
       </div>
 
-      <table class="pharma-table" id="pharma-table">
+      <div class="table-scroll" role="region" aria-label="Nöbetçi eczane çizelgesi" tabindex="0">
+        <table class="pharma-table" id="pharma-table">
         <thead>
           <tr>
             <th>Tarih</th>
@@ -156,7 +161,7 @@
         </thead>
         <tbody>
       <!-- SYNC:ECZANE:START -->
-          <tr>
+          <tr class="today">
             <td class="date" data-label="Tarih">01.11.2026</td>
             <td class="name" data-label="Eczane">Dost Eczanesi</td>
             <td data-label="Adres">Çakır Mahallesi, İstasyon Caddesi No:132/A Sandıklı / Afyonkarahisar</td>
@@ -174,7 +179,7 @@
             <td data-label="Adres">Çakır Mahallesi, İstasyon Caddesi No:138/A Sandıklı / Afyonkarahisar</td>
             <td data-label="Harita"><a class="map" href="https://maps.app.goo.gl/vT4yAA1JNRM254Y86" target="_blank" rel="noopener">Aç</a></td>
           </tr>
-          <tr class="today">
+          <tr>
             <td class="date" data-label="Tarih">04.11.2026</td>
             <td class="name" data-label="Eczane">Sare Eczanesi</td>
             <td data-label="Adres">Çakır Mahallesi, İstasyon Caddesi, No:102 Sandıklı / Afyonkarahisar</td>
@@ -339,6 +344,7 @@
       <!-- SYNC:ECZANE:END -->
         </tbody>
       </table>
+      </div>
 
       <p class="note">
         Bu liste bilgilendirme amaçlıdır; değişiklik olabilir.
@@ -353,6 +359,8 @@
       </div>
     </div>
   </section>
+
+  </main>
 
   <footer class="footer">
     <div class="container">
@@ -392,5 +400,6 @@
   </footer>
   <script src="assets/js/navbar.js"></script>
   <script src="assets/js/main.js"></script>
+<script src="assets/js/search.js" defer></script>
 </body>
 </html>

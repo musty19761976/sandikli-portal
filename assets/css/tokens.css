@@ -1,0 +1,209 @@
+/* ==========================================================================
+   SANDIKLI PORTAL — Katman 1: Tokenlar
+   Kimlik: kaplıca (Hüdai termal suyu + kireçtaşı düzlem).
+   Kanonik adlar --clr-* / --step-* / --space-* ; eski adlar (--primary,
+   --canvas, --line …) sayfa içi inline style'lar için alias olarak korunur.
+   ========================================================================== */
+
+@layer tokens {
+  :root {
+    /* ---------- Renk rolleri (açık tema) ---------- */
+    --clr-paper: #f5f1e7;         /* sayfa zemini — kireçtaşı */
+    --clr-paper-2: #ebe4d3;       /* ikincil zemin */
+    --clr-surface: #fbf8f1;       /* kart / yükseltilmiş yüzey */
+    --clr-surface-2: #fffdf8;
+    --clr-ink: #0e1f1a;           /* başlık mürekkebi */
+    --clr-ink-2: #2b3b34;         /* gövde */
+    --clr-mute: #5b6a63;          /* ikincil metin */
+    --clr-rule: #d7cfbc;          /* saç teli çizgi */
+    --clr-rule-2: #c2b9a4;        /* güçlü çizgi */
+
+    --clr-accent: #0d6a5c;        /* şifalı su yeşili */
+    --clr-accent-2: #0a5348;
+    --clr-accent-soft: #d9ebe4;
+    --clr-on-accent: #f7fcfa;
+
+    --clr-copper: #9b5330;        /* nadir vurgu: "bugün", canlı */
+    --clr-copper-soft: #f2e3d6;
+
+    --clr-panel: #0f201a;         /* koyu bant: footer, CTA */
+    --clr-panel-2: #0a1712;
+    --clr-panel-ink: #e9f1ec;
+    --clr-panel-mute: #a5b5ae;
+    --clr-panel-accent: #67ddc5;
+
+    --clr-positive: #2c7245;
+    --clr-negative: #a2453a;
+    --clr-warning: #8f6a15;
+
+    /* ---------- Akışkan tipografi ölçeği ---------- */
+    --step--2: clamp(0.72rem, 0.70rem + 0.09vw, 0.78rem);
+    --step--1: clamp(0.82rem, 0.79rem + 0.14vw, 0.89rem);
+    --step-0: clamp(0.94rem, 0.91rem + 0.16vw, 1.01rem);
+    --step-1: clamp(1.08rem, 1.03rem + 0.28vw, 1.2rem);
+    --step-2: clamp(1.26rem, 1.16rem + 0.52vw, 1.47rem);
+    --step-3: clamp(1.52rem, 1.35rem + 0.88vw, 1.92rem);
+    --step-4: clamp(1.86rem, 1.56rem + 1.4vw, 2.46rem);
+    --step-5: clamp(2.28rem, 1.8rem + 2.2vw, 3.2rem);
+    --step-6: clamp(2.72rem, 1.95rem + 3.4vw, 4.1rem);
+
+    /* ---------- Boşluk ve düzen ---------- */
+    --space-3xs: 0.25rem;
+    --space-2xs: 0.5rem;
+    --space-xs: 0.75rem;
+    --space-s: 1rem;
+    --space-m: 1.5rem;
+    --space-l: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --space-3xl: 5.5rem;
+
+    --gutter: clamp(1.1rem, 4vw, 2.5rem);
+    --shell: 1180px;
+    --measure: 66ch;
+    --measure-tight: 54ch;
+
+    /* ---------- Biçim ---------- */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --radius-pill: 999px;
+
+    --rule-w: 1px;
+
+    --shadow-sm: 0 1px 2px rgba(14, 31, 26, 0.05);
+    --shadow-md: 0 12px 32px -22px rgba(14, 31, 26, 0.35);
+    --shadow-lg: 0 26px 64px -34px rgba(14, 31, 26, 0.45);
+
+    /* ---------- Hareket ---------- */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-1: 0.18s;
+    --dur-2: 0.34s;
+    --dur-3: 0.52s;
+    --transition: var(--dur-2) var(--ease-out);
+
+    /* ---------- Tipografi ---------- */
+    --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+    --font-body: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --nav-h: 66px;
+    --z-nav: 900;
+    --z-menu: 950;
+    --z-overlay: 1200;
+
+    /* ---------- Eski token aliasları (inline style uyumluluğu) ---------- */
+    --primary: var(--clr-accent);
+    --primary-active: var(--clr-accent-2);
+    --primary-pale: var(--clr-accent-soft);
+    --primary-neutral: color-mix(in srgb, var(--clr-accent) 42%, transparent);
+    --on-primary: var(--clr-on-accent);
+
+    --ink: var(--clr-ink);
+    --ink-deep: #08130f;
+    --ink-soft: var(--clr-ink-2);
+    --body: var(--clr-ink-2);
+    --mute: var(--clr-mute);
+    --muted: var(--clr-mute);
+
+    --canvas: var(--clr-paper);
+    --canvas-soft: var(--clr-paper-2);
+    --paper: var(--clr-paper-2);
+    --paper-2: var(--clr-paper-2);
+    --surface: var(--clr-surface);
+    --surface-elevated: var(--clr-surface-2);
+    --white: var(--clr-surface);
+    --line: var(--clr-rule);
+
+    --panel: var(--clr-panel);
+    --panel-ink: var(--clr-panel-ink);
+    --panel-mute: var(--clr-panel-mute);
+    --panel-accent: var(--clr-panel-accent);
+
+    --accent: var(--clr-accent);
+    --accent-deep: var(--clr-accent-2);
+    --accent-soft: var(--clr-accent-soft);
+    --accent-glow: color-mix(in srgb, var(--clr-accent) 26%, transparent);
+    --copper: var(--clr-copper);
+    --copper-deep: #82411f;
+    --teal-600: var(--clr-accent);
+    --teal-700: var(--clr-accent-2);
+    --gold-500: var(--clr-copper);
+    --gold-400: #b9703f;
+    --gold-300: #f0e2cd;
+
+    --forest: var(--clr-positive);
+    --forest-mid: #1c4a2c;
+
+    --radius-none: 0px;
+    --radius-full: var(--radius-pill);
+    --radius: var(--radius-md);
+
+    --spacing-xxs: 2px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+    --spacing-2xl: 32px;
+    --spacing-3xl: 48px;
+
+    color-scheme: light;
+  }
+
+  /* ---------- Koyu tema ---------- */
+  :root[data-theme="dark"] {
+    --clr-paper: #0b1613;
+    --clr-paper-2: #060f0d;
+    --clr-surface: #101d19;
+    --clr-surface-2: #16241f;
+    --clr-ink: #e7f0eb;
+    --clr-ink-2: #a8b8b1;
+    --clr-mute: #85948d;
+    --clr-rule: #22322b;
+    --clr-rule-2: #35473f;
+
+    --clr-accent: #4ecfb4;
+    --clr-accent-2: #74ddc6;
+    --clr-accent-soft: rgba(78, 207, 180, 0.15);
+    --clr-on-accent: #04120e;
+
+    --clr-copper: #d3915f;
+    --clr-copper-soft: rgba(211, 145, 95, 0.16);
+
+    --clr-panel: #060f0d;
+    --clr-panel-2: #040a08;
+    --clr-panel-ink: #e7f0eb;
+    --clr-panel-mute: #9aa9a2;
+    --clr-panel-accent: #7be0ca;
+
+    --clr-positive: #63bd83;
+    --clr-negative: #e08475;
+    --clr-warning: #d8ae55;
+
+    --ink-deep: #f4faf7;
+    --copper-deep: #e7a878;
+    --gold-400: #e2ae86;
+    --gold-300: #f0e3ce;
+    --forest-mid: #7ac796;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 14px 36px -24px rgba(0, 0, 0, 0.7);
+    --shadow-lg: 0 28px 70px -36px rgba(0, 0, 0, 0.8);
+
+    color-scheme: dark;
+  }
+
+  /* Yüksek kontrast tercihini kullanıcıya bırak */
+  @media (prefers-contrast: more) {
+    :root {
+      --clr-mute: #45534c;
+      --clr-rule: #b3a993;
+    }
+    :root[data-theme="dark"] {
+      --clr-mute: #b3c2bb;
+      --clr-rule: #3d5148;
+    }
+  }
+}

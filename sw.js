@@ -1,7 +1,7 @@
 /* Sandıklı Portal — Service Worker
    Cache-first: core HTML/CSS/JS önceden kaydedilir, görseller istek anında önbelleğe alınır.
    Değişiklikte PRECACHE_VERSION artır → eski önbellek temizlenir, site yenilenir. */
-const PRECACHE_VERSION = "sandikli-v21";
+const PRECACHE_VERSION = "sandikli-v28";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -21,6 +21,14 @@ const PRECACHE_URLS = [
   "./assets/js/search.js",
   "./assets/css/base.css",
   "./assets/css/components.css",
+  "./assets/css/tokens.css",
+  "./assets/css/content.css",
+  "./assets/css/sections.css",
+  "./assets/css/media.css",
+  "./assets/css/chrome.css",
+  "./assets/css/pages.css",
+  "./assets/css/icons.css",
+  "./assets/icons/sprite.svg",
   "./assets/js/navbar.js",
   "./components/navbar.html",
   "./sandiklimiz.html",
@@ -36,6 +44,19 @@ const PRECACHE_URLS = [
   "./404.html",
   "./manifest.webmanifest",
   "./assets/cenaze-data.json",
+  // Yerelleştirilmiş fotoğraflar: sayfa üstü görseller çevrimdışı da görünür.
+  "./assets/img/photos/sandikli-afyon.jpg",
+  "./assets/img/photos/sandikli-afyon-900.jpg",
+  "./assets/img/photos/akdag.jpg",
+  "./assets/img/photos/akdag-900.jpg",
+  "./assets/img/photos/akdag-kopru-900.jpg",
+  "./assets/img/photos/akdag-doga-900.jpg",
+  "./assets/img/photos/manzara-900.jpg",
+  "./assets/img/photos/doku-900.jpg",
+  "./assets/img/photos/ballik-900.jpg",
+  "./assets/img/photos/kizik-900.jpg",
+  "./assets/img/photos/banner-900.jpg",
+  "./assets/img/photos/konum-900.jpg",
 ];
 
 self.addEventListener("install", (event) => {

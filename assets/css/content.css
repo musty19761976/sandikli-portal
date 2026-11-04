@@ -1,0 +1,387 @@
+/* ==========================================================================
+   SANDIKLI PORTAL — Katman 3b: İçerik bileşenleri
+   Hero, arama, kart ızgaraları, zaman çizgisi, tablolar, CTA.
+   ========================================================================== */
+
+@layer components {
+  /* ------------------------------------------------------------------ Hero */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(34rem, 76svh, 46rem);
+    padding-block: calc(var(--nav-h) + clamp(2.5rem, 7vw, 5rem)) clamp(2.5rem, 6vw, 4.5rem);
+    padding-inline: var(--gutter);
+    background-color: var(--clr-paper);
+    isolation: isolate;
+    overflow: clip;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center 38%;
+    opacity: 0.14;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(105deg, #000 8%, rgba(0, 0, 0, 0.35) 62%, transparent 96%);
+    mask-image: linear-gradient(105deg, #000 8%, rgba(0, 0, 0, 0.35) 62%, transparent 96%);
+  }
+
+  .hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 10% 100%, var(--clr-accent-soft) 0%, transparent 58%);
+  }
+
+  /* Gerçek fotoğraf: karartma yerine metin tarafında kâğıt perdesi.
+     Solda okunabilirlik, sağda fotoğrafın kendisi görünür kalır. */
+  .hero-bg.has-photo {
+    opacity: 1;
+    background-position: center 42%;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .hero-bg.has-photo::after {
+    background:
+      linear-gradient(
+        100deg,
+        var(--clr-paper) 6%,
+        color-mix(in srgb, var(--clr-paper) 92%, transparent) 34%,
+        color-mix(in srgb, var(--clr-paper) 62%, transparent) 62%,
+        color-mix(in srgb, var(--clr-paper) 16%, transparent) 100%
+      ),
+      linear-gradient(to top, var(--clr-paper) 0%, transparent 30%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 45rem;
+  }
+
+  .hero h1 {
+    margin-bottom: var(--space-m);
+    font-size: var(--step-6);
+    line-height: 1.02;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--clr-accent);
+  }
+
+  .hero .lead {
+    max-width: 38rem;
+    margin-bottom: var(--space-m);
+    color: var(--clr-ink-2);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--clr-rule-2);
+  }
+
+  @media (max-width: 640px) {
+    /* Dört istatistik tek satırda okunmuyor: mobilde 2×2 ızgara. */
+    .hero-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 0.85rem;
+    }
+  }
+
+  .hero-stats > div {
+    padding-inline: var(--space-s);
+    border-inline-start: 1px solid var(--clr-rule);
+  }
+
+  .hero-stats > div:first-child {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .stat-num {
+    margin-bottom: 0.2rem;
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--clr-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .hero-scroll {
+    display: none;
+  }
+
+  .hero-scroll .mouse {
+    width: 22px;
+    height: 34px;
+    border: 1px solid var(--clr-rule-2);
+    border-radius: var(--radius-pill);
+  }
+
+  /* ---------------------------------------------------------------- Arama */
+  .search-bar {
+    width: 100%;
+    max-width: 26rem;
+    margin-top: var(--space-m);
+  }
+
+  .search-form {
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--clr-rule-2);
+    border-radius: var(--radius-md);
+    background-color: var(--clr-surface);
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
+  }
+
+  .search-input::placeholder {
+    color: var(--clr-mute);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--clr-accent);
+    box-shadow: 0 0 0 3px var(--clr-accent-soft);
+  }
+
+  .search-results {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100% + 0.4rem);
+    z-index: 40;
+    max-height: 18rem;
+    overflow: auto;
+    padding: 0.35rem;
+    background-color: var(--clr-surface-2);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .search-results li + li {
+    border-top: 1px solid var(--clr-rule);
+  }
+
+  .search-results a {
+    display: block;
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--radius-sm);
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+  }
+
+  .search-results a:hover {
+    background-color: var(--clr-accent-soft);
+    color: var(--clr-accent);
+  }
+
+  /* ---------------------------------------------------------------- Kartlar */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--clr-surface);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+  }
+
+  .card:hover {
+    border-color: var(--clr-accent);
+    transform: translateY(-2px);
+  }
+
+  .card-img {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid var(--clr-rule);
+  }
+
+  .card-img .badge {
+    position: absolute;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+  }
+
+  .card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: var(--space-m);
+  }
+
+  .card-body h3 {
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .card-body p {
+    flex: 1;
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+    line-height: 1.55;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 1.75rem;
+    padding-block: 0.2rem;
+    margin-top: 0.2rem;
+    color: var(--clr-accent);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .card-link::after {
+    content: "→";
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+
+  .card-link:hover::after {
+    transform: translateX(3px);
+  }
+
+  /* ------------------------------------------------------------ Simge ızgarası */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: clamp(0.85rem, 1.6vw, 1.25rem);
+  }
+
+  .icon-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: var(--space-m);
+    background-color: var(--clr-surface);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
+  }
+
+  .icon-box:hover {
+    border-color: var(--clr-accent);
+    background-color: var(--clr-surface-2);
+  }
+
+  .icon-box .icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-bottom: 0.35rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--clr-accent-soft);
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  .icon-box h3 {
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .icon-box p {
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+    line-height: 1.55;
+  }
+
+  /* ------------------------------------------------------- Öne çıkan satır */
+  .feature-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: clamp(1.5rem, 5vw, var(--space-xl));
+    align-items: center;
+  }
+
+  .feature-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-s);
+  }
+
+  .feature-visual {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 5 / 4;
+    background-color: var(--clr-paper-2);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+  }
+
+  .feature-visual img,
+  .feature-visual .visual-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .float-card {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 2.5rem 1.25rem 1rem;
+    background: linear-gradient(to top, rgba(6, 16, 13, 0.86), transparent);
+  }
+
+  .float-card strong {
+    color: #f6f2e8;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .float-card span {
+    color: rgba(246, 242, 232, 0.82);
+    font-size: var(--step--2);
+  }
+}

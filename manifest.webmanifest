@@ -6,8 +6,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f3ede3",
-  "theme_color": "#c9952e",
+  "background_color": "#f5f1e7",
+  "theme_color": "#0d6a5c",
   "lang": "tr",
   "categories": ["travel", "local", "news"],
   "icons": [

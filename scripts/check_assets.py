@@ -21,8 +21,9 @@ skip = ('http://', 'https://', 'data:', '#', 'mailto:', 'tel:',
 queryless = lambda s: s.split('?')[0].split('#')[0].split('{')[0].split('}')[0].strip()
 
 missing = []
-files = [p for p in ROOT.rglob('*') if p.suffix in EXT and 'node_modules' not in p.parts
-         and '.git' not in p.parts and 'package-lock' not in str(p)]
+SKIP_DIRS = {'node_modules', '.git', '.freebuff', '.cloud-attachments', '.tmp', '__pycache__'}
+files = [p for p in ROOT.rglob('*') if p.suffix in EXT
+         and not SKIP_DIRS.intersection(p.parts) and 'package-lock' not in str(p)]
 
 for fp in files:
     rel = fp.relative_to(ROOT)

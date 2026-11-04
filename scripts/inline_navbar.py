@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 COMPONENT = ROOT / "components" / "navbar.html"
-PAGES = sorted(p for p in ROOT.glob("*.html") if p.name != "404.html" and not p.name.startswith("_"))
+PAGES = sorted(p for p in ROOT.glob("*.html") if not p.name.startswith("_"))
 
 ROOT_EMPTY = re.compile(r'<div id="navbar-root"></div>')
 ROOT_FILLED = re.compile(r'<div id="navbar-root">.*?</div>\s*(?=<section|<!--)', re.DOTALL)

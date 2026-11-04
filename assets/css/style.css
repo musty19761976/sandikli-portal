@@ -1,6 +1,18 @@
 /* ==========================================================================
-   SANDIKLI PORTAL — Main stylesheet (imports)
+   SANDIKLI PORTAL — Giriş dosyası
+   Katman sırası tek yerde: reset → tokens → base → components → pages.
+   Simgeler tek kaynaktan: assets/icons/sprite.svg (emoji yok).
+   Her katman kendi dosyasında; hiçbir kural !important ile savaşmıyor.
    ========================================================================== */
-@import url('base.css');
-@import url('components.css');
-/* aurora.css removed — Anadolu sıcaklığı tasarımı */
+
+@layer reset, tokens, base, components, pages;
+
+@import url("tokens.css") layer(tokens);
+@import url("base.css") layer(base);
+@import url("components.css") layer(components);
+@import url("content.css") layer(components);
+@import url("sections.css") layer(components);
+@import url("media.css") layer(components);
+@import url("icons.css") layer(components);
+@import url("chrome.css") layer(components);
+@import url("pages.css") layer(pages);

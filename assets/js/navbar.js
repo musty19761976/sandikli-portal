@@ -22,9 +22,24 @@
     if (typeof window._initNavWeatherIcon === "function") window._initNavWeatherIcon();
   }
 
+  // Script sırası: navbar.js main.js'ten ÖNCE yüklenir, bu yüzden
+  // _initNavbarInteractions ilk çağrıda henüz tanımlı olmayabilir.
+  // Davranış bağlamayı DOMContentLoaded'a erteleyip gerekiyorsa kısa
+  // aralıklarla yeniden deneriz; aksi halde mobil menü sessizce ölü kalır.
+  function whenReady(fn, tries) {
+    if (typeof window._initNavbarInteractions === "function") {
+      fn();
+      return;
+    }
+    if ((tries || 0) > 20) return; // ~1 sn sonra vazgeç (gerçek bir yükleme hatası)
+    setTimeout(function () {
+      whenReady(fn, (tries || 0) + 1);
+    }, 50);
+  }
+
   if (root.querySelector(".navbar")) {
     // Gömülü navbar: sadece davranış bağla
-    bind();
+    whenReady(bind);
     return;
   }
 

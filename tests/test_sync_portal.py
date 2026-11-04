@@ -215,9 +215,13 @@ class VefatAyristirma(unittest.TestCase):
         self.assertIn("vefat etmiştir", items[0]["metin"])
 
     def test_html_kacislari_cozulur(self):
-        html = cenaze_sayfasi(vefat_karti(metin="Hüseyin Sayın&#039;ın eşi vefat etmiştir."))
+        html = cenaze_sayfasi(
+            vefat_karti(metin="Hüseyin Sayın&#039;ın eşi vefat etmiştir.Cenazesi bugün.")
+        )
         items = sp.parse_cenaze(html)
-        self.assertIn("Sayın'ın", items[0]["metin"])
+        # Varlık çözülür, kesme işareti tipografik olur, eksik boşluk eklenir.
+        self.assertIn("Sayın’ın", items[0]["metin"])
+        self.assertIn("etmiştir. Cenazesi", items[0]["metin"])
 
     def test_yapi_degisirse_hata_verir(self):
         """Kart var ama hiçbiri ayrıştırılamıyorsa sessiz geçmemeli."""

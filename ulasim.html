@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#c9952e" />
+  <meta name="theme-color" content="#0d6a5c" />
   <link rel="stylesheet" href="assets/css/style.css" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Sandıklı Portal" />
@@ -17,13 +17,16 @@
     <meta property="og:description" content="Sandıklı ulaşım, konaklama ve iletişim: karayolu, demiryolu, havalimanı, oteller ve form." />
     <meta property="og:url" content="https://musty19761976.github.io/sandikli-portal/ulasim.html" />
     <meta property="og:locale" content="tr_TR" />
-    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sand%C4%B1kl%C4%B1_Afyon.jpg/1200px-Sand%C4%B1kl%C4%B1_Afyon.jpg" />
-        <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://musty19761976.github.io/sandikli-portal/assets/img/photos/sandikli-afyon.jpg" />
+    <meta property="og:image:alt" content="Sandıklı — Afyonkarahisar manzarası" />
+    <meta name="twitter:image" content="https://musty19761976.github.io/sandikli-portal/assets/img/photos/sandikli-afyon.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ulaşım & İletişim | Sandıklı Portal" />
     <meta name="twitter:description" content="Sandıklı ulaşım, konaklama ve iletişim: karayolu, demiryolu, havalimanı, oteller ve form." />
     <link rel="canonical" href="https://musty19761976.github.io/sandikli-portal/ulasim.html" />
   </head>
 <body>
+  <a class="skip-link" href="#content">İçeriğe atla</a>
       <div id="navbar-root"><header class="navbar">
   <div class="container navbar-inner">
     <a href="index.html" class="logo">
@@ -55,7 +58,7 @@
           <a href="kesfet.html"><strong>Gezilecek Yerler</strong><small>Akdağ, Tokalı Kanyonu, yaylalar</small></a>
           <a href="lezzet.html"><strong>Lezzet &amp; Mutfak</strong><small>Coğrafi işaretli leblebi, kebap &amp; ekmek</small></a>
           <a href="ekonomi.html"><strong>Ekonomi &amp; Tarım</strong><small>Jeotermal seracılık, patates &amp; sanayi</small></a>
-          <a href="galeri.html"><strong>Foto Galeri</strong><small>Sandıklı'dan yüksek çözünürlüklü kareler</small></a>
+          <a href="galeri.html"><strong>Foto Galeri</strong><small>Sandıklı’dan yüksek çözünürlüklü kareler</small></a>
         </div>
       </div>
 
@@ -96,8 +99,9 @@
   </div>
 </header></div>
 
+  <main id="content" tabindex="-1">
   <section class="page-hero">
-    <div class="page-hero-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Afyonkarahisar_location_Sand%C4%B1kl%C4%B1.png/800px-Afyonkarahisar_location_Sand%C4%B1kl%C4%B1.png')"></div>
+    <div class="page-hero-bg" style="background-image:url('assets/img/photos/konum.jpg')"></div>
     <div class="container">
       <nav class="breadcrumb"><a href="index.html">Ana Sayfa</a> · <span>Ulaşım & İletişim</span></nav>
       <h1 class="display h1">Ulaşım, konaklama, iletişim</h1>
@@ -114,29 +118,30 @@
       </div>
       <div class="icon-grid reveal">
         <article class="icon-box">
-          <div class="icon">🚗</div>
+          <div class="icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#car"></use></svg></div>
           <h3>Karayolu</h3>
           <p>Ankara–Antalya ve İstanbul–Antalya güzergâhı üzerinde. Afyon merkeze ~65 km. Hüdai, ana yola ~5–6 km.</p>
         </article>
         <article class="icon-box">
-          <div class="icon">🚂</div>
+          <div class="icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#train"></use></svg></div>
           <h3>Demiryolu</h3>
           <p>Sandıklı, Ankara–İzmir demiryolu güzergâhındadır; tren ile ilçeye ulaşım mümkündür.</p>
         </article>
         <article class="icon-box">
-          <div class="icon">✈️</div>
+          <div class="icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#plane"></use></svg></div>
           <h3>Hava yolu</h3>
           <p>En yakın sivil havalimanı: Isparta Süleyman Demirel (~115 km). Afyon askerî havalimanının sivil kullanımı çalışmaları anılır.</p>
         </article>
         <article class="icon-box">
-          <div class="icon">🚌</div>
+          <div class="icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#bus"></use></svg></div>
           <h3>Toplu taşıma</h3>
           <p>Şehirlerarası otobüs ve ilçe içi minibüslerle Hüdai ve merkez bağlantıları sağlanır.</p>
         </article>
       </div>
 
       <div class="reveal" style="margin-top:3rem">
-        <table class="info-table">
+        <div class="table-scroll" role="region" aria-label="Ulaşım mesafeleri" tabindex="0">
+          <table class="info-table">
           <thead>
             <tr>
               <th>Rota / nokta</th>
@@ -152,6 +157,7 @@
             <tr><td>Konum karakteri</td><td>İç Ege; Ege · Akdeniz · İç Anadolu kesişimi</td></tr>
           </tbody>
         </table>
+        </div>
       </div>
 
       <div class="map-embed reveal" style="margin-top:2.5rem">
@@ -218,28 +224,28 @@
           <h3>Sandıklı Portal</h3>
           <p>Bağımsız tanıtım sitesi. Resmi işlemler için kaymakamlık ve belediye kanallarını kullanınız.</p>
           <div class="contact-item">
-            <div class="ci-icon">📍</div>
+            <div class="ci-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#pin"></use></svg></div>
             <div>
               <strong>Konum</strong>
               <span>Sandıklı / Afyonkarahisar · 03500</span>
             </div>
           </div>
           <div class="contact-item">
-            <div class="ci-icon">🏛️</div>
+            <div class="ci-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#landmark"></use></svg></div>
             <div>
               <strong>Kaymakamlık</strong>
               <span>Ece Mah. Yunusemre Bulvarı No:5 · 0272 512 50 00</span>
             </div>
           </div>
           <div class="contact-item">
-            <div class="ci-icon">♨️</div>
+            <div class="ci-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#thermal"></use></svg></div>
             <div>
               <strong>Hüdai Kaplıcaları</strong>
               <span>hudai.sandikli.bel.tr · 0272 535 73 27–29</span>
             </div>
           </div>
           <div class="contact-item">
-            <div class="ci-icon">🔗</div>
+            <div class="ci-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#link"></use></svg></div>
             <div>
               <strong>Resmi siteler</strong>
               <span>sandikli.gov.tr · afyonkarahisar.gov.tr</span>
@@ -296,6 +302,8 @@
     </div>
   </section>
 
+  </main>
+
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -318,6 +326,7 @@
   </footer>
   <script src="assets/js/navbar.js"></script>
   <script src="assets/js/main.js"></script>
+<script src="assets/js/search.js" defer></script>
 </body>
 </html>
 

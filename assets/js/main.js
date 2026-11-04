@@ -2,12 +2,56 @@
 (function () {
   "use strict";
 
+  // ---------------------------------------------------------------- Simgeler
+  // Arayüzde emoji yok: tüm simgeler assets/icons/sprite.svg'ten gelir.
+  const SPRITE = "assets/icons/sprite.svg";
+  function icon(name, cls) {
+    return (
+      '<svg class="i' +
+      (cls ? " " + cls : "") +
+      '" aria-hidden="true" focusable="false">' +
+      '<use href="' +
+      SPRITE +
+      "#" +
+      name +
+      '"></use></svg>'
+    );
+  }
+
+  // Kırık uzak görseller (404 / hotlink engeli) boş çerçeve bırakmasın:
+  // dokulu yer tutucuya dönüşür, düzeni ve okunabilirliği bozmaz.
+  function guardImages() {
+    document.querySelectorAll("img").forEach((img) => {
+      // Henüz kaynağı olmayan görseller (lightbox kabuğu) yer tutucuya dönüşmesin.
+      if (!img.getAttribute("src")) return;
+      const fail = () => {
+        if (img.dataset.failed) return;
+        img.dataset.failed = "1";
+        img.classList.add("is-missing");
+      };
+      if (img.complete && img.naturalWidth === 0) fail();
+      img.addEventListener("error", fail, { once: true });
+    });
+  }
+
+  // Lightbox'ın tek <img> kabuğu her açılışta yeni kaynak alır; eski hata
+  // işareti temizlenmezse yeni fotoğraf da yer tutucu olarak görünür.
+  function resetImageState(img) {
+    if (!img) return;
+    img.classList.remove("is-missing");
+    delete img.dataset.failed;
+  }
+
+  guardImages();
+
   // Aurora background removed — static canvas surface
   // Navbar, navbar.js fetch sonrası yüklendiğinden interaction kodları
   // ayrıca tanımlanır ve navbar.js tarafından tetiklenir. bkz. _initNavbarInteractions.
 
   // Reveal on scroll
   const reveals = document.querySelectorAll(".reveal");
+  // Gizleme yalnızca JS burada çalıştığında devreye girer (aşamalı iyileştirme).
+  if (reveals.length) document.documentElement.classList.add("reveal-ready");
   if (reveals.length && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(
       (entries) => {
@@ -60,27 +104,66 @@
   // Lightbox for gallery
   const lb = document.getElementById("lightbox");
   const lbImg = lb && lb.querySelector("img");
+  const lbClose = lb && lb.querySelector(".lightbox-close");
+  let lbOpener = null;
+
+  // Kapanışta odağı açan öğeye geri ver; ekran okuyucu diyaloğu artık görmesin.
+  function closeLightbox() {
+    if (!lb || !lb.classList.contains("open")) return;
+    lb.classList.remove("open");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lbOpener && typeof lbOpener.focus === "function") lbOpener.focus();
+    lbOpener = null;
+  }
+
+  function openLightbox(el) {
+    if (!lb || !lbImg) return;
+    const src = el.getAttribute("data-full") || el.querySelector("img")?.src || el.src;
+    const alt = el.getAttribute("data-caption") || el.querySelector("img")?.alt || "";
+    resetImageState(lbImg);
+    // onerror ataması her açılışta öncekini değiştirir; addEventListener ile
+    // görsel başarıyla yüklendiğinde dinleyiciler birikiyordu.
+    lbImg.onerror = () => {
+      lbImg.dataset.failed = "1";
+      lbImg.classList.add("is-missing");
+    };
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lbOpener = el;
+    lb.classList.add("open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    if (lbClose) lbClose.focus();
+  }
+
   document.querySelectorAll("[data-lightbox]").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
-      if (!lb || !lbImg) return;
-      const src = el.getAttribute("data-full") || el.querySelector("img")?.src || el.src;
-      const alt = el.getAttribute("data-caption") || el.querySelector("img")?.alt || "";
-      lbImg.src = src;
-      lbImg.alt = alt;
-      lb.classList.add("open");
-      document.body.style.overflow = "hidden";
+      openLightbox(el);
     });
+    // Klavyeyle açılabilir olmalı (bağlantı/buton değilse)
+    if (!/^(A|BUTTON)$/.test(el.tagName) && !el.hasAttribute("tabindex")) {
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("role", "button");
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openLightbox(el);
+        }
+      });
+    }
   });
+
   if (lb) {
-    lb.addEventListener("click", () => {
-      lb.classList.remove("open");
-      document.body.style.overflow = "";
+    // Kapatma: arka plana tıklama veya kapat düğmesi (görsele tıklamak kapatmaz)
+    lb.addEventListener("click", (e) => {
+      if (e.target !== lbImg) closeLightbox();
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && lb.classList.contains("open")) {
-        lb.classList.remove("open");
-        document.body.style.overflow = "";
+        e.preventDefault();
+        closeLightbox();
       }
     });
   }
@@ -134,12 +217,23 @@
       inner.insertBefore(btn, target);
     }
 
-    btn.textContent = theme === "dark" ? "☀️" : "🌙";
+    function paintThemeButton(isDark) {
+      btn.innerHTML = icon(isDark ? "sun" : "moon");
+      btn.setAttribute("aria-pressed", String(isDark));
+      const label = isDark ? "Açık temaya geç" : "Koyu temaya geç";
+      btn.title = label;
+      btn.setAttribute("aria-label", label);
+    }
+
+    paintThemeButton(theme === "dark");
+    // Birden fazla init çağrısı (navbar.js + main.js) dinleyiciyi çoğaltmasın:
+    // iki dinleyici tek tıkla temayı ileri-geri alıp "çalışmıyor" gibi görünüyordu.
+    if (btn.dataset.themeInit === "1") return;
+    btn.dataset.themeInit = "1";
     btn.addEventListener("click", () => {
       const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
       root.setAttribute("data-theme", next);
-      btn.textContent = next === "dark" ? "☀️" : "🌙";
-      btn.title = next === "dark" ? "Açık temaya geç" : "Koyu temaya geç";
+      paintThemeButton(next === "dark");
       try { localStorage.setItem(KEY, next); } catch (e) {}
     });
   }
@@ -157,6 +251,9 @@
   function initNavWeatherIcon() {
     const inner = document.querySelector(".navbar-inner");
     if (!inner) return;
+    // navbar.js ve main.js ikisi de çağırıyor: tek istek yapılsın.
+    if (window._navWeatherInit) return;
+    window._navWeatherInit = true;
 
     // Sağ üst: menü / hamburger'ın hemen solu
     let el = document.getElementById("nav-weather");
@@ -177,33 +274,34 @@
       }
     }
 
+    // [açıklama, sprite simge adı]
     const WMO = {
-      0: ["Açık", "☀️"],
-      1: ["Çoğunlukla açık", "🌤️"],
-      2: ["Parçalı bulutlu", "⛅"],
-      3: ["Kapalı", "☁️"],
-      45: ["Sisli", "🌫️"],
-      48: ["Kırağılı sis", "🌫️"],
-      51: ["Hafif çisenti", "🌦️"],
-      53: ["Çisenti", "🌦️"],
-      55: ["Yoğun çisenti", "🌧️"],
-      61: ["Hafif yağmur", "🌧️"],
-      63: ["Yağmur", "🌧️"],
-      65: ["Şiddetli yağmur", "🌧️"],
-      66: ["Dondurucu yağmur", "🌨️"],
-      67: ["Şiddetli dondurucu yağmur", "🌨️"],
-      71: ["Hafif kar", "🌨️"],
-      73: ["Kar", "❄️"],
-      75: ["Yoğun kar", "❄️"],
-      77: ["Kar taneleri", "❄️"],
-      80: ["Hafif sağanak", "🌦️"],
-      81: ["Sağanak", "🌧️"],
-      82: ["Şiddetli sağanak", "⛈️"],
-      85: ["Hafif kar sağanağı", "🌨️"],
-      86: ["Kar sağanağı", "❄️"],
-      95: ["Gök gürültülü", "⛈️"],
-      96: ["Dolu riski", "⛈️"],
-      99: ["Şiddetli dolu", "⛈️"],
+      0: ["Açık", "sun"],
+      1: ["Çoğunlukla açık", "cloud-sun"],
+      2: ["Parçalı bulutlu", "cloud-sun"],
+      3: ["Kapalı", "cloud"],
+      45: ["Sisli", "fog"],
+      48: ["Kırağılı sis", "fog"],
+      51: ["Hafif çisenti", "drizzle"],
+      53: ["Çisenti", "drizzle"],
+      55: ["Yoğun çisenti", "rain"],
+      61: ["Hafif yağmur", "rain"],
+      63: ["Yağmur", "rain"],
+      65: ["Şiddetli yağmur", "rain"],
+      66: ["Dondurucu yağmur", "snow"],
+      67: ["Şiddetli dondurucu yağmur", "snow"],
+      71: ["Hafif kar", "snow"],
+      73: ["Kar", "snow"],
+      75: ["Yoğun kar", "snow"],
+      77: ["Kar taneleri", "snow"],
+      80: ["Hafif sağanak", "drizzle"],
+      81: ["Sağanak", "rain"],
+      82: ["Şiddetli sağanak", "storm"],
+      85: ["Hafif kar sağanağı", "snow"],
+      86: ["Kar sağanağı", "snow"],
+      95: ["Gök gürültülü", "storm"],
+      96: ["Dolu riski", "storm"],
+      99: ["Şiddetli dolu", "storm"],
     };
 
     // Sandıklı
@@ -226,10 +324,11 @@
           data.current && typeof data.current.temperature_2m === "number"
             ? Math.round(data.current.temperature_2m)
             : null;
-        const pair = WMO[code] || ["Hava", "🌡️"];
+        const pair = WMO[code] || ["Hava", "thermometer"];
         const desc = pair[0];
-        const icon = pair[1];
-        el.textContent = icon;
+        el.innerHTML =
+          icon(pair[1]) +
+          (temp != null ? '<span class="nav-weather-temp">' + temp + "°</span>" : "");
         el.title =
           temp != null
             ? `Sandıklı · ${desc} · ${temp}°C`
@@ -260,7 +359,7 @@
       floatBtn.type = "button";
       floatBtn.className = "tts-float";
       floatBtn.setAttribute("aria-label", "Seslendirmeyi durdur");
-      floatBtn.innerHTML = "⏹ Seslendirmeyi durdur";
+      floatBtn.innerHTML = icon("stop") + " Seslendirmeyi durdur";
       document.body.appendChild(floatBtn);
     }
 
@@ -281,7 +380,7 @@
       if (supported) speechSynthesis.cancel();
       if (activeBtn) {
         activeBtn.classList.remove("is-playing");
-        activeBtn.innerHTML = '<span class="tts-icon" aria-hidden="true">🔊</span> Dinle';
+        activeBtn.innerHTML = icon("speak", "tts-icon") + " Dinle";
         activeBtn.setAttribute("aria-pressed", "false");
       }
       if (activeBlock) activeBlock.classList.remove("is-speaking");
@@ -320,7 +419,7 @@
         activeBtn = btn;
         activeBlock = block;
         btn.classList.add("is-playing");
-        btn.innerHTML = '<span class="tts-icon" aria-hidden="true">⏹</span> Durdur';
+        btn.innerHTML = icon("stop", "tts-icon") + " Durdur";
         btn.setAttribute("aria-pressed", "true");
         if (block) block.classList.add("is-speaking");
         floatBtn.classList.add("show");
@@ -370,7 +469,7 @@
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "tts-btn";
-      btn.innerHTML = '<span class="tts-icon" aria-hidden="true">🔊</span> Dinle';
+      btn.innerHTML = icon("speak", "tts-icon") + " Dinle";
       btn.setAttribute("aria-pressed", "false");
       btn.title = "Bu vefat duyurusunu sesli dinle";
 
@@ -467,7 +566,7 @@
 
         if (nameEl && name) nameEl.textContent = name;
         if (addrEl && addr) {
-          addrEl.innerHTML = `<span aria-hidden="true">📍</span> ${addr}`;
+          addrEl.innerHTML = icon("pin") + " " + addr;
         }
         if (mapEl && mapLink && mapLink !== "#") {
           mapEl.setAttribute("href", mapLink);
@@ -490,7 +589,7 @@
 
         if (nameEl && name) nameEl.textContent = name;
         if (addrEl && addr) {
-          addrEl.innerHTML = `<span aria-hidden="true">📍</span> ${addr}`;
+          addrEl.innerHTML = icon("pin") + " " + addr;
         }
         if (mapEl && mapLink && mapLink !== "#") {
           mapEl.setAttribute("href", mapLink);
@@ -528,12 +627,20 @@
       document.body.appendChild(backdrop);
     }
 
-    function closeMenu() {
+    function syncToggle(willOpen) {
+      if (!toggle) return;
+      toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      toggle.setAttribute("aria-label", willOpen ? "Menüyü kapat" : "Menüyü aç");
+    }
+
+    function closeMenu(restoreFocus) {
       if (links) links.classList.remove("open");
       if (navbar) navbar.classList.remove("menu-open");
       if (backdrop) backdrop.classList.remove("active");
       document.body.style.overflow = "";
+      syncToggle(false);
       closeAllDropdowns();
+      if (restoreFocus && toggle && typeof toggle.focus === "function") toggle.focus();
     }
 
     // Tüm açık dropdown'ları kapat ve aria-expanded senkronla
@@ -552,7 +659,27 @@
       navbar.classList.toggle("menu-open", willOpen);
       if (backdrop) backdrop.classList.toggle("active", willOpen);
       document.body.style.overflow = willOpen ? "hidden" : "";
+      syncToggle(willOpen);
+      if (willOpen) {
+        var firstLink = links.querySelector("a[href], .nav-dropdown-btn");
+        if (firstLink) firstLink.focus();
+      } else if (toggle) {
+        toggle.focus();
+      }
     }
+
+    // Masaüstüne dönünce açık menü kilitli kalmasın (döndürme / yeniden boyutlama)
+    if (!window._navResize) {
+      window._navResize = function () {
+        if (window.matchMedia("(min-width: 1081px)").matches && links && links.classList.contains("open")) {
+          closeMenu();
+        }
+      };
+      window.addEventListener("resize", window._navResize, { passive: true });
+    }
+
+    // Başlangıç durumu: kapalı (ARIA durumu HTML'de sabit kalmasın)
+    syncToggle(links ? links.classList.contains("open") : false);
 
     if (toggle && !toggle.dataset.navInit) {
       toggle.dataset.navInit = "1";
@@ -601,7 +728,9 @@
     // Escape ile kapat
     if (!window._navEscape) {
       window._navEscape = function (e) {
-        if (e.key === "Escape") closeMenu();
+        if (e.key !== "Escape") return;
+        if (links && links.classList.contains("open")) closeMenu(true);
+        else closeAllDropdowns();
       };
       document.addEventListener("keydown", window._navEscape);
     }
@@ -620,4 +749,10 @@
     // Tema toggle'ı navbar.js tarafından bağlanır (_initThemeToggle)
   }
   window._initNavbarInteractions = initNavbarInteractions;
+
+  // Gömülü navbar (scripts/inline_navbar.py) varsa davranışı burada da kur.
+  // navbar.js bu script'ten önce çalıştığı için kendi çağrısı boşa düşebilir;
+  // initNavbarInteractions idempotent (dataset.navInit) olduğundan güvenlidir.
+  if (document.querySelector("#navbar-root .navbar")) initNavbarInteractions();
+  if (typeof window._initThemeToggle === "function") window._initThemeToggle();
 })();

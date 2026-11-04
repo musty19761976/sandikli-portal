@@ -61,12 +61,21 @@
     if (!bar) return;
     bar.hidden = false;
     bar.innerHTML =
-      '<form class="search-form" role="search" action="javascript:void 0">' +
-      '<input id="site-search" class="search-input" type="search" placeholder="Sandıklı’da ara… (eczane, termal, haber…)" autocomplete="off" aria-label="Site içinde ara" />' +
-      '<ul id="search-results" class="search-results" hidden></ul>' +
+      '<form class="search-form" role="search" autocomplete="off">' +
+      '<input id="site-search" class="search-input" type="search" placeholder="Sandıklı’da ara… (eczane, termal, haber…)" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list" aria-label="Site içinde ara" />' +
+      '<ul id="search-results" class="search-results" role="listbox" aria-label="Arama sonuçları" hidden></ul>' +
       "</form>";
     box = document.getElementById("site-search");
     if (!box) return;
+    // Form gönderimi sayfayı yeniden yüklemesin: Enter ilk sonuca gider.
+    var form = bar.querySelector(".search-form");
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var first = document.querySelector("#search-results a");
+        if (first) location.href = first.getAttribute("href");
+      });
+    }
     box.addEventListener("input", render);
     box.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
@@ -93,11 +102,14 @@
       })
       .join("");
     list.hidden = false;
+    box.setAttribute("aria-expanded", "true");
   }
 
   function hideResults() {
     var list = document.getElementById("search-results");
     if (list) list.hidden = true;
+    var box = document.getElementById("site-search");
+    if (box) box.setAttribute("aria-expanded", "false");
   }
 
   // Tum sayfalarda calisir (search-bar tum sayfalara eklendi)

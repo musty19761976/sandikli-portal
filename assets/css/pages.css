@@ -1,0 +1,571 @@
+/* ==========================================================================
+   SANDIKLI PORTAL — Katman 4: Sayfaya özel bileşenler
+   Nöbetçi eczane, vefat ilanları, arşiv sayfaları, lakaplar, sözlük, 404.
+   ========================================================================== */
+
+@layer pages {
+  /* ------------------------------------------------------------- Nöbetçi eczane */
+  .today-pharmacy-card {
+    position: relative;
+    margin-bottom: var(--space-m);
+    padding: clamp(1.25rem, 3vw, 1.85rem);
+    border: 1px solid var(--clr-accent);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-surface);
+  }
+
+  .today-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: var(--space-s);
+  }
+
+  .badge-today {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-accent);
+    color: var(--clr-on-accent);
+    font-size: var(--step--2);
+    font-weight: 700;
+  }
+
+  .today-date-text {
+    color: var(--clr-mute);
+    font-size: var(--step--1);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .today-pharmacy-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+  }
+
+  .today-pharmacy-info {
+    flex: 1 1 16rem;
+    min-width: 0;
+  }
+
+  .today-pharmacy-name {
+    margin-bottom: 0.35rem;
+    color: var(--clr-ink);
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .today-pharmacy-addr {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+    line-height: 1.5;
+  }
+
+  .today-pharmacy-hours {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-accent-soft);
+    color: var(--clr-accent);
+    font-size: var(--step--2);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .today-pharmacy-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .pharma-table td.name {
+    color: var(--clr-ink);
+    font-weight: 600;
+  }
+
+  .pharma-table td.date,
+  .pharma-table td.hn,
+  .pharma-table td.hane {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .pharma-table a.map {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--clr-rule-2);
+    border-radius: var(--radius-pill);
+    color: var(--clr-ink);
+    font-size: var(--step--2);
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+  }
+
+  .pharma-table a.map:hover {
+    border-color: var(--clr-accent);
+    background-color: var(--clr-accent);
+    color: var(--clr-on-accent);
+  }
+
+  .pharma-table tr.today td {
+    background-color: var(--clr-accent-soft);
+    color: var(--clr-ink);
+    border-bottom-color: var(--clr-accent);
+  }
+
+  .pharma-table tr.today td.name,
+  .pharma-table tr.today td.date {
+    color: var(--clr-ink);
+    font-weight: 700;
+  }
+
+  .pharma-table tr.today a.map {
+    border-color: var(--clr-accent);
+    background-color: var(--clr-accent);
+    color: var(--clr-on-accent);
+  }
+
+  .pharma-table tr.today:hover td {
+    background-color: var(--clr-accent-soft);
+  }
+
+  /* --------------------------------------------------------------- Vefat ilanları */
+  .vefat-container {
+    width: 100%;
+  }
+
+  .vefat-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: var(--space-m);
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-md);
+    background-color: var(--clr-surface);
+  }
+
+  .vefat-search-wrap {
+    position: relative;
+    flex: 1 1 15rem;
+    min-width: 0;
+  }
+
+  .vefat-search-wrap input {
+    width: 100%;
+    padding: 0.55rem 0.9rem 0.55rem 2.2rem;
+    border: 1px solid var(--clr-rule-2);
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-paper-2);
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    transition: border-color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out);
+  }
+
+  .vefat-search-wrap input:focus {
+    outline: none;
+    background-color: var(--clr-surface-2);
+    border-color: var(--clr-accent);
+    box-shadow: 0 0 0 3px var(--clr-accent-soft);
+  }
+
+  .vefat-search-wrap .search-icon {
+    position: absolute;
+    inset-inline-start: 0.8rem;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    color: var(--clr-mute);
+    font-size: var(--step--1);
+    pointer-events: none;
+  }
+
+  .vefat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-accent-soft);
+    color: var(--clr-ink);
+    font-size: var(--step--2);
+    font-weight: 600;
+  }
+
+  .vefat-list,
+  .vefat-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vefat-list {
+    gap: var(--space-m);
+  }
+
+  .vefat-card,
+  .news-item {
+    overflow: hidden;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-surface);
+    transition: border-color var(--dur-2) var(--ease-out);
+  }
+
+  .vefat-card:hover,
+  .news-item:hover {
+    border-color: var(--clr-accent);
+  }
+
+  .vefat-card .head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.9rem 1.15rem 0.75rem;
+    border-bottom: 1px solid var(--clr-rule);
+    background-color: var(--clr-paper-2);
+  }
+
+  .vefat-card .label {
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+    font-weight: 600;
+  }
+
+  .vefat-card h3 {
+    color: var(--clr-ink);
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .vefat-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+    gap: 1px;
+    background-color: var(--clr-rule);
+    border-bottom: 1px solid var(--clr-rule);
+  }
+
+  .vefat-meta > div {
+    padding: 0.55rem 0.9rem;
+    background-color: var(--clr-surface);
+  }
+
+  .vefat-meta div span {
+    display: block;
+    margin-bottom: 0.1rem;
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+    font-weight: 600;
+  }
+
+  .vefat-meta div strong {
+    display: block;
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .vefat-body {
+    padding: 0.9rem 1.15rem 1rem;
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+    line-height: 1.6;
+  }
+
+  .vefat-empty-msg {
+    display: none;
+    padding: var(--space-xl) var(--space-s);
+    border: 1px dashed var(--clr-rule-2);
+    border-radius: var(--radius-lg);
+    color: var(--clr-mute);
+    font-size: var(--step-0);
+    text-align: center;
+  }
+
+  .vefat-footer-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: var(--space-xl);
+    padding: var(--space-m);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-surface);
+  }
+
+  .vefat-footer-banner h3 {
+    margin-bottom: 0.2rem;
+    font-size: var(--step-1);
+  }
+
+  .vefat-footer-banner p {
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+    line-height: 1.55;
+  }
+
+  /* ------------------------------------------------------------------- Arşiv */
+  .archive-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: var(--space-m);
+    padding-bottom: var(--space-s);
+    border-bottom: 1px solid var(--clr-rule);
+  }
+
+  .archive-nav a {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-pill);
+    color: var(--clr-ink);
+    font-size: var(--step--2);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .archive-nav a:hover {
+    border-color: var(--clr-accent);
+    color: var(--clr-accent);
+  }
+
+  .archive-page {
+    margin-bottom: var(--space-xl);
+  }
+
+  .archive-meta {
+    margin-bottom: var(--space-xs);
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .gloss-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-rule);
+  }
+
+  .gloss-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.6rem 0.9rem;
+    background-color: var(--clr-surface);
+  }
+
+  .gloss-item strong {
+    color: var(--clr-ink);
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    font-weight: 600;
+  }
+
+  .gloss-item span {
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+  }
+
+  /* ------------------------------------------------------ Sandıklımız menü ızgarası */
+  .mn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: clamp(0.85rem, 1.6vw, 1.25rem);
+  }
+
+  .mn-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: var(--space-m);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-surface);
+    transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
+  }
+
+  .mn-card:hover {
+    border-color: var(--clr-accent);
+    background-color: var(--clr-surface-2);
+  }
+
+  .mn-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+
+  .mn-card h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: var(--step-1);
+  }
+
+  .mn-count {
+    color: var(--clr-mute);
+    font-family: var(--font-body);
+    font-size: var(--step--2);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mn-more {
+    margin-top: auto;
+    padding-top: 0.35rem;
+    color: var(--clr-accent);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  /* ------------------------------------------------- Sözlük / deyim listeleri */
+  .sd-def li,
+  .sd-bullets li,
+  .sd-quotes li {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--clr-rule);
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+    line-height: 1.6;
+  }
+
+  .sd-def li:last-child,
+  .sd-bullets li:last-child,
+  .sd-quotes li:last-child {
+    border-bottom: 0;
+  }
+
+  .sd-def li strong {
+    flex: none;
+    color: var(--clr-ink);
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    font-weight: 600;
+  }
+
+  .sd-quotes li {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--clr-ink);
+  }
+
+  .sd-bullets li::before {
+    content: "";
+    flex: none;
+    width: 5px;
+    height: 5px;
+    margin-top: 0.6em;
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-accent);
+  }
+
+  .sd-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .sd-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-surface);
+    color: var(--clr-ink-2);
+    font-size: var(--step--2);
+    font-weight: 500;
+  }
+
+  .sd-note {
+    margin-top: var(--space-s);
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+    line-height: 1.55;
+  }
+
+  .sd-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+  }
+
+  /* --------------------------------------------------------------------- 404 */
+  .error-page {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0.5rem;
+    min-height: 100dvh;
+    padding: calc(var(--nav-h) + clamp(2rem, 6vw, 4rem)) var(--gutter) clamp(2.5rem, 6vw, 4rem);
+    text-align: center;
+  }
+
+  .error-page .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .error-page .code {
+    font-family: var(--font-display);
+    font-size: clamp(4.5rem, 15vw, 8.5rem);
+    font-weight: 600;
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+    color: var(--clr-ink);
+  }
+
+  .error-page .code span {
+    color: var(--clr-accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .error-page h1 {
+    max-width: 24ch;
+    font-size: var(--step-3);
+    color: var(--clr-ink);
+  }
+
+  .error-page p {
+    max-width: 34rem;
+    color: var(--clr-ink-2);
+  }
+
+  .error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-top: var(--space-s);
+  }
+}

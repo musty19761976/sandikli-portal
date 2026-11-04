@@ -42,6 +42,19 @@ HEADERS = {
 DATE_RE = re.compile(r"^(\d{2})\.(\d{2})\.(\d{4})$")
 
 
+def dizgi_duzelt(metin: str) -> str:
+    """Kaynaktan gelen vefat metinlerindeki dizgi hatalarini duzeltir.
+
+    Belediye sayfasinda cumleler bazen noktalama sonrasi bosluksuz geliyor
+    ("etmistir.Cenazesi") ve duz kesme isareti kullaniliyor. Bu fonksiyon
+    ayni metni portalda tipografik olarak dogru hale getirir.
+    """
+    metin = re.sub(r"[ 	]+([,;:!?])", r"", metin)
+    metin = re.sub(r"([,;:])(?=[^\s\d])", r" ", metin)
+    metin = re.sub(r"\.(?=[A-ZÇĞİÖŞÜ][a-zçğıöşü])", ". ", metin)
+    return metin.replace("'", "’")
+
+
 # --------------------------------------------------------------------- HTTP
 
 
@@ -193,7 +206,7 @@ def parse_cenaze(page_html: str) -> list[dict]:
         metin_m = re.search(r'item-foot">\s*<p class="text-small">\s*(.*?)\s*</p>', t, re.S)
         metin = ""
         if metin_m:
-            metin = re.sub(r"\s+", " ", html.unescape(metin_m.group(1))).strip()
+            metin = dizgi_duzelt(re.sub(r"\s+", " ", html.unescape(metin_m.group(1))).strip())
         items.append(
             {
                 "name": name,
@@ -246,7 +259,7 @@ def cenaze_cards_html(items: list[dict]) -> str:
     blocks = []
     for it in items:
         name = upper_tr(it["name"])
-        metin = html.escape(it["metin"])
+        metin = html.escape(dizgi_duzelt(it["metin"]))
         blocks.append(
             f"""        <article class="vefat-card">
           <div class="head">

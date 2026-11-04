@@ -24,3 +24,7 @@ Desktop.ini
 
 # Claude / İmpeccable yerel tarama
 .impeccable/
+
+# Arac/ajan yerel durumu
+.freebuff/
+.cloud-attachments/

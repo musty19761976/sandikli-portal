@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
@@ -7,26 +7,107 @@
   <title>404 · Sayfa Bulunamadı | Sandıklı Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="assets/css/style.css" />
-  <meta name="theme-color" content="#c9952e" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#0d6a5c" />
+  <meta name="robots" content="noindex" />
+    <meta name="twitter:image" content="https://musty19761976.github.io/sandikli-portal/assets/img/photos/sandikli-afyon.jpg" />
+    <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="404 · Sayfa Bulunamadı | Sandıklı Portal" />
-  <style>
-    .error-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; padding: 2rem; }
-    .error-page .code { font-family: var(--font-display); font-size: clamp(5rem, 12vw, 8rem); font-weight: 600; color: var(--ink); line-height: 1; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
-    .error-page .code span { color: var(--primary); }
-    .error-page h1 { font-family: var(--font-display); font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; color: var(--ink); margin-bottom: 0.75rem; }
-    .error-page p { color: var(--body); font-size: 1rem; margin-bottom: 2rem; max-width: 380px; }
-  </style>
 </head>
 <body>
-  <div class="error-page">
-    <div class="code">4<span>0</span>4</div>
-    <h1>Sayfa bulunamadı</h1>
-    <p>Aradığınız sayfa kaldırılmış, taşınmış veya hiç var olmamış olabilir.</p>
-    <a href="index.html" class="btn btn-primary">Ana Sayfaya Dön</a>
+  <a class="skip-link" href="#content">İçeriğe atla</a>
+  <div id="navbar-root"><header class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">S</span>
+      <span class="logo-text">Sandıklı</span>
+    </a>
+    <nav class="nav-links" aria-label="Ana menü">
+      <a href="index.html">Ana Sayfa</a>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Tarih &amp; Kültür</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu">
+          <a href="tarih.html"><strong>Tarihçe</strong><small>Antik çağlardan bugüne Sandıklı</small></a>
+          <a href="belgeler-ile-sandikli.html"><strong>Belgeler ile Sandıklı</strong><small>1831 Osmanlı arşivleri &amp; nüfus defteri</small></a>
+          <a href="geleneklerimiz.html"><strong>Geleneklerimiz</strong><small>Ramazan, bayramlar, düğünler &amp; adetler</small></a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Keşfet &amp; Yaşam</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu">
+          <a href="termal.html"><strong>Hüdai Termal</strong><small>Şifalı sular, çamur banyoları &amp; spa</small></a>
+          <a href="kesfet.html"><strong>Gezilecek Yerler</strong><small>Akdağ, Tokalı Kanyonu, yaylalar</small></a>
+          <a href="lezzet.html"><strong>Lezzet &amp; Mutfak</strong><small>Coğrafi işaretli leblebi, kebap &amp; ekmek</small></a>
+          <a href="ekonomi.html"><strong>Ekonomi &amp; Tarım</strong><small>Jeotermal seracılık, patates &amp; sanayi</small></a>
+          <a href="galeri.html"><strong>Foto Galeri</strong><small>Sandıklı’dan yüksek çözünürlüklü kareler</small></a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Sandıklımız</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu dropdown-mega">
+          <a href="sandiklimiz.html"><strong>Tüm bölümler</strong><small>Sandıklımız ana sayfası</small></a>
+          <a href="sandikli-tarihcesi.html"><strong>Sandıklı Tarihçesi</strong><small>Kusura Höyük’ten Cumhuriyet’e</small></a>
+          <a href="sandikli-siyasi-yapisi.html"><strong>Sandıklı Siyasi Yapısı</strong><small>1869’dan bugüne belediye başkanları</small></a>
+          <a href="sandiklida-kullanilan-lakaplar.html"><strong>Kullanılan Lakaplar</strong><small>Sülale ve aile lakapları</small></a>
+          <a href="sandiklida-kultur-sanat.html"><strong>Kültür-Sanat</strong><small>Yunus Emre, medreseler, camiler, yatırlar</small></a>
+          <a href="sandikli-kaymakamlari.html"><strong>Sandıklı Kaymakamları</strong><small>1935’ten bugüne kaymakamlar</small></a>
+          <a href="sandikli-mahalli-sozleri.html"><strong>Mahalli Sözler</strong><small>Yöre kelimeleri ve anlamları</small></a>
+          <a href="sandikli-atasozleri.html"><strong>Atasözleri</strong><small>Sandıklı’da yaşayan atasözleri</small></a>
+          <a href="sandikli-deyimleri.html"><strong>Deyimleri</strong><small>Yörede kullanılan deyimler</small></a>
+          <a href="bunlari-biliyor-musunuz.html"><strong>Bunları Biliyor musunuz?</strong><small>Ünlü hemşehriler, az bilinen gerçekler</small></a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false">
+          <span>Hizmetler</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-menu">
+          <a href="nobetci-eczaneler.html"><strong>Nöbetçi Eczaneler</strong><small>Günlük güncellenen nöbetçi listesi</small></a>
+          <a href="cenaze-ilanlari.html"><strong>Vefat İlanları</strong><small>Sandıklı Belediyesi resmi duyuruları</small></a>
+          <a href="ulasim.html"><strong>Ulaşım &amp; Konaklama</strong><small>Nasıl gidilir, otobüs, tren, oteller</small></a>
+        </div>
+      </div>
+
+      <a href="ulasim.html#iletisim" class="nav-cta">İletişim</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
   </div>
+</header></div>
+
+  <main class="error-page" id="content" tabindex="-1">
+    <p class="eyebrow">Sayfa bulunamadı</p>
+    <div class="code">4<span>0</span>4</div>
+    <h1>Aradığınız sayfaya ulaşamadık</h1>
+    <p>Aradığınız sayfa kaldırılmış, taşınmış veya hiç var olmamış olabilir. Aşağıdaki bağlantılardan devam edebilirsiniz.</p>
+    <div class="error-actions">
+      <a href="index.html" class="btn btn-primary">Ana Sayfaya Dön</a>
+      <a href="nobetci-eczaneler.html" class="btn btn-outline">Nöbetçi Eczaneler</a>
+      <a href="ulasim.html" class="btn btn-outline">Ulaşım</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom"><span>© <span data-year></span> Sandıklı Tanıtım Portalı</span><span>Afyonkarahisar · Türkiye</span></div>
+    </div>
+  </footer>
+  <script src="assets/js/navbar.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
