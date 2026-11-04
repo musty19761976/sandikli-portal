@@ -388,8 +388,20 @@
 
   /* -------------------------------------------------------------- Mobil menü */
   @media (max-width: 1080px) {
+    /* backdrop-filter, position: fixed torunlari icin containing block yaratir.
+       Cekmece bu yuzden viewport yerine 66px'lik navbar kutusuna gore
+       konumlaniyor, alt menu acilinca eksik boyaniyordu. Mobilde opak zemin
+       kullanip etkiyi kaldiriyoruz; masaustu gorunumu degismiyor. */
+    .navbar {
+      background-color: var(--clr-paper);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+
     .nav-toggle {
       display: flex;
+      width: 2.75rem;
+      height: 2.75rem;
     }
 
     .nav-links {
@@ -397,14 +409,19 @@
       inset-block: 0;
       inset-inline-end: 0;
       z-index: calc(var(--z-nav) + 3);
-      width: min(20rem, 86vw);
+      width: min(22rem, 92vw);
+      max-width: 100vw;
+      height: 100vh;
       height: 100dvh;
+      max-height: 100dvh;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
       flex-direction: column;
       align-items: stretch;
       justify-content: flex-start;
       gap: 2px;
       overflow-y: auto;
-      padding: calc(var(--nav-h) + 0.75rem) 1.1rem 1.5rem;
+      padding: calc(var(--nav-h) + 0.9rem) 1.1rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
       background-color: var(--clr-paper);
       border-left: 1px solid var(--clr-rule);
       box-shadow: var(--shadow-lg);
@@ -420,8 +437,14 @@
     .nav-dropdown-btn {
       justify-content: space-between;
       width: 100%;
+      min-height: 2.75rem;
       padding: 0.65rem 0.7rem;
       font-size: var(--step-0);
+    }
+
+    /* Alt menü öğeleri de parmakla rahat tıklanacak yükseklikte olsun. */
+    .dropdown-menu a {
+      padding: 0.55rem 0.7rem;
     }
 
     .nav-dropdown {
@@ -444,6 +467,18 @@
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
+      transform: none;
+    }
+
+    /* Masaustu kuralindaki translateX(-50%) alt menuyu cekmecenin disina
+       kaydiriyordu (x = -104). Mobilde konumlandirma tamamen akista. */
+    .nav-links .nav-dropdown .dropdown-menu,
+    .nav-links .nav-dropdown:hover .dropdown-menu,
+    .nav-links .nav-dropdown:focus-within .dropdown-menu,
+    .nav-links .nav-dropdown.is-open .dropdown-menu {
+      position: static;
+      top: auto;
+      left: auto;
       transform: none;
     }
 

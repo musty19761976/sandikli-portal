@@ -633,12 +633,27 @@
       toggle.setAttribute("aria-label", willOpen ? "Menüyü kapat" : "Menüyü aç");
     }
 
+    function isMobileNav() {
+      return window.matchMedia("(max-width: 1080px)").matches;
+    }
+
+    // Kapalı çekmece ekran okuyucuya ve klavye sırasına kapalı olmalı.
+    // Masaüstünde menü her zaman görünür; orada inert/aria-hidden uygulanmaz.
+    function syncDrawer(willOpen) {
+      if (!links) return;
+      var locked = isMobileNav() && !willOpen;
+      links.inert = locked;
+      if (locked) links.setAttribute("aria-hidden", "true");
+      else links.removeAttribute("aria-hidden");
+    }
+
     function closeMenu(restoreFocus) {
       if (links) links.classList.remove("open");
       if (navbar) navbar.classList.remove("menu-open");
       if (backdrop) backdrop.classList.remove("active");
       document.body.style.overflow = "";
       syncToggle(false);
+      syncDrawer(false);
       closeAllDropdowns();
       if (restoreFocus && toggle && typeof toggle.focus === "function") toggle.focus();
     }
@@ -660,7 +675,9 @@
       if (backdrop) backdrop.classList.toggle("active", willOpen);
       document.body.style.overflow = willOpen ? "hidden" : "";
       syncToggle(willOpen);
+      syncDrawer(willOpen);
       if (willOpen) {
+        links.scrollTop = 0;
         var firstLink = links.querySelector("a[href], .nav-dropdown-btn");
         if (firstLink) firstLink.focus();
       } else if (toggle) {
@@ -671,15 +688,16 @@
     // Masaüstüne dönünce açık menü kilitli kalmasın (döndürme / yeniden boyutlama)
     if (!window._navResize) {
       window._navResize = function () {
-        if (window.matchMedia("(min-width: 1081px)").matches && links && links.classList.contains("open")) {
-          closeMenu();
-        }
+        var open = links && links.classList.contains("open");
+        if (!isMobileNav() && open) closeMenu();
+        else syncDrawer(open);
       };
       window.addEventListener("resize", window._navResize, { passive: true });
     }
 
     // Başlangıç durumu: kapalı (ARIA durumu HTML'de sabit kalmasın)
     syncToggle(links ? links.classList.contains("open") : false);
+    syncDrawer(links ? links.classList.contains("open") : false);
 
     if (toggle && !toggle.dataset.navInit) {
       toggle.dataset.navInit = "1";
