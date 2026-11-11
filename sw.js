@@ -1,7 +1,7 @@
 /* Sandıklı Portal — Service Worker
    Cache-first: core HTML/CSS/JS önceden kaydedilir, görseller istek anında önbelleğe alınır.
    Değişiklikte PRECACHE_VERSION artır → eski önbellek temizlenir, site yenilenir. */
-const PRECACHE_VERSION = "sandikli-v36";
+const PRECACHE_VERSION = "sandikli-v37";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -94,7 +94,7 @@ self.addEventListener("fetch", (event) => {
   // Sayfa istekleri: network-first, önbellek yedeği (her zaman taze içerik)
   if (req.mode === "navigate") {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: "no-cache" })
         .then((res) => {
           const copy = res.clone();
           caches.open(PRECACHE_VERSION).then((c) => c.put(req, copy));
