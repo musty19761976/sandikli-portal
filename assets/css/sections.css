@@ -468,4 +468,178 @@
     color: var(--clr-mute);
     font-size: var(--step--2);
   }
+
+  /* ------------------------------------------------- Hava: 3 günlük mini tahmin */
+  .today-forecast {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.15rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--clr-rule);
+  }
+
+  .today-forecast-day {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    min-width: 0;
+    color: var(--clr-ink-2);
+    font-size: var(--step--2);
+    text-align: center;
+  }
+
+  .today-forecast-name {
+    color: var(--clr-mute);
+    font-weight: 600;
+  }
+
+  .today-forecast-day .i {
+    width: 1.15rem;
+    height: 1.15rem;
+    color: var(--clr-accent);
+  }
+
+  .today-forecast-temp {
+    color: var(--clr-ink);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .today-forecast-temp small {
+    margin-left: 0.1rem;
+    color: var(--clr-mute);
+    font-weight: 500;
+  }
+
+  /* ------------------------------------------------------- Hava durumu sayfası */
+  .hava-now {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+    padding: clamp(1.25rem, 3vw, 1.85rem);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-surface);
+  }
+
+  .hava-now-temp {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0.25rem 0;
+    color: var(--clr-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .hava-now-icon .i {
+    width: 2rem;
+    height: 2rem;
+    color: var(--clr-accent);
+  }
+
+  .hava-now-durum {
+    margin: 0;
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+  }
+
+  .hava-now-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(7rem, 1fr));
+    gap: 0.6rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hava-now-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .hava-now-list span {
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+  }
+
+  .hava-now-list strong {
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hava-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: 0.75rem;
+    margin-top: var(--space-s);
+  }
+
+  .hava-gun {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.9rem 0.75rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-surface);
+    text-align: center;
+  }
+
+  .hava-gun p {
+    margin: 0;
+  }
+
+  .hava-gun-name {
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    font-weight: 700;
+  }
+
+  .hava-gun-date {
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hava-gun .i {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--clr-accent);
+  }
+
+  .hava-gun-temp {
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hava-gun-rain {
+    color: var(--clr-accent);
+    font-size: var(--step--2);
+  }
+
+  .hava-note {
+    margin-top: var(--space-s);
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+  }
+
+  .hava-plan {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-m);
+    margin-top: var(--space-m);
+  }
 }

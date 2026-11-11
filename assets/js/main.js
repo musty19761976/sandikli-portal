@@ -172,7 +172,7 @@
   // Tek istek paylaşılır: navbar ikonu ile ana sayfadaki "Bugün Sandıklı'da" kartı
   // aynı veriyi kullanır. Sonuç 15 dakika oturum belleğinde tutulur.
   const HAVA_TTL = 15 * 60 * 1000;
-  const HAVA_KEY = "sandikli-hava";
+  const HAVA_KEY = "sandikli-hava-v2";
   let havaIstek = null;
 
   // [açıklama, sprite simge adı]
@@ -221,9 +221,11 @@
     // Sandıklı
     const url =
       "https://api.open-meteo.com/v1/forecast?latitude=38.465&longitude=30.270" +
-      "&current=temperature_2m,apparent_temperature,weather_code" +
-      "&daily=temperature_2m_max,temperature_2m_min&forecast_days=1" +
-      "&timezone=Europe%2FIstanbul";
+      "&current=temperature_2m,apparent_temperature,weather_code," +
+      "relative_humidity_2m,wind_speed_10m,precipitation" +
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min," +
+      "precipitation_probability_max" +
+      "&forecast_days=7&timezone=Europe%2FIstanbul";
 
     havaIstek = fetch(url)
       .then((r) => {
@@ -234,13 +236,27 @@
         const cur = data.current || {};
         const gunluk = data.daily || {};
         const sayi = (v) => (typeof v === "number" ? Math.round(v) : null);
+        const ondalik = (v) => (typeof v === "number" ? Math.round(v * 10) / 10 : null);
+        const dizi = (k) => (Array.isArray(gunluk[k]) ? gunluk[k] : []);
+        const tarihler = dizi("time");
+        const gunler = tarihler.map((tarih, i) => ({
+          tarih: tarih,
+          code: dizi("weather_code")[i],
+          max: sayi(dizi("temperature_2m_max")[i]),
+          min: sayi(dizi("temperature_2m_min")[i]),
+          yagis: sayi(dizi("precipitation_probability_max")[i]),
+        }));
         const out = {
           ts: Date.now(),
           code: cur.weather_code,
           temp: sayi(cur.temperature_2m),
           feels: sayi(cur.apparent_temperature),
-          max: Array.isArray(gunluk.temperature_2m_max) ? sayi(gunluk.temperature_2m_max[0]) : null,
-          min: Array.isArray(gunluk.temperature_2m_min) ? sayi(gunluk.temperature_2m_min[0]) : null,
+          nem: sayi(cur.relative_humidity_2m),
+          ruzgar: sayi(cur.wind_speed_10m),
+          yagis: ondalik(cur.precipitation),
+          max: gunler[0] ? gunler[0].max : null,
+          min: gunler[0] ? gunler[0].min : null,
+          gunler: gunler,
         };
         try {
           sessionStorage.setItem(HAVA_KEY, JSON.stringify(out));
@@ -257,6 +273,30 @@
     return havaIstek;
   }
 
+  // YYYY-MM-DD → "Cum" / "Cuma" (Türkiye saati)
+  function gunAdi(tarih, uzun) {
+    try {
+      return new Intl.DateTimeFormat("tr-TR", {
+        weekday: uzun ? "long" : "short",
+        timeZone: "Europe/Istanbul",
+      }).format(new Date(tarih + "T12:00:00Z"));
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function gunAy(tarih) {
+    try {
+      return new Intl.DateTimeFormat("tr-TR", {
+        day: "numeric",
+        month: "short",
+        timeZone: "Europe/Istanbul",
+      }).format(new Date(tarih + "T12:00:00Z"));
+    } catch (e) {
+      return tarih;
+    }
+  }
+
   // ---------- PWA: service worker kaydı ----------
   initSW();
 
@@ -267,6 +307,11 @@
   const pageFile = (location.pathname.split("/").pop() || "").toLowerCase();
   if (pageFile === "cenaze-ilanlari.html") {
     initTextToSpeech();
+  }
+
+  // ---------- Hava durumu sayfası: hava-durumu.html ----------
+  if (document.getElementById("hava-sayfa")) {
+    initHavaSayfasi();
   }
 
   // ---------- Bugün Sandıklı'da: eczane + son vefat + hava (yalnızca ana sayfa) ----------
@@ -750,6 +795,28 @@
           "hava-aralik",
           w.min != null && w.max != null ? "En düşük " + w.min + "° · en yüksek " + w.max + "°" : ""
         );
+
+        // Üç günlük mini tahmin (aynı istekte gelir)
+        const tahmin = alan("hava-tahmin");
+        if (tahmin && Array.isArray(w.gunler) && w.gunler.length) {
+          tahmin.innerHTML = w.gunler
+            .slice(0, 3)
+            .map((gun, i) => {
+              const p = WMO[gun.code] || ["Hava", "thermometer"];
+              const ad = i === 0 ? "Bugün" : gunAdi(gun.tarih);
+              return (
+                '<span class="today-forecast-day" title="' + ad + " · " + p[0] + '">' +
+                '<span class="today-forecast-name">' + ad + "</span>" +
+                icon(p[1]) +
+                '<span class="today-forecast-temp">' +
+                (gun.max != null ? gun.max + "°" : "—") +
+                "<small>" + (gun.min != null ? gun.min + "°" : "") + "</small>" +
+                "</span></span>"
+              );
+            })
+            .join("");
+        }
+
         goster("bugun-hava");
       })
       .catch(() => {});
@@ -758,6 +825,76 @@
     Promise.all([eczane, vefat, hava]).then(() => {
       if (!gosterilen) bolum.hidden = true;
     });
+  }
+
+  // Detaylı hava durumu sayfası: hava-durumu.html
+  function initHavaSayfasi() {
+    const kok = document.getElementById("hava-sayfa");
+    if (!kok) return;
+    const alan = (ad) => kok.querySelector('[data-field="' + ad + '"]');
+    const yaz = (ad, metin) => {
+      const el = alan(ad);
+      if (el) el.textContent = metin;
+    };
+
+    loadWeather()
+      .then((w) => {
+        const pair = WMO[w.code] || ["Hava", "thermometer"];
+        const ikon = alan("hava-ikon");
+        if (ikon) ikon.innerHTML = icon(pair[1]);
+        yaz("hava-sicaklik", w.temp != null ? w.temp + "°" : "—");
+        yaz(
+          "hava-durum",
+          pair[0] + (w.max != null && w.min != null ? " · bugün " + w.max + "° / " + w.min + "°" : "")
+        );
+        yaz("hava-hissedilen", w.feels != null ? w.feels + "°C" : "—");
+        yaz("hava-nem", w.nem != null ? "%" + w.nem : "—");
+        yaz("hava-ruzgar", w.ruzgar != null ? w.ruzgar + " km/s" : "—");
+        yaz("hava-yagis", w.yagis != null ? w.yagis + " mm" : "—");
+        try {
+          yaz(
+            "hava-guncelleme",
+            new Date(w.ts).toLocaleString("tr-TR", {
+              timeZone: "Europe/Istanbul",
+              day: "2-digit",
+              month: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+          );
+        } catch (e) {
+          yaz("hava-guncelleme", "—");
+        }
+
+        const liste = alan("hava-gunler");
+        if (liste && Array.isArray(w.gunler) && w.gunler.length) {
+          liste.innerHTML = w.gunler
+            .map((gun, i) => {
+              const p = WMO[gun.code] || ["Hava", "thermometer"];
+              return (
+                '<article class="hava-gun">' +
+                '<p class="hava-gun-name">' + (i === 0 ? "Bugün" : gunAdi(gun.tarih, true)) + "</p>" +
+                '<p class="hava-gun-date">' + gunAy(gun.tarih) + "</p>" +
+                icon(p[1]) +
+                '<p class="hava-gun-temp">' +
+                (gun.max != null ? gun.max + "°" : "—") +
+                " / " +
+                (gun.min != null ? gun.min + "°" : "—") +
+                "</p>" +
+                '<p class="hava-gun-rain">' +
+                p[0] +
+                (gun.yagis != null ? " · %" + gun.yagis : "") +
+                "</p>" +
+                "</article>"
+              );
+            })
+            .join("");
+        }
+      })
+      .catch(() => {
+        const hata = alan("hava-hata");
+        if (hata) hata.hidden = false;
+      });
   }
 
   function initNavbarInteractions() {

@@ -16,6 +16,7 @@
     { t: "Geleneklerimiz", href: "geleneklerimiz.html", k: "gelenek adet ramazan iftar kabir arife bayram dogum besik dogdu pelte corbasi dis duzlamasi hedik sunnet dugun takim gelin cumasi kultur" },
     { t: "Nöbetçi Eczaneler", href: "nobetci-eczaneler.html", k: "eczane nöbetçi ilaç ecza bugün harita" },
     { t: "Vefat İlanları", href: "cenaze-ilanlari.html", k: "vefat cenaze ilan duyuru ölüm taziye" },
+    { t: "Hava Durumu", href: "hava-durumu.html", k: "hava durumu tahmin sıcaklık yağış rüzgar nem termal gezi planı" },
     { t: "Ulaşım & İletişim", href: "ulasim.html", k: "ulaşım otobüs tren havalimanı konaklama otel yatak iletişim adres telefon form" },
     { t: "Sandıklımız (tüm bölümler)", href: "sandiklimiz.html", k: "sandıklımız sanvak bölüm içerik" },
     { t: "Sandıklı Tarihçesi (Sandıklımız)", href: "sandikli-tarihcesi.html", k: "kusura höyük tarihçe sandıklı efsane isim" },
