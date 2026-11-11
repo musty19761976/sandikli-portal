@@ -378,13 +378,36 @@
   }
 
   function initSW() {
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("sw.js").catch((err) => {
+    if (!("serviceWorker" in navigator)) return;
+
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("sw.js", { updateViaCache: "none" })
+        .then((reg) => {
+          // GitHub Pages sw.js'i ~10 dk önbellekleyebiliyor: hemen güncelleme kontrolü.
+          reg.update().catch(() => {});
+        })
+        .catch((err) => {
           console.warn("SW kayıt başarısız:", err);
         });
-      });
-    }
+    });
+
+    // Yeni service worker devreye girdiğinde sayfayı bir kez tazele: eski CSS/JS
+    // ile yeni HTML karışımı kullanıcıya "site bozuk" görünmesin. İlk kurulumda
+    // (önceden kontrolcü yokken) yenileme yapılmaz, döngü de engellenir.
+    const oncekiKontrolcu = !!navigator.serviceWorker.controller;
+    let yenilendi = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!oncekiKontrolcu || yenilendi) return;
+      yenilendi = true;
+      try {
+        if (sessionStorage.getItem("sandikli-sw-yenile") === "1") return;
+        sessionStorage.setItem("sandikli-sw-yenile", "1");
+      } catch (e) {
+        /* özel mod: yine de bir kez yenile */
+      }
+      location.reload();
+    });
   }
 
   function initNavWeatherIcon() {
