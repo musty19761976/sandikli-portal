@@ -281,6 +281,25 @@ def cenaze_cards_html(items: list[dict]) -> str:
     return "\n".join(blocks)
 
 
+def eczane_data_json(rows: list[tuple[str, str, str, str]], stamp: str) -> str:
+    """Ana sayfa "Bugün Sandıklı'da" kartı için küçük JSON.
+
+    Kart, tablo HTML'ini tarayıcıda ayrıştırmak yerine bu dosyayı okur; böylece
+    ana sayfa kırılgan HTML ayrıştırmasına bağlı kalmaz.
+    """
+    return json.dumps(
+        {
+            "guncelleme": stamp,
+            "eczaneler": [
+                {"tarih": d, "eczane": ad, "adres": addr, "harita": harita}
+                for d, ad, addr, harita in rows
+            ],
+        },
+        ensure_ascii=False,
+        indent=2,
+    )
+
+
 def eczane_table_html(rows: list[tuple[str, str, str, str]], today: str) -> str:
     trs = []
     for d, name, addr, map_url in rows:
@@ -305,6 +324,10 @@ def sync_eczane(today: datetime, stamp: str) -> None:
     rows = parse_eczane(page)
     validate_eczane(rows, today)
     print(f"  eczane: {len(rows)} satır · kaynak: {via}")
+
+    # Ana sayfa kartı bu dosyayı okur (HTML tablosunu ayrıştırmaya gerek kalmaz).
+    data_path = ROOT / "assets" / "eczane-data.json"
+    write_if_changed(data_path, eczane_data_json(rows, stamp))
 
     path = ROOT / "nobetci-eczaneler.html"
     txt = path.read_text(encoding="utf-8")

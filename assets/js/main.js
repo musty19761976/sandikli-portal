@@ -168,6 +168,95 @@
     });
   }
 
+  // ---------------------------------------------------------------- Hava durumu
+  // Tek istek paylaşılır: navbar ikonu ile ana sayfadaki "Bugün Sandıklı'da" kartı
+  // aynı veriyi kullanır. Sonuç 15 dakika oturum belleğinde tutulur.
+  const HAVA_TTL = 15 * 60 * 1000;
+  const HAVA_KEY = "sandikli-hava";
+  let havaIstek = null;
+
+  // [açıklama, sprite simge adı]
+  const WMO = {
+    0: ["Açık", "sun"],
+    1: ["Çoğunlukla açık", "cloud-sun"],
+    2: ["Parçalı bulutlu", "cloud-sun"],
+    3: ["Kapalı", "cloud"],
+    45: ["Sisli", "fog"],
+    48: ["Kırağılı sis", "fog"],
+    51: ["Hafif çisenti", "drizzle"],
+    53: ["Çisenti", "drizzle"],
+    55: ["Yoğun çisenti", "rain"],
+    61: ["Hafif yağmur", "rain"],
+    63: ["Yağmur", "rain"],
+    65: ["Şiddetli yağmur", "rain"],
+    66: ["Dondurucu yağmur", "snow"],
+    67: ["Şiddetli dondurucu yağmur", "snow"],
+    71: ["Hafif kar", "snow"],
+    73: ["Kar", "snow"],
+    75: ["Yoğun kar", "snow"],
+    77: ["Kar taneleri", "snow"],
+    80: ["Hafif sağanak", "drizzle"],
+    81: ["Sağanak", "rain"],
+    82: ["Şiddetli sağanak", "storm"],
+    85: ["Hafif kar sağanağı", "snow"],
+    86: ["Kar sağanağı", "snow"],
+    95: ["Gök gürültülü", "storm"],
+    96: ["Dolu riski", "storm"],
+    99: ["Şiddetli dolu", "storm"],
+  };
+
+  function loadWeather() {
+    if (havaIstek) return havaIstek;
+
+    try {
+      const onbellek = JSON.parse(sessionStorage.getItem(HAVA_KEY) || "null");
+      if (onbellek && Date.now() - onbellek.ts < HAVA_TTL) {
+        havaIstek = Promise.resolve(onbellek);
+        return havaIstek;
+      }
+    } catch (e) {
+      /* önbellek okunamadı: ağdan devam */
+    }
+
+    // Sandıklı
+    const url =
+      "https://api.open-meteo.com/v1/forecast?latitude=38.465&longitude=30.270" +
+      "&current=temperature_2m,apparent_temperature,weather_code" +
+      "&daily=temperature_2m_max,temperature_2m_min&forecast_days=1" +
+      "&timezone=Europe%2FIstanbul";
+
+    havaIstek = fetch(url)
+      .then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then((data) => {
+        const cur = data.current || {};
+        const gunluk = data.daily || {};
+        const sayi = (v) => (typeof v === "number" ? Math.round(v) : null);
+        const out = {
+          ts: Date.now(),
+          code: cur.weather_code,
+          temp: sayi(cur.temperature_2m),
+          feels: sayi(cur.apparent_temperature),
+          max: Array.isArray(gunluk.temperature_2m_max) ? sayi(gunluk.temperature_2m_max[0]) : null,
+          min: Array.isArray(gunluk.temperature_2m_min) ? sayi(gunluk.temperature_2m_min[0]) : null,
+        };
+        try {
+          sessionStorage.setItem(HAVA_KEY, JSON.stringify(out));
+        } catch (e) {
+          /* önbelleğe yazılamadı: sorun değil */
+        }
+        return out;
+      })
+      .catch((e) => {
+        havaIstek = null;
+        throw e;
+      });
+
+    return havaIstek;
+  }
+
   // ---------- PWA: service worker kaydı ----------
   initSW();
 
@@ -178,6 +267,11 @@
   const pageFile = (location.pathname.split("/").pop() || "").toLowerCase();
   if (pageFile === "cenaze-ilanlari.html") {
     initTextToSpeech();
+  }
+
+  // ---------- Bugün Sandıklı'da: eczane + son vefat + hava (yalnızca ana sayfa) ----------
+  if (document.getElementById("bugun-sandiklida")) {
+    initBugunSandiklida();
   }
 
   // ---------- Nöbetçi Eczane: günün eczanesini en üstte göster ve tabloda vurgula ----------
@@ -274,70 +368,19 @@
       }
     }
 
-    // [açıklama, sprite simge adı]
-    const WMO = {
-      0: ["Açık", "sun"],
-      1: ["Çoğunlukla açık", "cloud-sun"],
-      2: ["Parçalı bulutlu", "cloud-sun"],
-      3: ["Kapalı", "cloud"],
-      45: ["Sisli", "fog"],
-      48: ["Kırağılı sis", "fog"],
-      51: ["Hafif çisenti", "drizzle"],
-      53: ["Çisenti", "drizzle"],
-      55: ["Yoğun çisenti", "rain"],
-      61: ["Hafif yağmur", "rain"],
-      63: ["Yağmur", "rain"],
-      65: ["Şiddetli yağmur", "rain"],
-      66: ["Dondurucu yağmur", "snow"],
-      67: ["Şiddetli dondurucu yağmur", "snow"],
-      71: ["Hafif kar", "snow"],
-      73: ["Kar", "snow"],
-      75: ["Yoğun kar", "snow"],
-      77: ["Kar taneleri", "snow"],
-      80: ["Hafif sağanak", "drizzle"],
-      81: ["Sağanak", "rain"],
-      82: ["Şiddetli sağanak", "storm"],
-      85: ["Hafif kar sağanağı", "snow"],
-      86: ["Kar sağanağı", "snow"],
-      95: ["Gök gürültülü", "storm"],
-      96: ["Dolu riski", "storm"],
-      99: ["Şiddetli dolu", "storm"],
-    };
-
-    // Sandıklı
-    const lat = "38.465";
-    const lon = "30.270";
-    const url =
-      "https://api.open-meteo.com/v1/forecast" +
-      `?latitude=${lat}&longitude=${lon}` +
-      "&current=temperature_2m,weather_code" +
-      "&timezone=Europe%2FIstanbul";
-
-    fetch(url)
-      .then((r) => {
-        if (!r.ok) throw new Error("fail");
-        return r.json();
-      })
-      .then((data) => {
-        const code = data.current && data.current.weather_code;
-        const temp =
-          data.current && typeof data.current.temperature_2m === "number"
-            ? Math.round(data.current.temperature_2m)
-            : null;
-        const pair = WMO[code] || ["Hava", "thermometer"];
-        const desc = pair[0];
+    loadWeather()
+      .then((w) => {
+        const pair = WMO[w.code] || ["Hava", "thermometer"];
         el.innerHTML =
           icon(pair[1]) +
-          (temp != null ? '<span class="nav-weather-temp">' + temp + "°</span>" : "");
+          (w.temp != null ? '<span class="nav-weather-temp">' + w.temp + "°</span>" : "");
         el.title =
-          temp != null
-            ? `Sandıklı · ${desc} · ${temp}°C`
-            : `Sandıklı · ${desc}`;
+          w.temp != null ? `Sandıklı · ${pair[0]} · ${w.temp}°C` : `Sandıklı · ${pair[0]}`;
         el.setAttribute(
           "aria-label",
-          temp != null
-            ? `Sandıklı hava: ${desc}, ${temp} derece`
-            : `Sandıklı hava: ${desc}`
+          w.temp != null
+            ? `Sandıklı hava: ${pair[0]}, ${w.temp} derece`
+            : `Sandıklı hava: ${pair[0]}`
         );
         el.hidden = false;
         // fade-in
@@ -603,6 +646,120 @@
 
   // Navbar interaction'ları — navbar.js fetch ile navbar'ı yükledikten
   // SONRA çağrılır (ilk yüklemede navbar yok, bu yüzden burada tanımlı).
+  // Ana sayfa: "Bugün Sandıklı'da" üçlü kartı.
+  // Kaynaklar: assets/eczane-data.json + assets/cenaze-data.json (günlük senkron) ve
+  // Open-Meteo. Veri gelmeyen kutu gizli kalır; üçü de gelmezse bölüm gizlenir.
+  function initBugunSandiklida() {
+    const bolum = document.getElementById("bugun-sandiklida");
+    if (!bolum) return;
+    const alan = (ad) => bolum.querySelector('[data-field="' + ad + '"]');
+    const yaz = (ad, metin) => {
+      const el = alan(ad);
+      if (el) el.textContent = metin;
+    };
+    let gosterilen = 0;
+    const goster = (id) => {
+      const el = document.getElementById(id);
+      if (el && el.hidden) {
+        el.hidden = false;
+        gosterilen += 1;
+      }
+    };
+
+    // Türkiye saatiyle bugün (gg.aa.yyyy)
+    function bugunStr() {
+      try {
+        const parts = new Intl.DateTimeFormat("tr-TR", {
+          timeZone: "Europe/Istanbul",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }).formatToParts(new Date());
+        const al = (t) => (parts.find((p) => p.type === t) || {}).value || "";
+        return al("day") + "." + al("month") + "." + al("year");
+      } catch (e) {
+        const d = new Date();
+        return (
+          String(d.getDate()).padStart(2, "0") +
+          "." +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "." +
+          d.getFullYear()
+        );
+      }
+    }
+
+    // gg.aa.yyyy → bugünden kaç gün sonra (negatifse geçmiş)
+    function gunFarki(hedef) {
+      const hedefParca = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(hedef || "");
+      const bugunParca = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(bugunStr());
+      if (!hedefParca || !bugunParca) return NaN;
+      const hedefMs = Date.UTC(+hedefParca[3], +hedefParca[2] - 1, +hedefParca[1]);
+      const bugunMs = Date.UTC(+bugunParca[3], +bugunParca[2] - 1, +bugunParca[1]);
+      return (hedefMs - bugunMs) / 86400000;
+    }
+
+    const bugun = bugunStr();
+
+    // 1) Nöbetçi eczane
+    const eczane = fetch("assets/eczane-data.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((veri) => {
+        const rows = Array.isArray(veri) ? veri : (veri && veri.eczaneler) || [];
+        if (!rows.length) return;
+        const bugunun = rows.find((x) => x.tarih === bugun);
+        const gelecek = rows
+          .filter((x) => gunFarki(x.tarih) >= 0)
+          .sort((a, b) => gunFarki(a.tarih) - gunFarki(b.tarih));
+        const secili = bugunun || gelecek[0] || rows[rows.length - 1];
+        if (!secili) return;
+
+        yaz("eczane", secili.eczane || "—");
+        yaz("adres", (bugunun ? "" : (secili.tarih || "") + " · ") + (secili.adres || ""));
+        const link = alan("harita");
+        if (link && secili.harita && secili.harita !== "#") link.setAttribute("href", secili.harita);
+        goster("bugun-eczane");
+        if (veri && veri.guncelleme) yaz("guncelleme", veri.guncelleme);
+      })
+      .catch(() => {});
+
+    // 2) Son vefat ilanı
+    const vefat = fetch("assets/cenaze-data.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((items) => {
+        if (!Array.isArray(items) || !items.length) return;
+        const it = items[0];
+        yaz("vefat-ad", it.name || "—");
+        const satir = [];
+        if (it.definT) satir.push("Defin: " + it.definT);
+        if (it.definS) satir.push(it.definS);
+        yaz("vefat-meta", satir.join(" · ") || "Sandıklı Belediyesi duyurusu");
+        goster("bugun-vefat");
+      })
+      .catch(() => {});
+
+    // 3) Bugünün havası (navbar ikonuyla aynı istek)
+    const hava = loadWeather()
+      .then((w) => {
+        const pair = WMO[w.code] || ["Hava", "thermometer"];
+        const ikon = alan("hava-ikon");
+        if (ikon) ikon.innerHTML = icon(pair[1]);
+        yaz("hava-sicaklik", w.temp != null ? w.temp + "°" : "—");
+        yaz("hava-durum", pair[0] + (w.feels != null ? " · hissedilen " + w.feels + "°" : ""));
+        yaz(
+          "hava-aralik",
+          w.min != null && w.max != null ? "En düşük " + w.min + "° · en yüksek " + w.max + "°" : ""
+        );
+        goster("bugun-hava");
+      })
+      .catch(() => {});
+
+    // Üç kaynak da boş dönerse bölümü gizle (boş kart görünmesin)
+    Promise.all([eczane, vefat, hava]).then(() => {
+      if (!gosterilen) bolum.hidden = true;
+    });
+  }
+
   function initNavbarInteractions() {
     var navbar = document.querySelector(".navbar");
     var toggle = document.querySelector(".nav-toggle");

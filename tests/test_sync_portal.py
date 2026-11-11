@@ -14,6 +14,7 @@ bozulduğu iki yeri yakalamak:
 from __future__ import annotations
 
 import importlib.util
+import json
 import unittest
 from datetime import datetime
 from pathlib import Path
@@ -93,6 +94,29 @@ def cenaze_sayfasi(*kartlar: str) -> str:
 
 
 # --------------------------------------------------------------------- testler
+
+
+class EczaneVeriJsonu(unittest.TestCase):
+    """Ana sayfa kartının okuduğu JSON: alan adları ve Türkçe karakterler."""
+
+    def test_alanlar_ve_sira(self):
+        rows = sp.parse_eczane(eczane_sayfasi(11, 3))
+        veri = json.loads(sp.eczane_data_json(rows, "2026-11-11"))
+        self.assertEqual(veri["guncelleme"], "2026-11-11")
+        self.assertEqual(len(veri["eczaneler"]), 3)
+        ilk = veri["eczaneler"][0]
+        self.assertEqual(ilk["tarih"], "01.11.2026")
+        self.assertEqual(ilk["eczane"], "Eczane 1")
+        self.assertIn("Mahalle 1", ilk["adres"])
+        self.assertTrue(ilk["harita"].startswith("https://maps.app.goo.gl/"))
+
+    def test_turkce_karakterler_kacirilmaz(self):
+        metin = sp.eczane_data_json(
+            [("01.11.2026", "Dost Eczanesi", "Çakır Mahallesi, İstasyon Caddesi", "#")],
+            "2026-11-11",
+        )
+        self.assertIn("Çakır", metin)
+        self.assertNotIn(r"\u00c7", metin)
 
 
 class EczaneAyristirma(unittest.TestCase):

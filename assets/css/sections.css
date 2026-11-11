@@ -386,4 +386,86 @@
       border-bottom: 1px solid var(--clr-rule);
     }
   }
+
+  /* ------------------------------------------- Bugün Sandıklı'da (ana sayfa) */
+  #bugun-sandiklida[hidden],
+  .today-tile[hidden] {
+    display: none;
+  }
+
+  .today-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-m);
+  }
+
+  .today-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: clamp(1.1rem, 2.5vw, 1.5rem);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-surface);
+  }
+
+  .today-tile-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--clr-accent);
+    font-size: var(--step--2);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .today-tile-title {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    color: var(--clr-ink);
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .today-tile-icon .i {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .today-tile-meta {
+    margin: 0;
+    color: var(--clr-ink-2);
+    font-size: var(--step--1);
+    line-height: 1.5;
+  }
+
+  .today-tile-range {
+    margin: 0;
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .today-tile-link {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--clr-accent);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .today-tile-link:hover {
+    text-decoration: underline;
+  }
+
+  .today-strip-note {
+    margin-top: var(--space-s);
+    color: var(--clr-mute);
+    font-size: var(--step--2);
+  }
 }

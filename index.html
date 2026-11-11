@@ -138,6 +138,47 @@
     <div class="hero-scroll" aria-hidden="true"><div class="mouse"></div>Keşfet</div>
   </section>
 
+  <!-- BUGÜN SANDIKLI'DA: nöbetçi eczane + son vefat ilanı + bugünün havası.
+       İçerik assets/eczane-data.json, assets/cenaze-data.json ve Open-Meteo'dan
+       doldurulur; veri gelmeyen kutu gizli kalır, hiç veri gelmezse bölüm gizlenir. -->
+  <section class="section" id="bugun-sandiklida" aria-labelledby="bugun-baslik">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Güncel</p>
+        <h2 class="display h2" id="bugun-baslik">Bugün Sandıklı’da</h2>
+        <p class="lead">
+          Nöbetçi eczane, son vefat ilanı ve bugünün havası. Liste ve ilanlar
+          Sandıklı Belediyesi’nden her gün otomatik güncellenir.
+        </p>
+      </div>
+      <div class="today-strip reveal">
+        <article class="today-tile" id="bugun-eczane" hidden>
+          <p class="today-tile-kicker"><span class="live-dot" aria-hidden="true"></span>Nöbetçi eczane</p>
+          <h3 class="today-tile-title" data-field="eczane">—</h3>
+          <p class="today-tile-meta" data-field="adres">—</p>
+          <a class="today-tile-link" data-field="harita" href="nobetci-eczaneler.html">Haritada yol tarifi</a>
+        </article>
+        <article class="today-tile" id="bugun-vefat" hidden>
+          <p class="today-tile-kicker">Son vefat ilanı</p>
+          <h3 class="today-tile-title" data-field="vefat-ad">—</h3>
+          <p class="today-tile-meta" data-field="vefat-meta">—</p>
+          <a class="today-tile-link" href="cenaze-ilanlari.html">Tüm ilanlar</a>
+        </article>
+        <article class="today-tile" id="bugun-hava" hidden>
+          <p class="today-tile-kicker">Bugünün havası</p>
+          <h3 class="today-tile-title"><span class="today-tile-icon" data-field="hava-ikon" aria-hidden="true"></span><span data-field="hava-sicaklik">—</span></h3>
+          <p class="today-tile-meta" data-field="hava-durum">—</p>
+          <p class="today-tile-range" data-field="hava-aralik">—</p>
+        </article>
+      </div>
+      <p class="today-strip-note">
+        Kaynak: <a href="https://sandikli.bel.tr/" target="_blank" rel="noopener">Sandıklı Belediyesi</a>
+        · hava verisi <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+        · son senkron: <span data-field="guncelleme">—</span>
+      </p>
+    </div>
+  </section>
+
   <!-- KİMLİK -->
   <section class="section">
     <div class="container">
