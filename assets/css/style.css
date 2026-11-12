@@ -15,4 +15,5 @@
 @import url("media.css") layer(components);
 @import url("icons.css") layer(components);
 @import url("chrome.css") layer(components);
+@import url("termal.css") layer(components);
 @import url("pages.css") layer(pages);

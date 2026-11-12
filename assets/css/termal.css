@@ -1,0 +1,229 @@
+/* ==========================================================================
+   SANDIKLI PORTAL — Katman 3f: Termal kesit (tasarım geçişi)
+   Kimlik: Hüdai termal suyu + kireçtaşı düzlemi + Akdağ eş yükselti çizgileri.
+   Bu dosya yalnızca görsel dili rafine eder; sınıf adları ve işaretleme sabit.
+   ========================================================================== */
+
+@layer tokens {
+  :root {
+    /* Kireçtaşı biraz daha soğuk, mürekkep daha derin: krem/terra klişesinden uzak */
+    --clr-paper: #f3eee1;
+    --clr-paper-2: #e6dfcc;
+    --clr-surface: #faf6eb;
+    --clr-surface-2: #fffbf2;
+    --clr-ink: #0a1b16;
+    --clr-ink-2: #293a33;
+    --clr-mute: #57665f;
+    --clr-rule: #d3cab5;
+    --clr-rule-2: #b8ad95;
+
+    /* Mineral su yeşili: daha koyu, daha az "neon" */
+    --clr-accent: #0b6157;
+    --clr-accent-2: #084a43;
+    --clr-accent-soft: #d6e8e1;
+
+    /* Bakır: nadir, yalnızca "bugün" ve yazıt işaretleri */
+    --clr-copper: #a85a2e;
+    --clr-copper-soft: #f0e0d2;
+
+    /* Kesit çizgisi */
+    --clr-contour: rgba(10, 27, 22, 0.075);
+
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    --shadow-md: 0 10px 26px -22px rgba(10, 27, 22, 0.3);
+    --shadow-lg: 0 22px 54px -34px rgba(10, 27, 22, 0.38);
+
+    /* Eş yükselti çizgileri (Akdağ): tek kaynak, hero zemini */
+    --contour-lines: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240'%3E%3Cg fill='none' stroke='%230a1b16' stroke-opacity='.075' stroke-width='1'%3E%3Cpath d='M-20 206C80 158 158 214 258 174S438 116 538 154 700 122 762 152'/%3E%3Cpath d='M-20 166C92 118 170 174 270 134S450 76 550 114 712 82 762 112'/%3E%3Cpath d='M-20 126C104 78 182 134 282 94S462 36 562 74 724 42 762 72'/%3E%3Cpath d='M-20 86C116 38 194 94 294 54S474 -4 574 34 736 2 762 32'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  :root[data-theme="dark"] {
+    --clr-paper: #08130f;
+    --clr-paper-2: #050d0b;
+    --clr-surface: #0e1c17;
+    --clr-surface-2: #142420;
+    --clr-ink: #e8f0eb;
+    --clr-ink-2: #a6b6af;
+    --clr-mute: #83948c;
+    --clr-rule: #20302a;
+    --clr-rule-2: #33453d;
+
+    --clr-accent: #56d2b8;
+    --clr-accent-2: #7ae0c9;
+    --clr-accent-soft: rgba(86, 210, 184, 0.14);
+    --clr-copper: #d99a68;
+    --clr-copper-soft: rgba(217, 154, 104, 0.16);
+    --clr-contour: rgba(232, 240, 235, 0.07);
+  }
+}
+
+@layer components {
+  /* ------------------------------------------------------------- Hero: kesit */
+  /* Fotoğraf karartılmaz; mineral suya batırılmış gibi çift tonlanır. */
+  .hero-bg.has-photo {
+    filter: saturate(0.5) contrast(1.03);
+    background-position: center 45%;
+  }
+
+  /* Metin tarafında kâğıt perdesi güçlü kalır; fotoğraf sağda nefes alır. */
+  .hero-bg.has-photo::after {
+    background:
+      linear-gradient(
+        100deg,
+        var(--clr-paper) 0%,
+        var(--clr-paper) 24%,
+        color-mix(in srgb, var(--clr-paper) 94%, transparent) 46%,
+        color-mix(in srgb, var(--clr-paper) 62%, transparent) 68%,
+        color-mix(in srgb, var(--clr-paper) 18%, transparent) 88%,
+        transparent 100%
+      ),
+      linear-gradient(to top, var(--clr-paper) 0%, transparent 34%);
+  }
+
+  /* Akdağ eş yükselti çizgileri: metin tarafında söner, fotoğrafa doğru açılır. */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: var(--contour-lines);
+    background-repeat: repeat;
+    background-size: 720px 240px;
+    opacity: 0.85;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 46%, #000 100%);
+    mask-image: linear-gradient(to right, transparent 2%, #000 46%, #000 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Yazıt ilk ekrana sığsın: hero yüksekliği ve iç boşluklar sıkılaştırıldı. */
+  .hero {
+    min-height: clamp(32rem, 72svh, 42rem);
+    padding-block: calc(var(--nav-h) + clamp(1.75rem, 5vw, 3.25rem)) clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .hero h1 {
+    margin-bottom: var(--space-s);
+    letter-spacing: -0.028em;
+  }
+
+  /* Tek kelimeyi renklendirmek yerine tipografik vurgu: aynı mürekkep, italik. */
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: inherit;
+  }
+
+  .hero .lead {
+    margin-bottom: var(--space-s);
+  }
+
+  .hero-actions {
+    margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
+  }
+
+  /* ------------------------------------------------- Yazıt: hero istatistikleri */
+  /* Kutu/kart yerine jeolojik kesit sütunu: her satır bir katman. */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    max-width: 40rem;
+    margin-top: clamp(1.35rem, 3.5vw, 2rem);
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  @media (min-width: 900px) {
+    .hero-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2rem;
+    }
+  }
+
+  .hero-stats > div {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(5.5rem, max-content) minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: 1rem;
+    padding: 0.5rem 0 0.5rem 1.15rem;
+    padding-inline: 1.15rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--clr-rule-2) 60%, transparent);
+    border-inline-start: 0;
+  }
+
+  .hero-stats > div:first-child {
+    border-top: 1px solid var(--clr-rule-2);
+    padding-inline: 1.15rem 0;
+  }
+
+  /* Katman işareti: bakır damar */
+  .hero-stats > div::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 1.15rem;
+    width: 0.55rem;
+    height: 1px;
+    background: var(--clr-copper);
+  }
+
+  .hero-stats .stat-num {
+    margin-bottom: 0;
+    font-size: var(--step-2);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-variant-numeric: oldstyle-nums;
+    white-space: nowrap;
+  }
+
+  .hero-stats .stat-label {
+    font-size: var(--step--1);
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--clr-mute);
+  }
+
+  /* Dar ekranda fotoğraf metnin arkasına düşmesin: dikey kâğıt perdesi. */
+  @media (max-width: 640px) {
+    .hero-bg.has-photo::after {
+      background: linear-gradient(
+        to bottom,
+        var(--clr-paper) 0%,
+        color-mix(in srgb, var(--clr-paper) 96%, transparent) 48%,
+        color-mix(in srgb, var(--clr-paper) 82%, transparent) 72%,
+        color-mix(in srgb, var(--clr-paper) 46%, transparent) 100%
+      );
+    }
+
+    .hero-stats {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 0;
+    }
+
+    .hero-stats > div {
+      grid-template-columns: minmax(4.75rem, max-content) minmax(0, 1fr);
+      column-gap: 0.75rem;
+    }
+  }
+
+  /* ----------------------------------------------------------- Yüzey disiplini */
+  /* Gölge yerine saç teli sınır: kartlar aynı dilde kalır. */
+  .hero-actions .btn {
+    border-radius: var(--radius-md);
+  }
+
+  .section-alt {
+    border-block-color: color-mix(in srgb, var(--clr-rule) 80%, transparent);
+  }
+}

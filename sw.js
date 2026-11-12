@@ -1,7 +1,7 @@
 /* Sandıklı Portal — Service Worker
    Cache-first: core HTML/CSS/JS önceden kaydedilir, görseller istek anında önbelleğe alınır.
    Değişiklikte PRECACHE_VERSION artır → eski önbellek temizlenir, site yenilenir. */
-const PRECACHE_VERSION = "sandikli-v40";
+const PRECACHE_VERSION = "sandikli-v41";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -27,6 +27,7 @@ const PRECACHE_URLS = [
   "./assets/css/sections.css",
   "./assets/css/media.css",
   "./assets/css/chrome.css",
+  "./assets/css/termal.css",
   "./assets/css/pages.css",
   "./assets/css/icons.css",
   "./assets/icons/sprite.svg",
