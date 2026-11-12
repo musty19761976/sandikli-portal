@@ -28,3 +28,6 @@ Desktop.ini
 # Arac/ajan yerel durumu
 .freebuff/
 .cloud-attachments/
+
+# Arac/denetim gecici dosyalari
+.tmp/
