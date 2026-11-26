@@ -738,3 +738,50 @@
     color: var(--clr-ink);
   }
 }
+
+/* Sıradaki vakit: şeritte tek hücre vurgulanır, altında kalan süre yazar. */
+@layer components {
+  .namaz-cell--siradaki {
+    background: color-mix(in srgb, var(--clr-accent) 11%, transparent);
+    border-radius: var(--radius-md);
+    padding-block: 0.3rem;
+  }
+
+  .namaz-cell--siradaki .namaz-ad {
+    color: var(--clr-accent);
+    font-weight: 700;
+  }
+
+  .namaz-cell--siradaki .namaz-ad::after {
+    content: " · sıradaki";
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .namaz-cell--siradaki .namaz-saat {
+    color: var(--clr-accent-2);
+  }
+
+  .namaz-kalan {
+    margin-top: 0.1rem;
+    font-size: var(--step--2);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--clr-accent);
+    white-space: nowrap;
+  }
+
+  /* Dar ekranda geri sayım alt satıra kırılabilsin; hücre taşmasın. */
+  @media (max-width: 640px) {
+    .namaz-kalan {
+      white-space: normal;
+      line-height: 1.25;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .namaz-cell {
+      transition: background-color 0.25s ease;
+    }
+  }
+}

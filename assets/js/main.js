@@ -1128,6 +1128,92 @@
       }
     }
 
+    // "06:19" / "06:19 (EET)" → gün içindeki dakika (06:19 → 379).
+    function dakika(deger) {
+      var m = String(deger || "").match(/(\d{1,2}):(\d{2})/);
+      if (!m) return null;
+      var saat = parseInt(m[1], 10);
+      var dk = parseInt(m[2], 10);
+      if (isNaN(saat) || isNaN(dk)) return null;
+      return saat * 60 + dk;
+    }
+
+    // Kullanıcının saati değil, ilçenin saati (Europe/Istanbul) esas alınır.
+    function simdiDakika() {
+      try {
+        var parcalar = new Intl.DateTimeFormat("en-GB", {
+          timeZone: "Europe/Istanbul",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }).formatToParts(new Date());
+        var saat = 0;
+        var dk = 0;
+        parcalar.forEach(function (p) {
+          if (p.type === "hour") saat = parseInt(p.value, 10) % 24;
+          if (p.type === "minute") dk = parseInt(p.value, 10);
+        });
+        return saat * 60 + dk;
+      } catch (e) {
+        var t = new Date();
+        return t.getHours() * 60 + t.getMinutes();
+      }
+    }
+
+    // "1 sa 12 dk" / "12 dk" — süre metni.
+    function sureMetni(dk) {
+      if (dk <= 0) return "şimdi";
+      var saat = Math.floor(dk / 60);
+      var kalanDk = dk % 60;
+      if (!saat) return kalanDk + " dk";
+      if (!kalanDk) return saat + " sa";
+      return saat + " sa " + kalanDk + " dk";
+    }
+
+    // Sıradaki vakti işaretler ve kalan süreyi yazar; dakikada bir tazelenir.
+    function siradakiniIsaretle() {
+      var hucreler = [].slice.call(izgara.querySelectorAll(".namaz-cell"));
+      if (!hucreler.length) return;
+      var simdi = simdiDakika();
+      var sira = -1;
+      for (var i = 0; i < hucreler.length; i++) {
+        var dk = parseInt(hucreler[i].getAttribute("data-dakika"), 10);
+        if (!isNaN(dk) && dk > simdi) {
+          sira = i;
+          break;
+        }
+      }
+      // Bütün vakitler geçtiyse sıradaki, yarınki imsaktır.
+      var yarin = false;
+      var kalan = 0;
+      if (sira === -1) {
+        sira = 0;
+        yarin = true;
+        var ilk = parseInt(hucreler[0].getAttribute("data-dakika"), 10) || 0;
+        kalan = 1440 - simdi + ilk;
+      } else {
+        kalan = parseInt(hucreler[sira].getAttribute("data-dakika"), 10) - simdi;
+      }
+
+      hucreler.forEach(function (hucre, i) {
+        var sirada = i === sira;
+        hucre.classList.toggle("namaz-cell--siradaki", sirada);
+        if (sirada) hucre.setAttribute("aria-current", "true");
+        else hucre.removeAttribute("aria-current");
+        var not = hucre.querySelector(".namaz-kalan");
+        if (!sirada) {
+          if (not) not.remove();
+          return;
+        }
+        if (!not) {
+          not = document.createElement("span");
+          not.className = "namaz-kalan";
+          hucre.appendChild(not);
+        }
+        not.textContent = (yarin ? "yarın · " : "") + sureMetni(kalan) + " kaldı";
+      });
+    }
+
     function ciz(timings) {
       izgara.textContent = "";
       ADLAR.forEach(function (ikili) {
@@ -1135,6 +1221,9 @@
         if (!deger) return;
         var hucre = document.createElement("div");
         hucre.className = "namaz-cell";
+        hucre.setAttribute("data-vakit", ikili[1]);
+        var dk = dakika(deger);
+        if (dk !== null) hucre.setAttribute("data-dakika", String(dk));
         var ad = document.createElement("span");
         ad.className = "namaz-ad";
         ad.textContent = ikili[1];
@@ -1148,6 +1237,13 @@
       });
       if (!izgara.children.length) return;
       kap.hidden = false;
+      siradakiniIsaretle();
+      if (izgara.children.length && !izgara.getAttribute("data-sayac")) {
+        izgara.setAttribute("data-sayac", "1");
+        // Vakit geçince işaret kendiliğinden kayar; sekme arkada kalsa da
+        // dönüşte tek karelik gecikmeyle doğru vakti gösterir.
+        setInterval(siradakiniIsaretle, 30000);
+      }
     }
 
     // Başlık ve damga Türkçe tarih gösterir; API'nin İngilizce tarihini kullanmayız.
