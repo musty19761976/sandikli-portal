@@ -317,6 +317,7 @@
   // ---------- Bugün Sandıklı'da: eczane + son vefat + hava (yalnızca ana sayfa) ----------
   if (document.getElementById("bugun-sandiklida")) {
     initBugunSandiklida();
+    initPazarKarti();
   }
 
   // ---------- Nöbetçi Eczane: günün eczanesini en üstte göster ve tabloda vurgula ----------
@@ -851,6 +852,63 @@
   }
 
   // Detaylı hava durumu sayfası: hava-durumu.html
+  // ---------- Ana sayfa: pazar kartı (Pazartesi semt pazarı, Cuma pazarı) ----------
+  function initPazarKarti() {
+    var kart = document.getElementById("bugun-pazar");
+    if (!kart) return;
+    var baslik = kart.querySelector('[data-field="pazar"]');
+    var meta = kart.querySelector('[data-field="pazar-meta"]');
+    if (!baslik || !meta) return;
+
+    var PAZARLAR = {
+      1: "Semt pazarı · Çay Mah. Dereboyu Cad. No:130",
+      5: "Cuma pazarı · Çakır Mah. Lise Cad. No:10",
+    };
+
+    function gunUzun(t) {
+      try {
+        return new Intl.DateTimeFormat("tr-TR", {
+          weekday: "long",
+          timeZone: "Europe/Istanbul",
+        }).format(t);
+      } catch (e) {
+        return "";
+      }
+    }
+
+    function tarihUzun(t) {
+      try {
+        return new Intl.DateTimeFormat("tr-TR", {
+          day: "numeric",
+          month: "long",
+          timeZone: "Europe/Istanbul",
+        }).format(t);
+      } catch (e) {
+        return "";
+      }
+    }
+
+    var bugun = new Date();
+    if (PAZARLAR[bugun.getDay()]) {
+      baslik.textContent = "Bugün pazar var";
+      meta.textContent = PAZARLAR[bugun.getDay()];
+      return;
+    }
+
+    var hedef = null;
+    for (var i = 1; i <= 7; i += 1) {
+      var d = new Date(bugun.getTime());
+      d.setDate(d.getDate() + i);
+      if (PAZARLAR[d.getDay()]) {
+        hedef = d;
+        break;
+      }
+    }
+    if (!hedef) return;
+    baslik.textContent = "En yakın pazar: " + gunUzun(hedef);
+    meta.textContent = tarihUzun(hedef) + " · " + PAZARLAR[hedef.getDay()];
+  }
+
   function initHavaSayfasi() {
     const kok = document.getElementById("hava-sayfa");
     if (!kok) return;

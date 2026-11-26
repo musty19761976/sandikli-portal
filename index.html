@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#0d6a5c" />
-  <link rel="stylesheet" href="assets/css/style.css?v=36" />
+  <link rel="stylesheet" href="assets/css/style.css?v=37" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Sandıklı Portal" />
     <meta property="og:title" content="Sandıklı | Afyonkarahisar’ın Büyük ve Gelişmiş İlçesi" />
@@ -90,6 +90,7 @@
           <a href="nobetci-eczaneler.html"><strong>Nöbetçi Eczaneler</strong><small>Günlük güncellenen nöbetçi listesi</small></a>
           <a href="cenaze-ilanlari.html"><strong>Vefat İlanları</strong><small>Sandıklı Belediyesi resmi duyuruları</small></a>
           <a href="hava-durumu.html"><strong>Hava Durumu</strong><small>7 günlük tahmin, nem, rüzgâr ve yağış</small></a>
+          <a href="resmi-kurumlar.html"><strong>Resmî Kurumlar</strong><small>Acil numaralar, telefonlar, adresler</small></a>
           <a href="ulasim.html"><strong>Ulaşım &amp; Konaklama</strong><small>Nasıl gidilir, otobüs, tren, oteller</small></a>
         </div>
       </div>
@@ -148,8 +149,8 @@
         <p class="eyebrow">Güncel</p>
         <h2 class="display h2" id="bugun-baslik">Bugün Sandıklı’da</h2>
         <p class="lead">
-          Nöbetçi eczane, son vefat ilanı ve bugünün havası. Liste ve ilanlar
-          Sandıklı Belediyesi’nden her gün otomatik güncellenir.
+          Nöbetçi eczane, son vefat ilanı, bugünün havası ve pazar günü. Liste
+          ve ilanlar Sandıklı Belediyesi’nden her gün otomatik güncellenir.
         </p>
       </div>
       <div class="today-strip reveal">
@@ -173,10 +174,17 @@
           <div class="today-forecast" data-field="hava-tahmin"></div>
           <a class="today-tile-link" href="hava-durumu.html">Detaylı hava durumu</a>
         </article>
+        <article class="today-tile" id="bugun-pazar">
+          <p class="today-tile-kicker">Pazar</p>
+          <h3 class="today-tile-title" data-field="pazar">Pazartesi · semt pazarı</h3>
+          <p class="today-tile-meta" data-field="pazar-meta">Çay Mah. Dereboyu Cad. No:130 · Cuma günü ayrıca cuma pazarı</p>
+          <a class="today-tile-link" href="ulasim.html#pazar">Pazar takvimi</a>
+        </article>
       </div>
       <p class="today-strip-note">
         Kaynak: <a href="https://sandikli.bel.tr/" target="_blank" rel="noopener">Sandıklı Belediyesi</a>
         · hava verisi <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+        · pazar günleri <a href="ulasim.html#pazar">pazar takvimi</a> · “Bugün Sandıklı’da” son güncelleme: 12 Kasım 2026
         · son senkron: <span data-field="guncelleme">—</span>
       </p>
     </div>
@@ -484,7 +492,7 @@
           <h4>Pratik</h4>
           <ul class="footer-links">
             <li><a href="lezzet.html">Lezzet & kültür</a></li>
-            <li><a href="hava-durumu.html">Hava durumu</a></li>
+            <li><a href="hava-durumu.html">Hava durumu</a></li><li><a href="resmi-kurumlar.html">Resmî kurumlar</a></li>
             <li><a href="ulasim.html">Ulaşım</a></li>
             <li><a href="ulasim.html#iletisim">İletişim</a></li>
           </ul>
@@ -506,8 +514,8 @@
       </div>
     </div>
   </footer>
-  <script src="assets/js/navbar.js?v=36"></script>
-  <script src="assets/js/main.js?v=36"></script>
-  <script src="assets/js/search.js?v=36" defer></script>
+  <script src="assets/js/navbar.js?v=37"></script>
+  <script src="assets/js/main.js?v=37"></script>
+  <script src="assets/js/search.js?v=37" defer></script>
 </body>
 </html>

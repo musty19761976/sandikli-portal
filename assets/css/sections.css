@@ -643,3 +643,32 @@
     margin-top: var(--space-m);
   }
 }
+
+/* ------------------------------------------------- Kaynak + güncelleme damgası */
+@layer components {
+  .source-stamp {
+    max-width: var(--measure);
+    margin-top: var(--space-s);
+    padding-top: var(--space-2xs);
+    border-top: 1px solid var(--clr-rule);
+    font-size: var(--step--2);
+    line-height: 1.5;
+    color: var(--clr-mute);
+  }
+
+  .source-stamp a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .source-stamp a:hover {
+    color: var(--clr-accent);
+  }
+
+  .section-dark .source-stamp {
+    border-top-color: rgba(233, 241, 236, 0.18);
+    color: var(--clr-panel-mute);
+  }
+}
