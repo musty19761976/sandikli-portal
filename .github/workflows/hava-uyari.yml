@@ -31,7 +31,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      # MGM servisi ara sıra yanıt vermiyor; tek bir başarısız deneme işi
+      # kırmızı yakıp her 15 dakikada bildirim üretmesin. Veri eskidiyse bant
+      # zaten 6 saat sonra kendiliğinden kayboluyor.
       - name: Fetch MGM warnings
+        continue-on-error: true
         run: python scripts/sync_uyari.py
 
       - name: Commit if changed
