@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#0d6a5c" />
-  <link rel="stylesheet" href="assets/css/style.css?v=44" />
+  <link rel="stylesheet" href="assets/css/style.css?v=45" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Sandıklı Portal" />
     <meta property="og:title" content="Vefat İlanları | Sandıklı Portal" />
@@ -131,9 +131,11 @@
           </div>
           <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
             <span class="vefat-badge" id="vefat-count-badge">10 Güncel İlan</span>
-            <span style="font-size:0.8125rem;color:var(--mute);font-weight:600">Portal Senkron: 2026-11-26</span>
+            <span class="veri-durumu" id="vefat-veri-durumu" hidden></span>
           </div>
         </div>
+
+        <p class="veri-uyari" id="vefat-veri-uyari" role="status" hidden></p>
 
         <div id="vefat-empty" class="vefat-empty-msg">Aramanıza uygun vefat duyurusu bulunamadı.</div>
 
@@ -359,7 +361,7 @@
     </div>
   </footer>
   <script src="assets/js/navbar.js?v=40"></script>
-  <script src="assets/js/main.js?v=41"></script>
+  <script src="assets/js/main.js?v=42"></script>
 <script src="assets/js/search.js?v=40" defer></script>
   <script>
     (function () {

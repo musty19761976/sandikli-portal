@@ -459,6 +459,45 @@
     font-weight: 600;
   }
 
+  .today-tile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    margin-top: auto;
+    padding-top: 0.55rem;
+  }
+
+  .today-tile-actions .today-tile-link {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .today-tile-ara {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.9rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-accent);
+    color: var(--clr-on-accent);
+    font-size: var(--step--1);
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  .today-tile-ara:hover,
+  .today-tile-ara:focus-visible {
+    background-color: var(--clr-accent-2);
+  }
+
+  .today-tile-yarin {
+    padding-top: 0.15rem;
+    color: var(--clr-mute);
+    font-weight: 600;
+  }
+
   .today-tile-link:hover {
     text-decoration: underline;
   }

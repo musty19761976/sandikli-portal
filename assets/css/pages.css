@@ -218,6 +218,25 @@
     flex-direction: column;
   }
 
+  /* Bugün defnedilecek ilanlar listenin başında ve çerçevesi belirgin. */
+  .vefat-card--bugun {
+    border-color: var(--clr-accent);
+    box-shadow: inset 3px 0 0 var(--clr-accent);
+  }
+
+  .vefat-bugun {
+    align-self: flex-start;
+    margin-top: 0.3rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-accent-soft);
+    color: var(--clr-accent-2);
+    font-size: var(--step--2);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
   .vefat-list {
     gap: var(--space-m);
   }

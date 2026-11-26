@@ -306,6 +306,7 @@
   // ---------- Text-to-speech: yalnızca vefat (cenaze) sayfası ----------
   const pageFile = (location.pathname.split("/").pop() || "").toLowerCase();
   if (pageFile === "cenaze-ilanlari.html") {
+    initVefatSayfasi();
     initTextToSpeech();
   }
 
@@ -708,6 +709,134 @@
       });
   }
 
+  // ---------- Vefat ilanları: bugün defnedilecekler + veri tazeliği ----------
+  // Kartlardaki "Defin tarihi" bugünse ilan listenin başına taşınır ve
+  // rozetlenir. Senkron yaşı assets/cenaze-meta.json'dan okunur; iki günü
+  // geçen veri "bayat" sayılır ve sayfada uyarı çıkar.
+  function initVefatSayfasi() {
+    var liste = document.querySelector(".vefat-list");
+    var durum = document.getElementById("vefat-veri-durumu");
+    var uyari = document.getElementById("vefat-veri-uyari");
+
+    function trBugun() {
+      try {
+        return new Intl.DateTimeFormat("tr-TR", {
+          timeZone: "Europe/Istanbul",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }).format(new Date());
+      } catch (e) {
+        var d = new Date();
+        return (
+          String(d.getDate()).padStart(2, "0") +
+          "." +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "." +
+          d.getFullYear()
+        );
+      }
+    }
+
+    var bugun = trBugun();
+
+    // 1) Bugün defnedilecekler en üste (kendi içinde kaynak sırası korunur)
+    if (liste) {
+      var kartlar = [].slice.call(liste.querySelectorAll(".vefat-card"));
+      var bugunkuler = kartlar.filter(function (kart) {
+        var kutular = kart.querySelectorAll(".vefat-meta > div");
+        for (var i = 0; i < kutular.length; i++) {
+          var etiket = kutular[i].querySelector("span");
+          var deger = kutular[i].querySelector("strong");
+          if (etiket && deger && /defin tarihi/i.test(etiket.textContent)) {
+            return deger.textContent.trim() === bugun;
+          }
+        }
+        return false;
+      });
+      bugunkuler
+        .slice()
+        .reverse()
+        .forEach(function (kart) {
+          liste.insertBefore(kart, liste.firstChild);
+        });
+      bugunkuler.forEach(function (kart) {
+        kart.classList.add("vefat-card--bugun");
+        var bas = kart.querySelector(".head");
+        if (bas && !bas.querySelector(".vefat-bugun")) {
+          var rozet = document.createElement("span");
+          rozet.className = "vefat-bugun";
+          rozet.textContent = "Bugün defnediliyor";
+          bas.appendChild(rozet);
+        }
+      });
+    }
+
+    // 2) Son senkron yaşı + bayat veri uyarısı
+    if (!durum) return;
+    fetch("assets/cenaze-meta.json", { cache: "no-store" })
+      .then(function (y) {
+        return y.ok ? y.json() : null;
+      })
+      .then(function (meta) {
+        if (!meta) return;
+        var zaman = meta.guncelleme_zamani ? Date.parse(meta.guncelleme_zamani) : NaN;
+        var yasSaat = isNaN(zaman) ? null : (Date.now() - zaman) / 3600000;
+        var gunF = null;
+        if (/^\d{4}-\d{2}-\d{2}$/.test(meta.guncelleme || "")) {
+          var bugunIso;
+          try {
+            bugunIso = new Intl.DateTimeFormat("en-CA", {
+              timeZone: "Europe/Istanbul",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }).format(new Date());
+          } catch (e) {
+            bugunIso = new Date().toISOString().slice(0, 10);
+          }
+          gunF = Math.round(
+            (Date.parse(bugunIso + "T00:00:00Z") - Date.parse(meta.guncelleme + "T00:00:00Z")) / 86400000
+          );
+        }
+        if (yasSaat === null && gunF === null) return;
+
+        var metin;
+        if (yasSaat !== null && yasSaat < 24) {
+          metin = yasSaat < 1 ? "az önce" : Math.max(1, Math.round(yasSaat)) + " saat önce";
+        } else {
+          var g = gunF;
+          if (g === null) g = Math.floor(yasSaat / 24);
+          metin = g <= 0 ? "bugün" : g === 1 ? "dün" : g + " gün önce";
+        }
+
+        var bayat = (yasSaat !== null && yasSaat >= 48) || (gunF !== null && gunF >= 2);
+        var eski = (yasSaat !== null && yasSaat >= 24) || (gunF !== null && gunF >= 1);
+
+        durum.hidden = false;
+        durum.classList.toggle("is-eski", eski && !bayat);
+        durum.classList.toggle("is-bayat", bayat);
+        durum.textContent = "Son senkron: " + metin;
+        durum.setAttribute("title", "Vefat ilanları en son " + metin + " güncellendi");
+
+        if (!uyari || !bayat) return;
+        uyari.hidden = false;
+        uyari.textContent =
+          "Vefat ilanları " +
+          (gunF !== null && gunF >= 2 ? gunF + " gündür" : "iki gündür") +
+          " güncellenemedi; yeni ilanlar bu sayfada görünmüyor olabilir. ";
+        var baglanti = document.createElement("a");
+        baglanti.href = "https://sandikli.bel.tr/cenaze-ilanlari";
+        baglanti.target = "_blank";
+        baglanti.rel = "noopener";
+        baglanti.textContent = "Güncel liste için belediye sayfası";
+        uyari.appendChild(baglanti);
+      })
+      .catch(function () {
+        /* meta yoksa rozet gizli kalır; sayfa normal çalışır */
+      });
+  }
+
   function initTextToSpeech() {
     const supported = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
 
@@ -1036,6 +1165,44 @@
         if (link && secili.harita && secili.harita !== "#") link.setAttribute("href", secili.harita);
         goster("bugun-eczane");
         if (veri && veri.guncelleme) yaz("guncelleme", veri.guncelleme);
+
+        // Yarınki nöbetçi eczane satırı (takvimde yarın varsa)
+        var yarin = rows.find(function (x) {
+          return gunFarki(x.tarih) === 1;
+        });
+        var yarinEl = alan("eczane-yarin");
+        if (yarin && yarinEl) {
+          yarinEl.textContent = "Yarın: " + (yarin.eczane || "—");
+          yarinEl.hidden = false;
+        }
+
+        // Doğrudan arama: numara yalnızca iki dizinde aynı görünüyorsa var.
+        fetch("assets/eczane-telefonlar.json", { cache: "no-store" })
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .then(function (telVeri) {
+            var tablo = telVeri && telVeri.telefonlar;
+            var ara = alan("eczane-ara");
+            if (!tablo || !ara || !secili.eczane) return;
+            var numara = tablo[secili.eczane];
+            if (!numara) {
+              var aranan = String(secili.eczane).toLocaleLowerCase("tr");
+              Object.keys(tablo).forEach(function (k) {
+                if (!numara && k.toLocaleLowerCase("tr") === aranan) numara = tablo[k];
+              });
+            }
+            if (!numara) return;
+            var rakam = String(numara).replace(/[^0-9]/g, "");
+            if (rakam.length === 11 && rakam.charAt(0) === "0") rakam = rakam.slice(1);
+            if (rakam.length !== 10) return;
+            var okunur = "0" + rakam.slice(0, 3) + " " + rakam.slice(3, 6) + " " + rakam.slice(6, 8) + " " + rakam.slice(8);
+            ara.href = "tel:+90" + rakam;
+            ara.textContent = "Hemen ara · " + okunur;
+            ara.setAttribute("aria-label", secili.eczane + " — " + okunur + " (ara)");
+            ara.hidden = false;
+          })
+          .catch(function () {});
       })
       .catch(() => {});
 

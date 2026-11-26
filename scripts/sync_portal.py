@@ -368,6 +368,27 @@ def sync_cenaze(today: datetime, stamp: str) -> None:
     page, via = fetch(CENAZE_URL)
     items = parse_cenaze(page)
     validate_cenaze(items, page, today)
+
+    # Meta, ilan olmasa da yazılır: kaynak gerçekten kontrol edildi.
+    meta_path = ROOT / "assets" / "cenaze-meta.json"
+    onceki_meta = {}
+    if meta_path.exists():
+        try:
+            onceki_meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            onceki_meta = {}
+    zaman = today.isoformat(timespec="seconds")
+    if onceki_meta.get("guncelleme") == stamp and onceki_meta.get("guncelleme_zamani"):
+        zaman = onceki_meta["guncelleme_zamani"]
+    write_if_changed(
+        meta_path,
+        json.dumps(
+            {"guncelleme": stamp, "guncelleme_zamani": zaman, "kaynak": CENAZE_URL},
+            ensure_ascii=False,
+            indent=2,
+        ),
+    )
+
     if not items:
         print(f"  cenaze: kaynakta ilan yok · kaynak: {via} — dosyalar korunuyor")
         return
