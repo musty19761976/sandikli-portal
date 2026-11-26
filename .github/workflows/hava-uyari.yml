@@ -1,0 +1,47 @@
+# Sandıklı Portal — meteorolojik uyarı senkronu
+# Meteoroloji turuncu/kırmızı uyarısı yayımladığında sayfa üstündeki bant
+# görünsün diye assets/hava-uyari.json sık aralıkla tazelenir.
+# Uyarı değişmediyse dosya yazılmaz, boş commit atılmaz.
+
+name: Weather warning sync
+
+on:
+  schedule:
+    # 15 dakikada bir (GitHub zamanlanmış işleri birkaç dakika geciktirebilir)
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weather-warning
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch MGM warnings
+        run: python scripts/sync_uyari.py
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- assets/hava-uyari.json; then
+            echo "değişiklik yok"
+            exit 0
+          fi
+          git config user.name "sandikli-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add assets/hava-uyari.json
+          git commit -m "chore(uyari): meteorolojik uyarı verisi güncellendi"
+          git push

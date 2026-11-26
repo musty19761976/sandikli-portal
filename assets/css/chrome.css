@@ -304,3 +304,152 @@
     }
   }
 }
+
+/* ------------------------------------------------ Meteorolojik uyarı bandı
+   Yalnızca Meteoroloji turuncu/kırmızı uyarısı olduğunda, assets/js/uyari.js
+   sayfanın en üstüne ekler. Renkler sabit: bant her iki temada da koyu zemin
+   üzerine açık metinle okunur. */
+/* Navbar sabit konumda olduğu için bant da sabit: en üstte durur, navbar ve
+   sayfa içeriği bandın yüksekliği kadar aşağı kayar (--uyari-h JS'ten gelir). */
+.uyari-bant {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  z-index: 950;
+  background: #a4490b;
+  color: #fff6ec;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.22);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+:root.uyari-acik body {
+  padding-top: var(--uyari-h, 0px);
+}
+
+:root.uyari-acik .navbar {
+  top: var(--uyari-h, 0px);
+}
+
+.uyari-bant.uyari-kirmizi {
+  background: #8f1d1d;
+  color: #fdf0f0;
+}
+
+.uyari-bant-ic {
+  width: min(var(--shell), 100%);
+  margin-inline: auto;
+  padding: 0.42rem var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.uyari-simge {
+  flex: none;
+  font-size: 0.95rem;
+  line-height: 1;
+  opacity: 0.95;
+}
+
+.uyari-metin {
+  margin: 0;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.uyari-metin strong {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.uyari-ayrinti {
+  opacity: 0.92;
+}
+
+.uyari-baglanti {
+  flex: none;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.uyari-baglanti:hover,
+.uyari-baglanti:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+.uyari-kaynak {
+  flex: none;
+  font-size: 0.72rem;
+  opacity: 0.78;
+  white-space: nowrap;
+}
+
+.uyari-kapat {
+  flex: none;
+  width: 1.65rem;
+  height: 1.65rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.uyari-kapat:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.uyari-kapat:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+  .uyari-bitis {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .uyari-bant {
+    font-size: 0.78rem;
+  }
+
+  .uyari-bant-ic {
+    flex-wrap: wrap;
+    row-gap: 0.28rem;
+    padding-block: 0.4rem;
+  }
+
+  /* İlk satır: simge + metin + kapat; ikinci satır: bağlantı ve kaynak. */
+  .uyari-metin {
+    flex: 1 1 12rem;
+  }
+
+  .uyari-kapat {
+    order: 2;
+    margin-left: auto;
+    align-self: flex-start;
+  }
+
+  .uyari-baglanti {
+    order: 3;
+  }
+
+  .uyari-kaynak {
+    order: 4;
+    font-size: 0.7rem;
+    white-space: normal;
+  }
+}
