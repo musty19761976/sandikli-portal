@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#0d6a5c" />
-  <link rel="stylesheet" href="assets/css/style.css?v=38" />
+  <link rel="stylesheet" href="assets/css/style.css?v=39" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Sandıklı Portal" />
   <meta property="og:title" content="Nöbetçi Eczaneler | Sandıklı Portal" />
@@ -133,6 +133,9 @@
             </div>
           </div>
           <div class="today-pharmacy-actions">
+            <a class="btn btn-outline-dark" id="today-pharmacy-call" href="#" hidden>
+              <span class="link-with-icon">Eczaneyi Ara</span>
+            </a>
             <a class="btn btn-primary" id="today-pharmacy-map" href="https://maps.app.goo.gl/5mEm8sNYZTdNnFdeA" target="_blank" rel="noopener">
               <span class="link-with-icon"><svg class="i" aria-hidden="true"><use href="assets/icons/sprite.svg#pin"></use></svg> Haritada Yol Tarifi Al</span>
             </a>
@@ -142,6 +145,20 @@
           </div>
         </div>
       </div>
+
+      <section class="eczane-takvim reveal" id="eczane-takvim" aria-labelledby="eczane-takvim-baslik">
+        <div class="eczane-takvim-baslik">
+          <h2 class="display h3" id="eczane-takvim-baslik">Önümüzdeki 7 gün</h2>
+          <span class="veri-durumu" id="veri-durumu" hidden></span>
+        </div>
+        <p class="veri-uyari" id="veri-uyari" role="status" hidden></p>
+        <ol class="eczane-gunler" id="eczane-gunler"></ol>
+        <p class="source-stamp">
+          Kaynak: <a href="https://sandikli.bel.tr/nobetci-eczaneler" target="_blank" rel="noopener">Sandıklı Belediyesi — Nöbetçi Eczaneler</a>
+          · Telefonlar, iki bağımsız eczane dizininde aynı görünen numaralardan alındı; numarası doğrulanamayan eczanede yalnızca harita bağlantısı var.
+          · Son güncelleme: 26 Kasım 2026
+        </p>
+      </section>
 
       <div class="sync-stamp reveal">
         <strong>Kaynak:</strong>
@@ -401,8 +418,8 @@
       </div>
     </div>
   </footer>
-  <script src="assets/js/navbar.js?v=38"></script>
-  <script src="assets/js/main.js?v=38"></script>
-<script src="assets/js/search.js?v=38" defer></script>
+  <script src="assets/js/navbar.js?v=39"></script>
+  <script src="assets/js/main.js?v=39"></script>
+<script src="assets/js/search.js?v=39" defer></script>
 </body>
 </html>

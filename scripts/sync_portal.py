@@ -281,23 +281,27 @@ def cenaze_cards_html(items: list[dict]) -> str:
     return "\n".join(blocks)
 
 
-def eczane_data_json(rows: list[tuple[str, str, str, str]], stamp: str) -> str:
+def eczane_data_json(
+    rows: list[tuple[str, str, str, str]], stamp: str, zaman: str = ""
+) -> str:
     """Ana sayfa "Bugün Sandıklı'da" kartı için küçük JSON.
 
     Kart, tablo HTML'ini tarayıcıda ayrıştırmak yerine bu dosyayı okur; böylece
     ana sayfa kırılgan HTML ayrıştırmasına bağlı kalmaz.
+
+    ``zaman`` verilirse ``guncelleme_zamani`` alanı da yazılır; arayüz bu alanla
+    "son senkron kaç saat önce" bilgisini hesaplar. Boşsa alan hiç yazılmaz ve
+    arayüz yalnızca ``guncelleme`` tarihine düşer.
     """
-    return json.dumps(
-        {
-            "guncelleme": stamp,
-            "eczaneler": [
-                {"tarih": d, "eczane": ad, "adres": addr, "harita": harita}
-                for d, ad, addr, harita in rows
-            ],
-        },
-        ensure_ascii=False,
-        indent=2,
-    )
+    eczaneler = [
+        {"tarih": d, "eczane": ad, "adres": addr, "harita": harita}
+        for d, ad, addr, harita in rows
+    ]
+    veri = {"guncelleme": stamp, "eczaneler": eczaneler}
+    if zaman:
+        veri = {"guncelleme": stamp, "guncelleme_zamani": zaman, "eczaneler": eczaneler}
+
+    return json.dumps(veri, ensure_ascii=False, indent=2)
 
 
 def eczane_table_html(rows: list[tuple[str, str, str, str]], today: str) -> str:
@@ -327,7 +331,21 @@ def sync_eczane(today: datetime, stamp: str) -> None:
 
     # Ana sayfa kartı bu dosyayı okur (HTML tablosunu ayrıştırmaya gerek kalmaz).
     data_path = ROOT / "assets" / "eczane-data.json"
-    write_if_changed(data_path, eczane_data_json(rows, stamp))
+
+    # Zaman damgası günün ilk senkronunu gösterir; aynı gün içindeki tekrar
+    # çalışmalarda korunur. Böylece veri değişmese de her koşuda yeni commit
+    # atılması engellenir, "son senkron" bilgisi de gerçek kalır.
+    onceki_zaman = ""
+    if data_path.exists():
+        try:
+            onceki = json.loads(data_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            onceki = {}
+        if onceki.get("guncelleme") == stamp:
+            onceki_zaman = onceki.get("guncelleme_zamani", "") or ""
+
+    zaman = onceki_zaman or today.isoformat(timespec="seconds")
+    write_if_changed(data_path, eczane_data_json(rows, stamp, zaman))
 
     path = ROOT / "nobetci-eczaneler.html"
     txt = path.read_text(encoding="utf-8")

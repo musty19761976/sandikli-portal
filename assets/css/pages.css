@@ -569,3 +569,165 @@
     margin-top: var(--space-s);
   }
 }
+
+/* --------------------------------------------------- Nöbetçi eczane takvimi */
+@layer components {
+  .eczane-takvim {
+    margin-bottom: var(--space-m);
+  }
+
+  .eczane-takvim-baslik {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: var(--space-s);
+  }
+
+  .veri-durumu {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.22rem 0.7rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-surface);
+    color: var(--clr-mute);
+    font-size: var(--step--1);
+    line-height: 1.4;
+  }
+
+  .veri-durumu::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background-color: var(--clr-positive);
+    flex: 0 0 auto;
+  }
+
+  .veri-durumu.is-eski::before {
+    background-color: var(--clr-warning);
+  }
+
+  .veri-durumu.is-bayat {
+    border-color: var(--clr-negative);
+    color: var(--clr-negative);
+  }
+
+  .veri-durumu.is-bayat::before {
+    background-color: var(--clr-negative);
+  }
+
+  .veri-uyari {
+    margin-bottom: var(--space-s);
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--clr-negative);
+    border-left: 3px solid var(--clr-negative);
+    border-radius: var(--radius-sm);
+    background-color: var(--clr-surface);
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    line-height: 1.55;
+  }
+
+  .veri-uyari a {
+    color: var(--clr-negative);
+    font-weight: 600;
+  }
+
+  .eczane-gunler {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .eczane-gun {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-md);
+    background-color: var(--clr-surface);
+  }
+
+  .eczane-gun.is-bugun {
+    border-color: var(--clr-accent);
+    box-shadow: inset 3px 0 0 var(--clr-accent);
+  }
+
+  .eczane-gun-tarih {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 6.5rem;
+  }
+
+  .eczane-gun-ad {
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    font-weight: 600;
+    color: var(--clr-ink);
+  }
+
+  .eczane-gun-gun {
+    font-size: var(--step--1);
+    color: var(--clr-mute);
+  }
+
+  .eczane-gun-govde {
+    flex: 1 1 11rem;
+    min-width: 0;
+  }
+
+  .eczane-gun-eczane {
+    margin: 0;
+    font-weight: 600;
+    color: var(--clr-ink);
+  }
+
+  .eczane-gun-adres {
+    margin: 0.15rem 0 0;
+    font-size: var(--step--1);
+    line-height: 1.45;
+    color: var(--clr-mute);
+  }
+
+  .eczane-gun-islem {
+    display: flex;
+    gap: 0.4rem;
+    margin-inline-start: auto;
+  }
+
+  .eczane-gun-islem .btn {
+    padding: 0.4rem 0.85rem;
+    font-size: var(--step--1);
+  }
+
+  .today-pharmacy-actions .btn[hidden],
+  .veri-durumu[hidden],
+  .veri-uyari[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 560px) {
+    .eczane-gun-tarih {
+      min-width: 4.5rem;
+    }
+
+    .eczane-gun-islem {
+      margin-inline-start: 0;
+      width: 100%;
+    }
+
+    .eczane-gun-islem .btn {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+  }
+}

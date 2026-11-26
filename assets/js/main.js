@@ -324,12 +324,258 @@
   // ---------- Nöbetçi Eczane: günün eczanesini en üstte göster ve tabloda vurgula ----------
   if (pageFile === "nobetci-eczaneler.html" || document.getElementById("pharma-table")) {
     initNobetciEczane();
+    initEczaneTakvimi();
   }
 
   initThemeToggle();
   window._initThemeToggle = initThemeToggle;
   // Hava durumu ikonu da navbar yüklendikten sonra çağrılmalı (aynı sıralama deseni)
   window._initNavWeatherIcon = initNavWeatherIcon;
+
+  // ---------- Nöbetçi eczane: 7 günlük takvim + veri tazeliği ----------
+  // Kaynak: assets/eczane-data.json (günlük senkron) ve
+  // assets/eczane-telefonlar.json (yalnızca iki dizinde aynı görünen numaralar).
+  // Numarası doğrulanmamış eczanede arama düğmesi çıkmaz, harita kalır.
+  function initEczaneTakvimi() {
+    var liste = document.getElementById("eczane-gunler");
+    var durum = document.getElementById("veri-durumu");
+    var uyari = document.getElementById("veri-uyari");
+    if (!liste || !durum) return;
+
+    var AYLAR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    var GUNLER = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+    function isoBugun() {
+      try {
+        return new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Europe/Istanbul",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(new Date());
+      } catch (e) {
+        return new Date().toISOString().slice(0, 10);
+      }
+    }
+
+    function isoGun(tarih) {
+      var p = String(tarih || "").split(".");
+      if (p.length !== 3) return "";
+      return p[2] + "-" + p[1] + "-" + p[0];
+    }
+
+    var bugun = isoBugun();
+
+    function gunFarki(iso) {
+      var t = Date.parse(iso + "T00:00:00Z");
+      if (isNaN(t)) return null;
+      return Math.round((Date.parse(bugun + "T00:00:00Z") - t) / 86400000);
+    }
+
+    function telefonBul(tablosu, ad) {
+      if (!tablosu || !ad) return "";
+      if (tablosu[ad]) return tablosu[ad];
+      var aranan = String(ad).toLocaleLowerCase("tr");
+      for (var k in tablosu) {
+        if (Object.prototype.hasOwnProperty.call(tablosu, k) && k.toLocaleLowerCase("tr") === aranan) {
+          return tablosu[k];
+        }
+      }
+      return "";
+    }
+
+    function telRakam(numara) {
+      var d = String(numara).replace(/[^0-9]/g, "");
+      if (d.length === 11 && d.charAt(0) === "0") d = d.slice(1);
+      return d;
+    }
+
+    function telHref(numara) {
+      return "tel:+90" + telRakam(numara);
+    }
+
+    function telMetin(numara) {
+      var d = telRakam(numara);
+      if (d.length !== 10) return String(numara);
+      return "0" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 8) + " " + d.slice(8);
+    }
+
+    function satirYap(kayit, telefonlar) {
+      var iso = isoGun(kayit.tarih);
+      var fark = gunFarki(iso);
+      var li = document.createElement("li");
+      li.className = "eczane-gun" + (fark === 0 ? " is-bugun" : "");
+
+      var tarih = document.createElement("div");
+      tarih.className = "eczane-gun-tarih";
+      var ad = document.createElement("span");
+      ad.className = "eczane-gun-ad";
+      var alt = document.createElement("span");
+      alt.className = "eczane-gun-gun";
+
+      var p = String(kayit.tarih).split(".");
+      var dObj = new Date(iso + "T12:00:00Z");
+      var hafta = isNaN(dObj.getTime()) ? "" : GUNLER[dObj.getUTCDay()];
+      var kisa = Number(p[0]) + " " + (AYLAR[Number(p[1]) - 1] || "");
+      if (fark === 0) {
+        ad.textContent = "Bugün";
+        alt.textContent = hafta ? hafta + " · " + kisa : kisa;
+      } else if (fark === 1) {
+        ad.textContent = "Yarın";
+        alt.textContent = hafta ? hafta + " · " + kisa : kisa;
+      } else {
+        ad.textContent = hafta || kisa;
+        alt.textContent = hafta ? kisa : "";
+      }
+      tarih.appendChild(ad);
+      tarih.appendChild(alt);
+
+      var govde = document.createElement("div");
+      govde.className = "eczane-gun-govde";
+      var ecz = document.createElement("p");
+      ecz.className = "eczane-gun-eczane";
+      ecz.textContent = kayit.eczane;
+      govde.appendChild(ecz);
+      if (kayit.adres) {
+        var adres = document.createElement("p");
+        adres.className = "eczane-gun-adres";
+        adres.textContent = kayit.adres;
+        govde.appendChild(adres);
+      }
+
+      var islem = document.createElement("div");
+      islem.className = "eczane-gun-islem";
+      var numara = telefonBul(telefonlar, kayit.eczane);
+      if (numara) {
+        var ara = document.createElement("a");
+        ara.className = "btn btn-primary";
+        ara.href = telHref(numara);
+        ara.textContent = "Ara";
+        ara.setAttribute("aria-label", kayit.eczane + " — " + telMetin(numara) + " (ara)");
+        ara.setAttribute("title", telMetin(numara));
+        islem.appendChild(ara);
+      }
+      if (kayit.harita) {
+        var harita = document.createElement("a");
+        harita.className = "btn btn-outline-dark";
+        harita.href = kayit.harita;
+        harita.target = "_blank";
+        harita.rel = "noopener";
+        harita.textContent = "Harita";
+        islem.appendChild(harita);
+      }
+
+      li.appendChild(tarih);
+      li.appendChild(govde);
+      li.appendChild(islem);
+      return li;
+    }
+
+    function durumYaz(veri) {
+      var zaman = veri.guncelleme_zamani ? Date.parse(veri.guncelleme_zamani) : NaN;
+      var yasSaat = isNaN(zaman) ? null : (Date.now() - zaman) / 3600000;
+      var gunF = gunFarki(veri.guncelleme);
+
+      if (yasSaat === null && gunF === null) return null;
+
+      var metin;
+      if (yasSaat !== null && yasSaat < 24) {
+        metin = yasSaat < 1 ? "az önce" : Math.max(1, Math.round(yasSaat)) + " saat önce";
+      } else {
+        var g = gunF;
+        if (g === null) g = Math.floor(yasSaat / 24);
+        metin = g <= 0 ? "bugün" : g === 1 ? "dün" : g + " gün önce";
+      }
+
+      var bayat = (yasSaat !== null && yasSaat >= 48) || (gunF !== null && gunF >= 2);
+      var eski = (yasSaat !== null && yasSaat >= 24) || (gunF !== null && gunF >= 1);
+
+      durum.hidden = false;
+      durum.classList.toggle("is-eski", eski && !bayat);
+      durum.classList.toggle("is-bayat", bayat);
+      durum.textContent = "Son senkron: " + metin;
+      durum.setAttribute("title", "Nöbetçi eczane listesi en son " + metin + " güncellendi");
+
+      return { bayat: bayat, gunF: gunF };
+    }
+
+    function uyariYaz(bilgi, kayitlar) {
+      if (!uyari) return;
+      var mesajlar = [];
+      if (bilgi && bilgi.bayat) {
+        var g = bilgi.gunF;
+        mesajlar.push(
+          "Bu liste " + (g !== null && g >= 2 ? g + " gündür" : "iki gündür") +
+            " güncellenemedi; nöbetçi eczane değişmiş olabilir."
+        );
+      }
+      var son = kayitlar[kayitlar.length - 1];
+      var sonFark = son ? gunFarki(isoGun(son.tarih)) : null;
+      if (sonFark !== null && sonFark > 0) {
+        mesajlar.push("Listelenen dönem bugünü kapsamıyor.");
+      }
+      if (!mesajlar.length) {
+        uyari.hidden = true;
+        return;
+      }
+
+      uyari.textContent = "";
+      uyari.appendChild(document.createTextNode(mesajlar.join(" ") + " Güncel bilgi için belediyeyi arayın: "));
+      var tel = document.createElement("a");
+      tel.href = "tel:+904446003";
+      tel.textContent = "444 60 03";
+      uyari.appendChild(tel);
+      uyari.hidden = false;
+    }
+
+    function ciz(veri, telVeri) {
+      if (!veri || !Array.isArray(veri.eczaneler) || !veri.eczaneler.length) return;
+      var telefonlar = (telVeri && telVeri.telefonlar) || {};
+
+      var kayitlar = veri.eczaneler.slice().sort(function (a, b) {
+        return isoGun(a.tarih) < isoGun(b.tarih) ? -1 : 1;
+      });
+      // gunFarki: bugün - kayıt tarihi. Gelecek günler negatif, bugün 0.
+      var gelecek = kayitlar.filter(function (k) {
+        var f = gunFarki(isoGun(k.tarih));
+        return f !== null && f <= 0;
+      }).slice(0, 7);
+      if (!gelecek.length) return;
+
+      liste.textContent = "";
+      gelecek.forEach(function (k) {
+        liste.appendChild(satirYap(k, telefonlar));
+      });
+
+      // Bugün kartındaki arama düğmesi (numara doğrulanmışsa görünür).
+      var bugunKayit = gelecek[0];
+      if (gunFarki(isoGun(bugunKayit.tarih)) === 0) {
+        var numara = telefonBul(telefonlar, bugunKayit.eczane);
+        var bugunAra = document.getElementById("today-pharmacy-call");
+        if (bugunAra && numara) {
+          bugunAra.href = telHref(numara);
+          bugunAra.setAttribute("aria-label", bugunKayit.eczane + " — " + telMetin(numara) + " (ara)");
+          bugunAra.hidden = false;
+        }
+      }
+
+      uyariYaz(durumYaz(veri), kayitlar);
+    }
+
+    function cek(ad) {
+      return fetch(ad, { cache: "no-store" })
+        .then(function (y) {
+          return y.ok ? y.json() : null;
+        })
+        .catch(function () {
+          return null;
+        });
+    }
+
+    Promise.all([cek("assets/eczane-data.json"), cek("assets/eczane-telefonlar.json")]).then(function (sonuc) {
+      ciz(sonuc[0], sonuc[1]);
+    });
+  }
 
   function initThemeToggle() {
     const root = document.documentElement;

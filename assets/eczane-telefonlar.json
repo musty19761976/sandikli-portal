@@ -1,0 +1,21 @@
+{
+  "guncelleme": "2026-11-26",
+  "kaynak": "eczaneler.gen.tr ve EczaneAPI dizinleri; yalnızca iki kaynakta aynı görünen numaralar alındı",
+  "not": "Numara eczanenin kayıtlı hattıdır; nöbet değişiminde eczane taşınmış veya hat değişmiş olabilir.",
+  "telefonlar": {
+    "Armağan Eczanesi": "02725154545",
+    "Badioğlu Eczanesi": "02725125358",
+    "Cihan Eczanesi": "02725126102",
+    "Daştan Eczanesi": "02725120555",
+    "Erden Eczanesi": "02725153923",
+    "Kokkokoğlu Eczanesi": "02725128403",
+    "Macit Eczanesi": "02725126555",
+    "Mezgil Eczanesi": "02725125970",
+    "Sare Eczanesi": "02725120505",
+    "Sağlık Eczanesi": "02725125892",
+    "Sümer Eczanesi": "02725126067",
+    "Topbaşoğlu Eczanesi": "02725127673",
+    "Çavuşoğlu Eczanesi": "02725125300",
+    "Şirinevler Eczanesi": "02725151077"
+  }
+}
