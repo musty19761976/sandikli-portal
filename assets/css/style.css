@@ -17,3 +17,10 @@
 @import url("chrome.css") layer(components);
 @import url("termal.css") layer(components);
 @import url("pages.css") layer(pages);
+
+/* -------------------------------------------------- Harita (karanlık tema)
+   pages.css layer(pages) içine aktarıldığı için oradaki kural Leaflet'in
+   katmansız .leaflet-tile kuralına yeniliyor; bu yüzden burada, katman dışında. */
+[data-theme="dark"] #harita .leaflet-tile {
+  filter: invert(1) hue-rotate(180deg) brightness(0.88) contrast(0.92);
+}

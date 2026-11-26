@@ -731,3 +731,279 @@
     }
   }
 }
+
+/* ---------------------------------------------------------- İlçe haritası */
+@layer components {
+  .harita-kutu {
+    position: relative;
+    height: clamp(420px, 66vh, 640px);
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--clr-surface);
+  }
+
+  .harita {
+    position: absolute;
+    inset: 0;
+    background-color: var(--clr-surface);
+  }
+
+  .harita .leaflet-container {
+    font-family: var(--font-body);
+    background-color: var(--clr-surface);
+  }
+
+  .harita-araclar {
+    position: absolute;
+    inset-inline: 0.75rem;
+    top: 0.75rem;
+    z-index: 500;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .harita-katman {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-surface);
+    color: var(--clr-ink);
+    font-size: var(--step--1);
+    line-height: 1.4;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(14, 31, 26, 0.08);
+  }
+
+  .harita-katman input {
+    width: 0.95rem;
+    height: 0.95rem;
+    margin: 0;
+    accent-color: var(--clr-accent);
+  }
+
+  .harita-katman:has(input:focus-visible) {
+    outline: 2px solid var(--clr-accent);
+    outline-offset: 2px;
+  }
+
+  .harita-sifirla {
+    padding: 0.28rem 0.8rem;
+    border: 1px solid var(--clr-accent);
+    border-radius: var(--radius-pill);
+    background-color: var(--clr-surface);
+    color: var(--clr-accent);
+    font: inherit;
+    font-size: var(--step--1);
+    cursor: pointer;
+  }
+
+  .harita-sifirla:hover,
+  .harita-sifirla:focus-visible {
+    background-color: var(--clr-accent);
+    color: var(--clr-on-accent);
+  }
+
+  .harita-yukleniyor {
+    position: absolute;
+    inset: 0;
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem;
+    background-color: var(--clr-surface);
+    color: var(--clr-mute);
+    font-size: var(--step--1);
+    text-align: center;
+  }
+
+  .harita-yukleniyor[hidden] {
+    display: none;
+  }
+
+  .harita-yukleniyor.is-hata {
+    color: var(--clr-negative);
+  }
+
+  .harita .leaflet-tooltip.harita-etiket {
+    padding: 0 0.15rem;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--clr-ink);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 var(--clr-paper), 0 -1px 0 var(--clr-paper), 1px 0 0 var(--clr-paper), -1px 0 0 var(--clr-paper);
+  }
+
+  .harita .leaflet-tooltip.harita-etiket::before {
+    display: none;
+  }
+
+  #harita.etiket-gizli .leaflet-tooltip.harita-etiket {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .harita .harita-komsu-etiket {
+    background: transparent;
+    border: 0;
+    font-style: normal;
+  }
+
+  .harita .harita-komsu-etiket span {
+    display: inline-block;
+    padding: 0.08rem 0.3rem;
+    border-radius: 3px;
+    background-color: var(--clr-paper);
+    color: var(--clr-copper);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0.92;
+  }
+
+  .harita-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 8rem;
+  }
+
+  .harita-popup strong {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--clr-ink);
+  }
+
+  .harita-popup-tip {
+    font-size: var(--step--1);
+    color: var(--clr-mute);
+  }
+
+  .harita-popup a {
+    margin-top: 0.25rem;
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--clr-accent);
+  }
+
+  .harita-ozet {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 1rem 0 2rem;
+    border-block: 1px solid var(--clr-rule);
+  }
+
+  .harita-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .harita-stat + .harita-stat {
+    border-inline-start: 1px solid var(--clr-rule);
+  }
+
+  .harita-sayi {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--clr-ink);
+  }
+
+  .harita-stat-ad {
+    font-size: var(--step--1);
+    color: var(--clr-mute);
+  }
+
+  .harita-blok {
+    margin-bottom: 2rem;
+  }
+
+  .harita-komsu-listesi {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .harita-komsu {
+    display: flex;
+    flex-direction: column;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--clr-rule);
+    border-inline-start: 2px solid var(--clr-copper);
+    border-radius: var(--radius-sm);
+    background-color: var(--clr-surface);
+  }
+
+  .harita-komsu strong {
+    font-size: var(--step-0);
+    color: var(--clr-ink);
+  }
+
+  .harita-komsu span {
+    font-size: var(--step--1);
+    color: var(--clr-mute);
+  }
+
+  .harita-komsu-not {
+    flex-basis: 100%;
+    border-inline-start-color: var(--clr-rule);
+    background-color: transparent;
+    color: var(--clr-mute);
+    font-size: var(--step--1);
+  }
+
+  .harita-koyler {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: 0.35rem;
+  }
+
+  .harita-koy {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--clr-rule);
+    border-radius: var(--radius-xs);
+    background-color: var(--clr-surface);
+    color: var(--clr-ink);
+    font: inherit;
+    font-size: var(--step--1);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .harita-koy:hover,
+  .harita-koy:focus-visible {
+    border-color: var(--clr-accent);
+    color: var(--clr-accent);
+  }
+
+  @media (max-width: 560px) {
+    .harita-ozet {
+      grid-template-columns: 1fr;
+    }
+
+    .harita-stat + .harita-stat {
+      border-inline-start: 0;
+      border-top: 1px solid var(--clr-rule);
+    }
+
+    .harita-kutu {
+      height: clamp(380px, 58vh, 520px);
+    }
+  }
+}

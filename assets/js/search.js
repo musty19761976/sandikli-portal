@@ -18,6 +18,7 @@
     { t: "Vefat İlanları", href: "cenaze-ilanlari.html", k: "vefat cenaze ilan duyuru ölüm taziye" },
     { t: "Hava Durumu", href: "hava-durumu.html", k: "hava durumu tahmin sıcaklık yağış rüzgar nem termal gezi planı" },
     { t: "Resmî Kurumlar", href: "resmi-kurumlar.html", k: "acil numaralar 112 polis 155 jandarma 156 itfaiye belediye kaymakamlık nüfus hastane emniyet adliye otogar telefon adres" },
+    { t: "Sandıklı Haritası", href: "harita.html", k: "harita köy köyler yayla mezra sınır komşu ilçe dinar hocalar kızılören sinanpaşa çivril şuhut coğrafya konum sınırlar" },
     { t: "Ulaşım & İletişim", href: "ulasim.html", k: "ulaşım otobüs tren havalimanı konaklama otel yatak iletişim adres telefon form" },
     { t: "Sandıklımız (tüm bölümler)", href: "sandiklimiz.html", k: "sandıklımız sanvak bölüm içerik" },
     { t: "Sandıklı Tarihçesi (Sandıklımız)", href: "sandikli-tarihcesi.html", k: "kusura höyük tarihçe sandıklı efsane isim" },
