@@ -1,7 +1,7 @@
 /* Sandıklı Portal — Service Worker
    Cache-first: core HTML/CSS/JS önceden kaydedilir, görseller istek anında önbelleğe alınır.
    Değişiklikte PRECACHE_VERSION artır → eski önbellek temizlenir, site yenilenir. */
-const PRECACHE_VERSION = "sandikli-v42";
+const PRECACHE_VERSION = "sandikli-v43";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -91,7 +91,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
 
   // Hava durumu API'si önbelleğe alınmaz: her zaman ağdan (taze sıcaklık).
-  if (url.hostname === "api.open-meteo.com") return;
+  if (url.hostname === "api.open-meteo.com" || url.hostname === "api.aladhan.com") return;
 
   // Sayfa istekleri: network-first, önbellek yedeği (her zaman taze içerik)
   if (req.mode === "navigate") {

@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#0d6a5c" />
-  <link rel="stylesheet" href="assets/css/style.css?v=37" />
+  <link rel="stylesheet" href="assets/css/style.css?v=38" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Sandıklı Portal" />
     <meta property="og:title" content="Ulaşım & İletişim | Sandıklı Portal" />
@@ -294,45 +294,80 @@
   <section class="section" id="otobus">
     <div class="container">
       <div class="section-header reveal">
-        <p class="eyebrow">Otobüs</p>
-        <h2 class="display h2">Sefer saatleri</h2>
+        <p class="eyebrow">Belediye otobüsleri</p>
+        <h2 class="display h2">Hareket saatleri</h2>
         <p class="lead">
-          Afyonkarahisar–Sandıklı hattında bilet platformlarında listelenen
-          kalkışlar. Süreler yaklaşıktır; trafik ve ara duraklara göre değişir.
+          Sandıklı Belediyesi’nin resmî tarifeleri. Saatler Garaj Amirliği
+          kalkışlıdır; Kaplıca hattı Hüdai Kaplıcaları’na gider.
         </p>
       </div>
-      <div class="table-scroll reveal" role="region" aria-label="Otobüs sefer saatleri" tabindex="0">
+      <div class="table-scroll reveal" role="region" aria-label="Belediye otobüs hareket saatleri" tabindex="0">
         <table class="info-table">
           <thead>
-            <tr><th>Yön</th><th>Kalkış</th><th>Varış (yaklaşık)</th><th>Süre</th></tr>
+            <tr><th>Hat / yön</th><th>Gün</th><th>Kalkış saatleri</th></tr>
           </thead>
           <tbody>
-            <tr><td>Afyon Otogarı → Sandıklı</td><td>10.30</td><td>11.00</td><td>~30–45 dk</td></tr>
-            <tr><td>Afyon Otogarı → Sandıklı</td><td>13.00</td><td>13.30</td><td>~30–45 dk</td></tr>
-            <tr><td>Afyon Otogarı → Sandıklı</td><td>14.00</td><td>14.45</td><td>~45 dk</td></tr>
-            <tr><td>Afyon Otogarı → Sandıklı</td><td>15.30</td><td>16.00</td><td>~30–45 dk</td></tr>
-            <tr><td>Afyon Otogarı → Sandıklı</td><td>17.30</td><td>18.00</td><td>~30–45 dk</td></tr>
-            <tr><td>Sandıklı → Afyon Otogarı</td><td>19.45</td><td>21.15</td><td>~1 sa 30 dk</td></tr>
+            <tr>
+              <td>Sandıklı → Kaplıca (Hüdai)</td><td>Her gün</td>
+              <td>08.00 · 09.00 · 10.00 · 11.00 · 12.00 · 13.00 · 14.00 · 15.00 · 16.00 · 17.00 · 18.00 · 19.00 · 20.00 · 21.00 · 22.00 · 23.30</td>
+            </tr>
+            <tr>
+              <td>Kaplıca → Sandıklı</td><td>Her gün</td>
+              <td>08.30 · 09.30 · 10.30 · 11.30 · 12.30 · 13.30 · 14.30 · 15.30 · 16.30 · 17.30 · 18.30 · 19.30 · 20.30 · 21.30 · 22.30 · 23.59</td>
+            </tr>
+            <tr>
+              <td>Sandıklı → KYK · MYO · TOKİ</td><td>Her gün</td>
+              <td>07.30 · 08.15 · 09.00 · 10.00 · 11.00 · 12.00 · 13.00 · 14.00 · 15.00 · 16.00 · 17.00 · 18.00 · 19.00 · 20.00 · 21.00 · 22.30</td>
+            </tr>
+            <tr>
+              <td>Ek sefer: MYO · KYK · TOKİ</td><td>Hafta içi, eğitim dönemi</td>
+              <td>12.30 · 13.30 · 14.30 · 15.30 · 16.30 · 17.30 · 18.30</td>
+            </tr>
+            <tr>
+              <td>Sandıklı → Reşadiye</td><td>Pazartesi</td>
+              <td>08.00 · 12.00 · 17.00</td>
+            </tr>
+            <tr>
+              <td>Sandıklı → Reşadiye</td><td>Salı–Pazar</td>
+              <td>08.00 · 17.00</td>
+            </tr>
+            <tr>
+              <td>Reşadiye → Sandıklı</td><td>Pazartesi</td>
+              <td>08.30 · 12.30 · 17.30</td>
+            </tr>
+            <tr>
+              <td>Reşadiye → Sandıklı</td><td>Salı–Pazar</td>
+              <td>08.30 · 17.30</td>
+            </tr>
+            <tr>
+              <td>Karacaören</td><td>Pazartesi</td>
+              <td>08.10 · 10.00 · 12.00 · 14.00 · 16.00</td>
+            </tr>
+            <tr>
+              <td>Karacaören</td><td>Salı–Pazar</td>
+              <td>08.00 · 12.00 · 16.00</td>
+            </tr>
+            <tr>
+              <td>Tepekent</td><td>Yalnız pazartesi</td>
+              <td>10.00 · 12.00 · 15.00</td>
+            </tr>
           </tbody>
         </table>
       </div>
       <p class="note" style="margin-top:0.85rem">
-        Saatler bilet platformlarında (obilet, biletall) listelenen seferlerden
-        alındı; her gün aynı saatler geçerli olmayabilir. Kalkıştan önce otogarı
-        arayıp teyit edin.
+        Ek seferler cumartesi ve pazar çalışmaz, yalnızca eğitim-öğretim
+        döneminde geçerlidir. Şehirlerarası (Afyon) seferleri belediye tarifesi
+        kapsamında değildir; otogar: <a href="tel:+902725125011">0272 512 50 11</a>.
       </p>
       <p style="margin-top:0.85rem">
         <strong>Telefonlar:</strong>
-        Otogar <a href="tel:+902725125011">0272 512 50 11</a> ·
-        Metro / Isparta Petrol / Aksel <a href="tel:+902725151570">0272 515 15 70</a> ·
-        Haskaymak–Pamukkale <a href="tel:+902725125125">0272 512 51 25</a> ·
-        Kâmil Koç <a href="tel:+902725151826">0272 515 18 26</a> ·
-        Sandıklı Birlik <a href="tel:+902725153935">0272 515 39 35</a>
+        Belediye santral <a href="tel:+904446003">444 60 03</a> ·
+        Garaj Amirliği <a href="tel:+902725125224">0272 512 52 24</a> ·
+        Otogar <a href="tel:+902725125011">0272 512 50 11</a>
       </p>
       <p class="source-stamp">
-        Kaynak: <a href="https://www.obilet.com/" target="_blank" rel="noopener">obilet</a>,
-        <a href="https://www.biletall.com/" target="_blank" rel="noopener">biletall</a> sefer listeleri;
-        otogar ve firma telefonları için işletme kayıtları · Son güncelleme: 12 Kasım 2026
+        Kaynak: <a href="https://sandikli.bel.tr/hizmetler/otobus-hareket-saatleri" target="_blank" rel="noopener">Sandıklı Belediyesi — Otobüs Hareket Saatleri</a>
+        · Son güncelleme: 26 Kasım 2026
       </p>
     </div>
   </section>
@@ -414,9 +449,9 @@
       <div class="footer-bottom"><span>© <span data-year></span> Sandıklı Tanıtım Portalı</span><span>Afyonkarahisar · Türkiye</span></div>
     </div>
   </footer>
-  <script src="assets/js/navbar.js?v=37"></script>
-  <script src="assets/js/main.js?v=37"></script>
-<script src="assets/js/search.js?v=37" defer></script>
+  <script src="assets/js/navbar.js?v=38"></script>
+  <script src="assets/js/main.js?v=38"></script>
+<script src="assets/js/search.js?v=38" defer></script>
 </body>
 </html>
 

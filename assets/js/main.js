@@ -318,6 +318,7 @@
   if (document.getElementById("bugun-sandiklida")) {
     initBugunSandiklida();
     initPazarKarti();
+    initNamazVakitleri();
   }
 
   // ---------- Nöbetçi Eczane: günün eczanesini en üstte göster ve tabloda vurgula ----------
@@ -853,6 +854,110 @@
 
   // Detaylı hava durumu sayfası: hava-durumu.html
   // ---------- Ana sayfa: pazar kartı (Pazartesi semt pazarı, Cuma pazarı) ----------
+  // ---------- Ana sayfa: namaz vakitleri (Aladhan, Diyanet yöntemi) ----------
+  // Veri günlük hesaplanır; aynı gün içinde yeniden istek atılmaz.
+  function initNamazVakitleri() {
+    var kap = document.getElementById("namaz-vakitleri");
+    if (!kap) return;
+    var izgara = kap.querySelector('[data-field="namaz-grid"]');
+    var tarihEl = kap.querySelector('[data-field="namaz-tarih"]');
+    var guncelEl = kap.querySelector('[data-field="namaz-guncelleme"]');
+    if (!izgara) return;
+
+    var ADLAR = [
+      ["Imsak", "İmsak"],
+      ["Sunrise", "Güneş"],
+      ["Dhuhr", "Öğle"],
+      ["Asr", "İkindi"],
+      ["Maghrib", "Akşam"],
+      ["Isha", "Yatsı"],
+    ];
+    var ANAHTAR = "sandikli-namaz-v1";
+
+    function bugun() {
+      try {
+        return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Istanbul" }).format(new Date());
+      } catch (e) {
+        return new Date().toISOString().slice(0, 10);
+      }
+    }
+
+    function ciz(timings) {
+      izgara.textContent = "";
+      ADLAR.forEach(function (ikili) {
+        var deger = timings[ikili[0]];
+        if (!deger) return;
+        var hucre = document.createElement("div");
+        hucre.className = "namaz-cell";
+        var ad = document.createElement("span");
+        ad.className = "namaz-ad";
+        ad.textContent = ikili[1];
+        var saat = document.createElement("span");
+        saat.className = "namaz-saat";
+        // Aladhan bazen "06:19 (EET)" döndürür; saat kısmını al.
+        saat.textContent = String(deger).trim().split(/\s+/)[0];
+        hucre.appendChild(ad);
+        hucre.appendChild(saat);
+        izgara.appendChild(hucre);
+      });
+      if (!izgara.children.length) return;
+      kap.hidden = false;
+    }
+
+    // Başlık ve damga Türkçe tarih gösterir; API'nin İngilizce tarihini kullanmayız.
+    function tarihiYaz() {
+      var metin;
+      try {
+        metin = new Intl.DateTimeFormat("tr-TR", {
+          day: "numeric",
+          month: "long",
+          weekday: "long",
+          timeZone: "Europe/Istanbul",
+        }).format(new Date());
+      } catch (e) {
+        metin = gun.split("-").reverse().join(".");
+      }
+      if (tarihEl) tarihEl.textContent = "· " + metin;
+      if (guncelEl) guncelEl.textContent = metin;
+    }
+
+    var gun = bugun();
+    var onbellek = null;
+    try {
+      onbellek = JSON.parse(sessionStorage.getItem(ANAHTAR) || "null");
+    } catch (e) {
+      onbellek = null;
+    }
+    if (onbellek && onbellek.gun === gun && onbellek.timings) {
+      tarihiYaz();
+      ciz(onbellek.timings);
+      return;
+    }
+
+    var url =
+      "https://api.aladhan.com/v1/timings?latitude=38.465&longitude=30.270" +
+      "&method=13&timezonestring=Europe/Istanbul";
+
+    fetch(url)
+      .then(function (y) {
+        return y.ok ? y.json() : null;
+      })
+      .then(function (veri) {
+        if (!veri || !veri.data || !veri.data.timings) return;
+        var timings = veri.data.timings;
+        try {
+          sessionStorage.setItem(ANAHTAR, JSON.stringify({ gun: gun, timings: timings }));
+        } catch (e) {
+          /* depolama kapalıysa her açılışta yeniden çekilir */
+        }
+        tarihiYaz();
+        ciz(timings);
+      })
+      .catch(function () {
+        /* ağ yoksa bölüm gizli kalır */
+      });
+  }
+
   function initPazarKarti() {
     var kart = document.getElementById("bugun-pazar");
     if (!kart) return;

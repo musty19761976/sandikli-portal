@@ -672,3 +672,69 @@
     color: var(--clr-panel-mute);
   }
 }
+
+/* ------------------------------------------------------- Namaz vakitleri şeridi */
+@layer components {
+  .namaz-strip {
+    margin-top: var(--space-m);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--clr-rule);
+  }
+
+  .namaz-baslik {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.45rem;
+    margin-bottom: var(--space-2xs);
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--clr-ink);
+  }
+
+  .namaz-tarih {
+    font-weight: 400;
+    color: var(--clr-mute);
+  }
+
+  .namaz-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  @media (max-width: 640px) {
+    .namaz-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      row-gap: var(--space-2xs);
+    }
+  }
+
+  .namaz-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding-inline: var(--space-xs);
+    border-inline-start: 1px solid var(--clr-rule);
+  }
+
+  .namaz-cell:first-child {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  .namaz-ad {
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--clr-mute);
+  }
+
+  .namaz-saat {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-variant-numeric: oldstyle-nums;
+    color: var(--clr-ink);
+  }
+}
