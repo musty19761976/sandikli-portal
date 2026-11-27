@@ -247,6 +247,17 @@ class VefatAyristirma(unittest.TestCase):
         self.assertIn("Sayın’ın", items[0]["metin"])
         self.assertIn("etmiştir. Cenazesi", items[0]["metin"])
 
+    def test_noktalama_duzeltmesi_kontrol_karakteri_birakmaz(self):
+        """Noktalama düzeltmesi metne U+0001 gibi kontrol karakteri bırakmamalı."""
+        html = cenaze_sayfasi(
+            vefat_karti(metin="Mehmet ,Halil\x01’in babası vefat etmiştir.Cenazesi bugün.")
+        )
+        metin = sp.parse_cenaze(html)[0]["metin"]
+        self.assertNotIn("\x01", metin)
+        self.assertFalse([c for c in metin if ord(c) < 32])
+        self.assertIn("Mehmet, Halil’in", metin)
+        self.assertIn("etmiştir. Cenazesi", metin)
+
     def test_yapi_degisirse_hata_verir(self):
         """Kart var ama hiçbiri ayrıştırılamıyorsa sessiz geçmemeli."""
         html = '<html><body><div class="dead-item"><p class="yeni-sinif">X</p></div></body></html>'

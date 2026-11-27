@@ -49,8 +49,10 @@ def dizgi_duzelt(metin: str) -> str:
     ("etmistir.Cenazesi") ve duz kesme isareti kullaniliyor. Bu fonksiyon
     ayni metni portalda tipografik olarak dogru hale getirir.
     """
-    metin = re.sub(r"[ 	]+([,;:!?])", r"", metin)
-    metin = re.sub(r"([,;:])(?=[^\s\d])", r" ", metin)
+    metin = re.sub(r"[ \t]+([,;:!?])", r"\1", metin)
+    metin = re.sub(r"([,;:])(?=[^\s\d])", r"\1 ", metin)
+    # Kaynaktan sizabilen kontrol karakterlerini temizle.
+    metin = re.sub("[\x00-\x08\x0b\x0c\x0e-\x1f]", "", metin)
     metin = re.sub(r"\.(?=[A-ZÇĞİÖŞÜ][a-zçğıöşü])", ". ", metin)
     return metin.replace("'", "’")
 
